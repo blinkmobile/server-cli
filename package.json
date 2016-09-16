@@ -1,0 +1,38 @@
+{
+  "name": "@blinkmobile/server-cli",
+  "version": "1.0.0-alpha.1",
+  "description": "develop, test and deploy server-side HTTPS endpoints for use with BlinkMobile services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "eslint": "eslint --fix --cache .",
+    "flow_check": "flow check || exit 0",
+    "fixpack": "fixpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blinkmobile/server-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blinkmobile/server-cli/issues"
+  },
+  "homepage": "https://github.com/blinkmobile/server-cli#readme",
+  "engines": {
+    "node": ">=6",
+    "npm": ">=3"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "eslint": "^3.5.0",
+    "eslint-config-standard": "^6.0.0",
+    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-standard": "^2.0.0",
+    "fixpack": "^2.3.1",
+    "flow-bin": "^0.32.0"
+  }
+}
