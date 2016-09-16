@@ -1,38 +1,46 @@
 {
   "name": "@blinkmobile/server-cli",
-  "version": "1.0.0-alpha.1",
   "description": "develop, test and deploy server-side HTTPS endpoints for use with BlinkMobile services",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "eslint": "eslint --fix --cache .",
-    "flow_check": "flow check || exit 0",
-    "fixpack": "fixpack"
+  "version": "1.0.0-alpha.1",
+  "bin": {
+    "blinkm-server": "bin/index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/blinkmobile/server-cli.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/blinkmobile/server-cli/issues"
   },
-  "homepage": "https://github.com/blinkmobile/server-cli#readme",
-  "engines": {
-    "node": ">=6",
-    "npm": ">=3"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "devDependencies": {
+    "ava": "^0.16.0",
     "eslint": "^3.5.0",
     "eslint-config-standard": "^6.0.0",
     "eslint-plugin-promise": "^2.0.1",
     "eslint-plugin-standard": "^2.0.0",
     "fixpack": "^2.3.1",
-    "flow-bin": "^0.32.0"
+    "flow-bin": "^0.32.0",
+    "npm-bin-ava-tester": "^1.0.0",
+    "nyc": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=4",
+    "npm": ">=3"
+  },
+  "homepage": "https://github.com/blinkmobile/server-cli#readme",
+  "keywords": [],
+  "license": "MIT",
+  "main": "index.js",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blinkmobile/server-cli.git"
+  },
+  "scripts": {
+    "ava": "ava",
+    "eslint": "eslint --fix --cache .",
+    "fixpack": "fixpack",
+    "flow_check": "flow check || exit 0",
+    "nyc": "nyc check-coverage",
+    "posttest": "npm run eslint && npm run flow_check && npm run fixpack",
+    "test": "npm run ava"
   }
 }
