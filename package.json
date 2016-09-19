@@ -1,6 +1,6 @@
 {
   "name": "@blinkmobile/server-cli",
-  "description": "develop, test and deploy server-side HTTPS endpoints for use with BlinkMobile services",
+  "description": "develop, test and deploy server-side HTTPS endpoints with BlinkMobile",
   "version": "1.0.0-alpha.1",
   "bin": {
     "blinkm-server": "bin/index.js"
@@ -9,7 +9,12 @@
     "url": "https://github.com/blinkmobile/server-cli/issues"
   },
   "dependencies": {
+    "boom": "4.0.0",
+    "good": "7.0.2",
+    "good-console": "6.1.2",
+    "hapi": "15.0.3",
     "meow": "3.7.0",
+    "pify": "2.3.0",
     "update-notifier": "1.0.2"
   },
   "devDependencies": {

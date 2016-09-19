@@ -14,10 +14,14 @@ const pkg = require('../package.json')
 updateNotifier({ pkg }).notify()
 
 const help = `
-Oh, no! --help is not finished yet! :(
+  Usage: blinkm server <command>
+
+  Commands:
+    serve        => start a local development server using local API files
 `
 
 const cli = meow({
+  help,
   version: true
 })
 
