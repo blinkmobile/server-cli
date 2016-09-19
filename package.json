@@ -8,6 +8,10 @@
   "bugs": {
     "url": "https://github.com/blinkmobile/server-cli/issues"
   },
+  "dependencies": {
+    "meow": "3.7.0",
+    "update-notifier": "1.0.2"
+  },
   "devDependencies": {
     "ava": "^0.16.0",
     "eslint": "^3.5.0",
@@ -23,6 +27,11 @@
     "node": ">=4",
     "npm": ">=3"
   },
+  "files": [
+    "bin",
+    "commands",
+    "lib"
+  ],
   "homepage": "https://github.com/blinkmobile/server-cli#readme",
   "keywords": [],
   "license": "MIT",
