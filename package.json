@@ -37,7 +37,8 @@
   "files": [
     "bin",
     "commands",
-    "lib"
+    "lib",
+    "scripts"
   ],
   "homepage": "https://github.com/blinkmobile/server-cli#readme",
   "keywords": [],

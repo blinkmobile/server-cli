@@ -4,7 +4,7 @@
 bm serve serverless --input . --output /tmp/foobar
 */
 
-const lib = require('../lib/serverless')
+const lib = require('../lib/serverless.js')
 
 module.exports = function (input, flags, logger, options) {
   const cwd = options.cwd
@@ -17,4 +17,5 @@ module.exports = function (input, flags, logger, options) {
 
   return lib.copyRecursive(cwd, out)
     .then(() => lib.applyTemplate(out))
+    .then(() => lib.copyWrapper(cwd, out))
 }
