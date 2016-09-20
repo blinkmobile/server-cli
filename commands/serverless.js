@@ -16,4 +16,5 @@ module.exports = function (input, flags, logger, options) {
   }
 
   return lib.copyRecursive(cwd, out)
+    .then(() => lib.applyTemplate(out))
 }
