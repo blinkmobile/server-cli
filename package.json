@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "boom": "4.1.0",
+    "cpr": "2.0.0",
     "good": "7.0.2",
     "good-console": "6.1.2",
     "hapi": "15.1.1",

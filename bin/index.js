@@ -23,6 +23,8 @@ const help = `
 const cli = meow({
   help,
   version: true
+}, {
+  string: [ 'out' ]
 })
 
 const command = cli.input[0]
@@ -34,7 +36,7 @@ if (!command) {
 
 let main
 try {
-  main = require(path.join(__dirname, '..', 'commands', command))
+  main = require(path.join(__dirname, '..', 'commands', `${command}.js`))
 } catch (err) {
   console.error(`unknown command: ${command}`)
   console.log(help)
