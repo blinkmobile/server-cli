@@ -16,6 +16,7 @@ module.exports = function (input, flags, logger, options) {
   }
 
   return lib.copyRecursive(cwd, out)
-    .then(() => lib.applyTemplate(out))
+    .then(() => lib.applyTemplate(out)) // TODO: eventually unnecessary?
     .then(() => lib.copyWrapper(cwd, out))
+    .then(() => lib.registerFunctions(cwd, out))
 }
