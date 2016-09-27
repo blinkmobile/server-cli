@@ -12,7 +12,7 @@
     "boom": "4.0.0",
     "good": "7.0.2",
     "good-console": "6.1.2",
-    "hapi": "15.0.3",
+    "hapi": "15.1.0",
     "meow": "3.7.0",
     "pify": "2.3.0",
     "update-notifier": "1.0.2"
