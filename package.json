@@ -9,7 +9,7 @@
     "url": "https://github.com/blinkmobile/server-cli/issues"
   },
   "dependencies": {
-    "boom": "4.0.0",
+    "boom": "4.1.0",
     "good": "7.0.2",
     "good-console": "6.1.2",
     "hapi": "15.1.0",
