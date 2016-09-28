@@ -50,31 +50,27 @@ module.exports = {
 }
 
 },{"path":undefined}],2:[function(require,module,exports){
-/**
-This module exports a "handler" function,
-that wraps a customer function.
-We bundle this module and its dependencies to ../dist/wrapper.js .
-To bundle: `npm run build`
-*/
+/* @flow */
 'use strict'
 
-const path = require('path')
+/* ::
+type MapObject = { [id:string]: any }
+type Headers = { [id:string]: string }
+type Protocol = 'http:' | 'https:'
+*/
 
-const apis = require('../lib/apis.js')
-
-// assume that this file has been copied and renamed as appropriate
-function getAPIName () {
-  return path.basename(__filename, '.js')
-}
-
-function keysToLowerCase (object) {
+function keysToLowerCase (
+  object /* : MapObject */
+) /* : MapObject */ {
   return Object.keys(object).reduce((result, key) => {
     result[key.toLowerCase()] = object[key]
     return result
   }, {})
 }
 
-function normaliseMethod (method) {
+function normaliseMethod (
+  method /* : string */
+) /* : string */ {
   return method.toLowerCase()
 }
 
@@ -83,7 +79,9 @@ https://www.w3.org/TR/url-1/#dom-urlutils-protocol
 protocol ends with ':', same as in Node.js 'url' module
 https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
 */
-function protocolFromHeaders (headers) {
+function protocolFromHeaders (
+  headers /* : Headers */
+) /* : Protocol */ {
   if (headers['x-forwarded-proto'] === 'https') {
     return `https:`
   }
@@ -96,18 +94,43 @@ function protocolFromHeaders (headers) {
   return 'http:'
 }
 
+module.exports = {
+  keysToLowerCase,
+  normaliseMethod,
+  protocolFromHeaders
+}
+
+},{}],3:[function(require,module,exports){
+/**
+This module exports a "handler" function,
+that wraps a customer function.
+We bundle this module and its dependencies to ../dist/wrapper.js .
+To bundle: `npm run build`
+*/
+'use strict'
+
+const path = require('path')
+
+const apis = require('../lib/apis.js')
+const wrapper = require('../lib/wrapper.js')
+
+// assume that this file has been copied and renamed as appropriate
+function getAPIName () {
+  return path.basename(__filename, '.js')
+}
+
 // return only the pertinent data from a API Gateway + Lambda event
 function normaliseLambdaRequest (request) {
-  const headers = keysToLowerCase(request.headers)
+  const headers = wrapper.keysToLowerCase(request.headers)
   return {
     body: request.body,
     headers,
-    method: normaliseMethod(request.method),
+    method: wrapper.normaliseMethod(request.method),
     url: {
       host: headers.host,
       hostname: headers.host,
       pathname: `/api/${getAPIName()}`,
-      protocol: protocolFromHeaders(headers),
+      protocol: wrapper.protocolFromHeaders(headers),
       query: request.query
     }
   }
@@ -133,11 +156,8 @@ function handler (event, context, cb) {
 
 module.exports = {
   handler,
-  keysToLowerCase,
-  normaliseMethod,
-  normaliseLambdaRequest,
-  protocolFromHeaders
+  normaliseLambdaRequest
 }
 
-},{"../lib/apis.js":1,"path":undefined}]},{},[2])(2)
+},{"../lib/apis.js":1,"../lib/wrapper.js":2,"path":undefined}]},{},[3])(3)
 });

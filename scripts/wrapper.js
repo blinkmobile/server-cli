@@ -9,53 +9,25 @@ To bundle: `npm run build`
 const path = require('path')
 
 const apis = require('../lib/apis.js')
+const wrapper = require('../lib/wrapper.js')
 
 // assume that this file has been copied and renamed as appropriate
 function getAPIName () {
   return path.basename(__filename, '.js')
 }
 
-function keysToLowerCase (object) {
-  return Object.keys(object).reduce((result, key) => {
-    result[key.toLowerCase()] = object[key]
-    return result
-  }, {})
-}
-
-function normaliseMethod (method) {
-  return method.toLowerCase()
-}
-
-/**
-https://www.w3.org/TR/url-1/#dom-urlutils-protocol
-protocol ends with ':', same as in Node.js 'url' module
-https://en.wikipedia.org/wiki/List_of_HTTP_header_fields
-*/
-function protocolFromHeaders (headers) {
-  if (headers['x-forwarded-proto'] === 'https') {
-    return `https:`
-  }
-  if (headers.forwarded && ~headers.forwarded.indexOf('proto=https')) {
-    return `https:`
-  }
-  if (headers['front-end-https'] === 'on') {
-    return `https:`
-  }
-  return 'http:'
-}
-
 // return only the pertinent data from a API Gateway + Lambda event
 function normaliseLambdaRequest (request) {
-  const headers = keysToLowerCase(request.headers)
+  const headers = wrapper.keysToLowerCase(request.headers)
   return {
     body: request.body,
     headers,
-    method: normaliseMethod(request.method),
+    method: wrapper.normaliseMethod(request.method),
     url: {
       host: headers.host,
       hostname: headers.host,
       pathname: `/api/${getAPIName()}`,
-      protocol: protocolFromHeaders(headers),
+      protocol: wrapper.protocolFromHeaders(headers),
       query: request.query
     }
   }
@@ -81,8 +53,5 @@ function handler (event, context, cb) {
 
 module.exports = {
   handler,
-  keysToLowerCase,
-  normaliseMethod,
-  normaliseLambdaRequest,
-  protocolFromHeaders
+  normaliseLambdaRequest
 }
