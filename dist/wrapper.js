@@ -1,3 +1,55 @@
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.wrapper = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+/* @flow */
+'use strict'
+
+const path = require('path')
+
+function executeAPI (
+  handler /* : Function */,
+  request /* : any */
+) /* : Promise<void> */ {
+  return Promise.resolve()
+    .then(() => handler(request))
+}
+
+function getAPIFilePath (
+  cwd /* : string */,
+  name /* : string */
+) /* : string */ {
+  return path.join(cwd, 'api', name, 'index.js')
+}
+
+function getAPI (
+  cwd /* : string */,
+  name /* : string */
+) /* : Function | void */ {
+  const apiPath = getAPIFilePath(cwd, name)
+  let api
+  try {
+    // $FlowIssue in this case, we explicitly `require()` dynamically
+    api = require(apiPath)
+  } catch (err) {
+    // do nothing
+  }
+  return api
+}
+
+function wipeAPIFromRequireCache (
+  cwd /* : string */,
+  name /* : string */
+) {
+  // property names in require.cache are absolute paths
+  delete require.cache[getAPIFilePath(cwd, name)]
+}
+
+module.exports = {
+  executeAPI,
+  getAPI,
+  getAPIFilePath,
+  wipeAPIFromRequireCache
+}
+
+},{"path":undefined}],2:[function(require,module,exports){
 /**
 This module exports a "handler" function,
 that wraps a customer function.
@@ -86,3 +138,6 @@ module.exports = {
   normaliseLambdaRequest,
   protocolFromHeaders
 }
+
+},{"../lib/apis.js":1,"path":undefined}]},{},[2])(2)
+});
