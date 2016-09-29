@@ -36,15 +36,21 @@ function normaliseLambdaRequest (request) {
 function handler (event, context, cb) {
   // TODO: extract error code from Boom-compatible errors
   // TODO: error handling needs to match Serverless' APIG error templates
-  const api = apis.getAPI(__dirname, getAPIName())
+  const request = normaliseLambdaRequest(event)
+  const api = apis.getAPI(__dirname, getAPIName(), request.method)
+
   if (!api) {
-    cb(new Error(500))
+    cb(new Error('[500] Internal Server Error'))
+    return
+  }
+  if (typeof api !== 'function') {
+    cb(new Error('[501] Not Implemented'))
     return
   }
 
   // TODO: transparently implement HEAD
 
-  apis.executeAPI(api, normaliseLambdaRequest(event))
+  apis.executeAPI(api, request)
     .then((result) => {
       cb(null, result || 200)
     })
