@@ -12,6 +12,7 @@
     "boom": "4.1.0",
     "cpr": "2.0.0",
     "execa": "0.4.0",
+    "glob": "7.1.0",
     "good": "7.0.2",
     "good-console": "6.1.2",
     "hapi": "15.1.1",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "ava": "^0.16.0",
+    "browserify": "^13.1.0",
     "eslint": "^3.5.0",
     "eslint-config-standard": "^6.0.0",
     "eslint-plugin-promise": "^2.0.1",
@@ -37,6 +39,7 @@
   },
   "files": [
     "bin",
+    "dist",
     "commands",
     "lib",
     "scripts"
@@ -54,11 +57,15 @@
   },
   "scripts": {
     "ava": "ava",
+    "browserify": "browserify --node --no-insert-globals --no-detect-globals --standalone wrapper ./scripts/wrapper.js > ./dist/wrapper.js",
+    "build": "npm run browserify",
     "eslint": "eslint --fix --cache .",
     "fixpack": "fixpack",
     "flow_check": "flow check || exit 0",
     "nyc": "nyc check-coverage",
     "posttest": "npm run eslint && npm run flow_check && npm run fixpack",
+    "prepublish": "npm run build",
+    "pretest": "npm run build",
     "test": "npm run ava"
   }
 }
