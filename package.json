@@ -11,6 +11,8 @@
   "dependencies": {
     "@jokeyrhyme/pify-fs": "1.0.1",
     "boom": "4.1.0",
+    "chalk": "1.1.3",
+    "cli-table2": "0.2.0",
     "cpr": "2.0.0",
     "execa": "0.5.0",
     "glob": "7.1.0",
