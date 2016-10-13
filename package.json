@@ -9,6 +9,7 @@
     "url": "https://github.com/blinkmobile/server-cli/issues"
   },
   "dependencies": {
+    "@jokeyrhyme/pify-fs": "1.0.1",
     "boom": "4.1.0",
     "cpr": "2.0.0",
     "execa": "0.5.0",
