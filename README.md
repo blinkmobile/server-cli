@@ -22,4 +22,5 @@ bm server --help
 
   Commands:
     serve        => starts a local development server using local API files
+    info         => displays information for available routes 
 ```
