@@ -8,16 +8,18 @@ const path = require('path')
 
 const meow = require('meow')
 const updateNotifier = require('update-notifier')
+const chalk = require('chalk')
 
 const pkg = require('../package.json')
 
 updateNotifier({ pkg }).notify()
 
 const help = `
-  Usage: blinkm server <command>
+Usage: blinkm server <command>
 
-  Commands:
-    serve        => start a local development server using local API files
+Commands:
+  serve        => start a local development server using local API files
+  info         => displays information for available routes
 `
 
 const cli = meow({
@@ -30,27 +32,38 @@ const cli = meow({
 const command = cli.input[0]
 
 if (!command) {
-  console.log(help)
-  process.exit(0)
+  cli.showHelp(0)
 }
 
 let main
 try {
   main = require(path.join(__dirname, '..', 'commands', `${command}.js`))
 } catch (err) {
-  console.error(`unknown command: ${command}`)
-  console.log(help)
-  process.exit(1)
+  console.error(chalk.red(`
+Unknown command: ${command}`))
+  cli.showHelp(1)
+}
+
+if (typeof main !== 'function') {
+  console.error(chalk.red(`
+Command not implemented: ${command}`))
+  cli.showHelp(1)
+}
+
+const input = cli.input.slice(1)
+const options = {
+  cwd: input[0] || process.cwd()
 }
 
 Promise.resolve()
-  .then(() => main(cli.input.slice(1), cli.flags, console, {
-    cwd: process.cwd()
-  }))
+  .then(() => main(input, cli.flags, console, options))
   .catch((err) => {
-    // TODO: properly handle specific errors to avoid showing stack traces
-    console.error(`Error executing "${command}"`)
-    console.error(err)
-    console.log(help)
+    console.error(`
+There was a problem executing '${command}':
+
+${chalk.red(err)}
+
+Please fix the error and try again.
+`)
     process.exit(1)
   })

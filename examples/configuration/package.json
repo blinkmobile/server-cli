@@ -1,0 +1,6 @@
+{
+  "name": "example",
+  "description": "Testing example api endpoints using @blinkmobile/server-cli",
+  "version": "0.0.1",
+  "main": "bm-server.json"
+}

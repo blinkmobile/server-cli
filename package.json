@@ -9,7 +9,10 @@
     "url": "https://github.com/blinkmobile/server-cli/issues"
   },
   "dependencies": {
+    "@jokeyrhyme/pify-fs": "1.0.1",
     "boom": "4.2.0",
+    "chalk": "1.1.3",
+    "cli-table2": "0.2.0",
     "cpr": "2.0.0",
     "execa": "0.5.0",
     "glob": "7.1.1",
@@ -17,9 +20,12 @@
     "good-console": "6.1.2",
     "hapi": "15.1.1",
     "js-yaml": "3.6.1",
+    "load-json-file": "2.0.0",
     "meow": "3.7.0",
     "pify": "2.3.0",
-    "update-notifier": "1.0.2"
+    "uniloc": "0.3.0",
+    "update-notifier": "1.0.2",
+    "write-json-file": "2.0.0"
   },
   "devDependencies": {
     "ava": "^0.16.0",
@@ -31,7 +37,8 @@
     "fixpack": "^2.3.1",
     "flow-bin": "^0.33.0",
     "npm-bin-ava-tester": "^1.0.0",
-    "nyc": "^8.3.0"
+    "nyc": "^8.3.0",
+    "proxyquire": "^1.7.10"
   },
   "engines": {
     "node": ">=4",
