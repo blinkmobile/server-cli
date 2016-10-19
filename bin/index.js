@@ -19,7 +19,7 @@ Usage: blinkm server <command> <project_path>
 
 Commands:
   serve                   => start a local development server using local API files
-  info                    => displays information for available routes
+  info                    => displays project information
   scope                   => displays the current scope
     --project <project>   => sets the project id
     --region <region>     => optionally sets the region
