@@ -6,8 +6,8 @@ const REGION = 'ap-southeast-2'
 
 module.exports = function (input, flags, logger, options) {
   const cwd = options.cwd
-  const project = options.project
-  const region = options.region || REGION
+  const project = flags.project
+  const region = flags.region || REGION
   let promise = Promise.resolve()
   if (project) {
     promise = scope.write(cwd, {
