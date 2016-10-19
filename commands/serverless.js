@@ -9,14 +9,15 @@ const lib = require('../lib/serverless.js')
 module.exports = function (input, flags, logger, options) {
   const cwd = options.cwd
   const out = flags.out
+  const stage = flags.stage
 
   if (!out) {
-    logger.error(new Error('"--out" is mandatory'))
-    process.exit(1)
+    return Promise.reject(new Error('"--out" is mandatory'))
   }
 
-  return lib.copyRecursive(cwd, out)
+  return lib.copyProject(cwd, out)
     .then(() => lib.applyTemplate(out)) // TODO: eventually unnecessary?
-    .then(() => lib.copyWrapper(cwd, out))
-    .then(() => lib.registerFunctions(cwd, out))
+    .then(() => lib.copyWrapper(out))
+    .then(() => lib.copyRoutes(out, stage))
+    .then(() => lib.registerFunctions(out, stage))
 }

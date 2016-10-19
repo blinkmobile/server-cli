@@ -29,7 +29,13 @@ const cli = meow({
   help,
   version: true
 }, {
-  string: [ 'out' ]
+  default: {
+    'stage': 'test'
+  },
+  string: [
+    'out',
+    'stage'
+  ]
 })
 
 const command = cli.input[0]
