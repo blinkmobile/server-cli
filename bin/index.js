@@ -15,11 +15,14 @@ const pkg = require('../package.json')
 updateNotifier({ pkg }).notify()
 
 const help = `
-Usage: blinkm server <command>
+Usage: blinkm server <command> <project_path>
 
 Commands:
-  serve        => start a local development server using local API files
-  info         => displays information for available routes
+  serve                   => start a local development server using local API files
+  info                    => displays information for available routes
+  scope                   => displays the current scope
+    --project <project>   => sets the project id
+    --region <region>     => optionally sets the region
 `
 
 const cli = meow({
@@ -65,5 +68,5 @@ ${chalk.red(err)}
 
 Please fix the error and try again.
 `)
-    process.exit(1)
+    process.exitCode = 1
   })

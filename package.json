@@ -1,6 +1,6 @@
 {
   "name": "@blinkmobile/server-cli",
-  "description": "develop, test and deploy server-side HTTPS endpoints with BlinkMobile",
+  "description": "CLI to develop, test and deploy server-side HTTPS endpoints with BlinkMobile",
   "version": "1.0.0-alpha.1",
   "bin": {
     "blinkm-server": "bin/index.js"
@@ -9,6 +9,7 @@
     "url": "https://github.com/blinkmobile/server-cli/issues"
   },
   "dependencies": {
+    "@blinkmobile/blinkmrc": "1.1.0",
     "@jokeyrhyme/pify-fs": "1.0.1",
     "boom": "4.2.0",
     "chalk": "1.1.3",
@@ -22,6 +23,7 @@
     "js-yaml": "3.6.1",
     "load-json-file": "2.0.0",
     "meow": "3.7.0",
+    "object-merge": "2.5.1",
     "pify": "2.3.0",
     "uniloc": "0.3.0",
     "update-notifier": "1.0.2",
@@ -38,7 +40,10 @@
     "flow-bin": "^0.33.0",
     "npm-bin-ava-tester": "^1.0.0",
     "nyc": "^8.3.0",
-    "proxyquire": "^1.7.10"
+    "proxyquire": "^1.7.10",
+    "remark-cli": "^2.0.0",
+    "remark-lint": "^5.1.0",
+    "remark-preset-lint-recommended": "^1.0.0"
   },
   "engines": {
     "node": ">=4",
@@ -69,8 +74,9 @@
     "eslint": "eslint --fix --cache .",
     "fixpack": "fixpack",
     "flow_check": "flow check || exit 0",
+    "lint-md": "remark . --preset lint-recommended",
     "nyc": "nyc check-coverage",
-    "posttest": "npm run eslint && npm run flow_check && npm run fixpack",
+    "posttest": "npm run eslint && npm run flow_check && npm run fixpack && npm run lint-md",
     "prepublish": "npm run build",
     "pretest": "npm run build",
     "test": "npm run ava"
