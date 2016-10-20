@@ -8,13 +8,10 @@ To bundle: `npm run build`
 
 const path = require('path')
 
-const apis = require('../lib/apis.js')
-const wrapper = require('../lib/wrapper.js')
+const loadJsonFile = require('load-json-file')
 
-// assume that this file has been copied and renamed as appropriate
-function getAPIName () {
-  return path.basename(__filename, '.js')
-}
+const handlers = require('../lib/handlers.js')
+const wrapper = require('../lib/wrapper.js')
 
 // return only the pertinent data from a API Gateway + Lambda event
 function normaliseLambdaRequest (request) {
@@ -26,7 +23,7 @@ function normaliseLambdaRequest (request) {
     url: {
       host: headers.host,
       hostname: headers.host,
-      pathname: `/api/${getAPIName()}`,
+      params: request.path,
       protocol: wrapper.protocolFromHeaders(headers),
       query: request.query
     }
@@ -36,23 +33,35 @@ function normaliseLambdaRequest (request) {
 function handler (event, context, cb) {
   // TODO: extract error code from Boom-compatible errors
   // TODO: error handling needs to match Serverless' APIG error templates
-  const request = normaliseLambdaRequest(event)
-  const api = apis.getAPI(__dirname, getAPIName(), request.method)
+  const routesPath = path.join(__dirname, 'routes.json')
+  return loadJsonFile(routesPath, 'utf8')
+    .then((routeConfigs) => {
+      const request = normaliseLambdaRequest(event)
+      const routeConfig = routeConfigs.find((routeConfig) => routeConfig.functionName === context.functionName)
+      if (!routeConfig) {
+        return Promise.reject(new Error('[500] Internal Server Error'))
+      }
+      request.url.pathname = routeConfig.route
+      // Replace params in route to get pathname
+      Object.keys(request.url.params).forEach((key) => {
+        const val = request.url.params[key]
+        request.url.pathname = request.url.pathname.replace(`{${key}}`, val)
+      })
+      const handler = handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
 
-  if (!api) {
-    cb(new Error('[500] Internal Server Error'))
-    return
-  }
-  if (typeof api !== 'function') {
-    cb(new Error('[501] Not Implemented'))
-    return
-  }
+      if (!handler) {
+        return Promise.reject(new Error('[500] Internal Server Error'))
+      }
+      if (typeof handler !== 'function') {
+        return Promise.reject(new Error('[501] Not Implemented'))
+      }
 
-  // TODO: transparently implement HEAD
+      // TODO: transparently implement HEAD
 
-  apis.executeAPI(api, request)
-    .then((result) => {
-      cb(null, result || 200)
+      return handlers.executeHandler(handler, request)
+        .then((result) => {
+          cb(null, result || 200)
+        })
     })
     .catch((err) => cb(err))
 }

@@ -49,12 +49,12 @@ test('Should call read() with correct input', (t) => {
 })
 
 test('Should log the routes and reject if no routes are found', (t) => {
-  t.plan(2)
+  t.plan(1)
   const display = t.context.getTestSubject({
     './read.js': () => Promise.resolve([])
   })
 
-  return display({log: () => t.pass()}, CWD)
+  return display({log: () => t.fail('Should not log if there are no routes')}, CWD)
     .catch(() => t.pass())
 })
 
