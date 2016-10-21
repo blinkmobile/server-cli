@@ -27,3 +27,57 @@ Commands:
     --project <project>   => sets the project id
     --region <region>     => optionally sets the region
 ```
+
+## CORS Configuration
+
+[Cross-Origin Resource Sharing](https://www.w3.org/TR/cors/) protocol allows browsers to make cross-origin API calls.
+CORS is required by web applications running inside a browser which are loaded from a different domain than the API server.
+
+CORS can be configured in a `json` file that is pointed at from `package.json:main` in the root of your project directory e.g.
+
+### Directory Structure
+
+```
+|-- project-root
+|   |-- bm-server.json
+|   |-- package.json
+|   |-- helloworld
+|   |   |-- index.js
+```
+
+### package.json
+
+```json
+{
+  "name": "example",
+  "version": "0.0.1",
+  "main": "bm-server.json",
+}
+```
+
+### bm-server.json
+
+```json
+{
+  "cors": {
+    "origins": [
+      "http://your.first.client",
+      "http://your.second.client",
+      "http://your.third.client"
+    ],
+    "headers": [
+      "Accept",
+      "Authorization",
+      "Content-Type",
+      "If-None-Match",
+      "X-Amz-Date",
+      "X-Amz-Security-Token",
+      "X-Api-Key"
+    ]
+  }
+}
+```
+
+### Allowed Headers
+
+Headers can be omitted and will default to the headers in the example above.
