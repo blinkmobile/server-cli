@@ -35,7 +35,7 @@ test('Should call configuration.read() with correct input', (t) => {
   return read(CWD)
 })
 
-test('Should handle an unitinitalised config file', (t) => {
+test('Should handle an uninitialised config file', (t) => {
   t.plan(1)
   const read = t.context.getTestSubject({
     '../configuration.js': configurationMock((cwd) => Promise.resolve({
