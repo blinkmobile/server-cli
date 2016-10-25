@@ -51,7 +51,7 @@ try {
   main = require(path.join(__dirname, '..', 'commands', `${command}.js`))
 } catch (err) {
   console.error(chalk.red(`
-Unknown command: ${command}`, err))
+Unknown command: ${command}`))
   cli.showHelp(1)
 }
 
