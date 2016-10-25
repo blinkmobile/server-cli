@@ -19,6 +19,7 @@ Usage: blinkm server <command> <project_path>
 
 Commands:
   serve                   => start a local development server using local API files
+    --port <port>         => sets the port to use for server
   info                    => displays project information
   scope                   => displays the current scope
     --project <project>   => sets the project id
@@ -34,6 +35,7 @@ const cli = meow({
   },
   string: [
     'out',
+    'port',
     'stage'
   ]
 })
@@ -49,7 +51,7 @@ try {
   main = require(path.join(__dirname, '..', 'commands', `${command}.js`))
 } catch (err) {
   console.error(chalk.red(`
-Unknown command: ${command}`))
+Unknown command: ${command}`, err))
   cli.showHelp(1)
 }
 
