@@ -18,6 +18,6 @@ module.exports = function (input, flags, logger, options) {
   return lib.copyProject(cwd, out)
     .then(() => lib.applyTemplate(out)) // TODO: eventually unnecessary?
     .then(() => lib.copyWrapper(out))
-    .then(() => lib.copyRoutes(out, stage))
+    .then(() => lib.copyConfiguration(out, stage))
     .then(() => lib.registerFunctions(out, stage))
 }
