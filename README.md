@@ -22,6 +22,7 @@ Usage: blinkm server <command> <project_path>
 
 Commands:
   serve                   => start a local development server using local API files
+    --port <port>         => sets the port to use for server
   info                    => displays project information
   scope                   => displays the current scope
     --project <project>   => sets the project id
@@ -57,13 +58,29 @@ CORS can be configured in a `json` file that is pointed at from `package.json:ma
 
 ### bm-server.json
 
+By setting cors to `false`, Cross-Origin resource sharing will not be allowed. **This is the default behaviour**
+
+```json
+{
+  "cors": false
+}
+```
+
+By setting cors to `true`, defaults below will be used.
+
+```json
+{
+  "cors": true
+}
+```
+
+**Note:** If any properties are omitted, they will default to the example below.
+
 ```json
 {
   "cors": {
     "origins": [
-      "http://your.first.client",
-      "http://your.second.client",
-      "http://your.third.client"
+      "*"
     ],
     "headers": [
       "Accept",
@@ -73,11 +90,13 @@ CORS can be configured in a `json` file that is pointed at from `package.json:ma
       "X-Amz-Date",
       "X-Amz-Security-Token",
       "X-Api-Key"
-    ]
+    ],
+    "exposedHeaders": [
+      "Server-Authorization",
+      "WWW-Authenticate"
+    ],
+    "credentials": false,
+    "maxAge": 86400 // in seconds = 1 day
   }
 }
 ```
-
-### Allowed Headers
-
-Headers can be omitted and will default to the headers in the example above.
