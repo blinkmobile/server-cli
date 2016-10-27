@@ -4,16 +4,19 @@ const path = require('path')
 
 const chalk = require('chalk')
 
+const readCors = require('../lib/cors/read.js')
 const serve = require('../lib/serve.js')
 
 module.exports = function (input, flags, logger, options) {
   const cwd = path.resolve(options.cwd)
   const example = path.join('helloworld', 'index.js')
-  return serve.startServer({
-    cwd,
-    port: flags.port || 3000
-  })
-  .then((server) => logger.log(`
+  return readCors(cwd)
+    .then((cors) => serve.startServer({
+      cors,
+      cwd,
+      port: flags.port || 3000
+    })
+    .then((server) => logger.log(`
 HTTP service for local development is available from:
   ${server.info.uri}
 
@@ -27,5 +30,5 @@ Create new HTTP APIs, rename, update, or delete them at any time.
 Your changes automatically take effect on the next request
 
 ${chalk.yellow('Hit CTRL-C to stop the service')}
-`))
+`)))
 }
