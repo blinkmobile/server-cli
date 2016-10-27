@@ -13,6 +13,10 @@ const CORS = {
   headers: [
     'Accept',
     'Content-Type'
+  ],
+  exposedHeaders: [
+    'Accept',
+    'Content-Type'
   ]
 }
 
