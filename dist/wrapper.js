@@ -1934,12 +1934,12 @@ function normaliseLambdaRequest (request) {
   }
 }
 
-function finish (cb, body, statusCode, corsHeaders) {
+function finish (cb, body, statusCode, internalHeaders) {
   cb(null, {
     body: JSON.stringify(body),
     headers: Object.assign({
       'Content-Type': 'application/json'
-    }, corsHeaders),
+    }, internalHeaders),
     statusCode: statusCode
   })
 }
@@ -1947,10 +1947,10 @@ function finish (cb, body, statusCode, corsHeaders) {
 function handler (event, context, cb) {
   const request = normaliseLambdaRequest(event)
   const configPath = path.join(__dirname, 'bm-server.json')
+  const internalHeaders = {}
   return loadJsonFile(configPath, 'utf8')
     .then((config) => {
       // Check for browser requests and apply CORS if required
-      let corsHeaders = {}
       if (request.headers.origin) {
         if (!config.cors) {
           // No cors, we will return 405 result and let browser handler error
@@ -1958,26 +1958,26 @@ function handler (event, context, cb) {
         }
         if (!config.cors.origins.some((origin) => origin === '*' || origin === request.headers.origin)) {
           // Invalid origin, we will return 200 result and let browser handler error
-          return finish(cb, null, 200)
+          return finish(cb, undefined, 200)
         }
         // Headers for all cross origin requests
-        corsHeaders['Access-Control-Allow-Origin'] = request.headers.origin
-        corsHeaders['Access-Control-Expose-Headers'] = config.cors.exposedHeaders.join(',')
+        internalHeaders['Access-Control-Allow-Origin'] = request.headers.origin
+        internalHeaders['Access-Control-Expose-Headers'] = config.cors.exposedHeaders.join(',')
         // Headers for OPTIONS cross origin requests
         if (request.method === 'options' && request.headers['access-control-request-method']) {
-          corsHeaders['Access-Control-Allow-Headers'] = config.cors.headers.join(',')
-          corsHeaders['Access-Control-Allow-Methods'] = request.headers['access-control-request-method']
-          corsHeaders['Access-Control-Max-Age'] = config.cors.maxAge
+          internalHeaders['Access-Control-Allow-Headers'] = config.cors.headers.join(',')
+          internalHeaders['Access-Control-Allow-Methods'] = request.headers['access-control-request-method']
+          internalHeaders['Access-Control-Max-Age'] = config.cors.maxAge
         }
         // Only set credentials header if truthy
         if (config.cors.credentials) {
-          corsHeaders['Access-Control-Allow-Credentials'] = true
+          internalHeaders['Access-Control-Allow-Credentials'] = true
         }
       }
       if (request.method === 'options') {
         // For OPTIONS requests, we can just finish
         // as we have created our own implementation of CORS
-        return finish(cb, null, 200, corsHeaders)
+        return finish(cb, undefined, 200, internalHeaders)
       }
 
       // Get handler module based on route
@@ -1996,10 +1996,23 @@ function handler (event, context, cb) {
 
       return handlers.executeHandler(handler, request)
         // TODO: Allow for customer to set there own statusCode and headers
-        .then((result) => finish(cb, result, 200, corsHeaders))
+        .then((result) => finish(cb, result, 200, internalHeaders))
     })
-    // TODO: extract error code from Boom-compatible errors
-    .catch((error) => finish(cb, error && error.message ? error.message : (error || 'Internal Server Error'), 500))
+    .catch((error) => {
+      if (error && error.isBoom && error.output && error.output.payload && error.output.statusCode) {
+        // TODO: Make sure the docs indicate what we do with the
+        // [data] argument of all Boom functions. (Available through error.data)
+        // Options:
+        // 1. Include in response, prob not safe. Could include sensitive information
+        // 2. Log to something in AWS, Not sure if this is possible ???
+        return finish(cb, error.output.payload, error.output.statusCode, Object.assign(internalHeaders, error.output.headers))
+      }
+      finish(cb, {
+        error: 'Internal Server Error',
+        message: 'An internal server error occurred',
+        statusCode: 500
+      }, 500, internalHeaders)
+    })
 }
 
 module.exports = {
