@@ -1977,7 +1977,7 @@ function handler (event, context, cb) {
       if (request.method === 'options') {
         // For OPTIONS requests, we can just finish
         // as we have created our own implementation of CORS
-        return finish(cb, null, 200)
+        return finish(cb, null, 200, corsHeaders)
       }
 
       // Get handler module based on route
