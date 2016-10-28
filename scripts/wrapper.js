@@ -37,27 +37,59 @@ function normaliseLambdaRequest (request) {
   }
 }
 
-function finish (cb, body, statusCode) {
+function finish (cb, body, statusCode, corsHeaders) {
   cb(null, {
     body: JSON.stringify(body),
-    headers: {
+    headers: Object.assign({
       'Content-Type': 'application/json'
-    },
+    }, corsHeaders),
     statusCode: statusCode
   })
 }
 
 function handler (event, context, cb) {
-  const routesPath = path.join(__dirname, 'routes.json')
-  return loadJsonFile(routesPath, 'utf8')
-    .then((routeConfigs) => {
-      const request = normaliseLambdaRequest(event)
-      const routeConfig = routeConfigs.find((routeConfig) => routeConfig.route === event.resource)
+  const request = normaliseLambdaRequest(event)
+  const configPath = path.join(__dirname, 'bm-server.json')
+  return loadJsonFile(configPath, 'utf8')
+    .then((config) => {
+      // Check for browser requests and apply CORS if required
+      let corsHeaders = {}
+      if (request.headers.origin) {
+        if (!config.cors) {
+          // No cors, we will return 405 result and let browser handler error
+          return finish(cb, 'Method Not Implemented', 405)
+        }
+        if (!config.cors.origins.some((origin) => origin === '*' || origin === request.headers.origin)) {
+          // Invalid origin, we will return 200 result and let browser handler error
+          return finish(cb, null, 200)
+        }
+        // Headers for all cross origin requests
+        corsHeaders['Access-Control-Allow-Origin'] = request.headers.origin
+        corsHeaders['Access-Control-Expose-Headers'] = config.cors.exposedHeaders.join(',')
+        // Headers for OPTIONS cross origin requests
+        if (request.method === 'options' && request.headers['access-control-request-method']) {
+          corsHeaders['Access-Control-Allow-Headers'] = config.cors.headers.join(',')
+          corsHeaders['Access-Control-Allow-Methods'] = request.headers['access-control-request-method']
+          corsHeaders['Access-Control-Max-Age'] = config.cors.maxAge
+        }
+        // Only set credentials header if truthy
+        if (config.cors.credentials) {
+          corsHeaders['Access-Control-Allow-Credentials'] = true
+        }
+      }
+      if (request.method === 'options') {
+        // For OPTIONS requests, we can just finish
+        // as we have created our own implementation of CORS
+        return finish(cb, null, 200, corsHeaders)
+      }
+
+      // Get handler module based on route
+      const routeConfig = config.routes.find((routeConfig) => routeConfig.route === event.resource)
       if (!routeConfig) {
         return finish(cb, 'Internal Server Error', 500)
       }
 
-      const handler = handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
+      let handler = handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
       if (!handler) {
         return finish(cb, 'Internal Server Error', 500)
       }
@@ -66,8 +98,8 @@ function handler (event, context, cb) {
       }
 
       return handlers.executeHandler(handler, request)
-        // TODO: Allow for customer to set there own statusCode and headers (including CORS)
-        .then((result) => finish(cb, result, 200))
+        // TODO: Allow for customer to set there own statusCode and headers
+        .then((result) => finish(cb, result, 200, corsHeaders))
     })
     // TODO: extract error code from Boom-compatible errors
     .catch((error) => finish(cb, error && error.message ? error.message : (error || 'Internal Server Error'), 500))
