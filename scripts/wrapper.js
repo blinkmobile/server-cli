@@ -52,26 +52,6 @@ function handler (event, context, cb) {
   const configPath = path.join(__dirname, 'bm-server.json')
   return loadJsonFile(configPath, 'utf8')
     .then((config) => {
-      // Get handler module based on route
-      const routeConfig = config.routes.find((routeConfig) => routeConfig.route === event.resource)
-      if (!routeConfig) {
-        return finish(cb, 'Internal Server Error', 500)
-      }
-
-      let handler = handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
-      if (!handler) {
-        return finish(cb, 'Internal Server Error', 500)
-      }
-      if (typeof handler !== 'function') {
-        if (request.method === 'options') {
-          // If we couldnt find the options function we can just finish
-          // as we have created our own implementation of CORS
-          handler = () => {}
-        } else {
-          return finish(cb, 'Method Not Implemented', 405)
-        }
-      }
-
       // Check for browser requests and apply CORS if required
       let corsHeaders = {}
       if (request.headers.origin) {
@@ -96,6 +76,25 @@ function handler (event, context, cb) {
         if (config.cors.credentials) {
           corsHeaders['Access-Control-Allow-Credentials'] = true
         }
+      }
+      if (request.method === 'options') {
+        // For OPTIONS requests, we can just finish
+        // as we have created our own implementation of CORS
+        return finish(cb, null, 200)
+      }
+
+      // Get handler module based on route
+      const routeConfig = config.routes.find((routeConfig) => routeConfig.route === event.resource)
+      if (!routeConfig) {
+        return finish(cb, 'Internal Server Error', 500)
+      }
+
+      let handler = handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
+      if (!handler) {
+        return finish(cb, 'Internal Server Error', 500)
+      }
+      if (typeof handler !== 'function') {
+        return finish(cb, 'Method Not Implemented', 405)
       }
 
       return handlers.executeHandler(handler, request)
