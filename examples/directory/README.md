@@ -5,6 +5,7 @@
 
 After downloading this project,
 change to this directory,
+run `npm install`,
 and execute `blinkm server serve` (or `bm server serve`)
 
 You can execute each example by making a request.

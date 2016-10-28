@@ -11,6 +11,7 @@ const EXAMPLE_DIR = path.join(__dirname, '..', 'examples', 'directory')
 
 test('listAPIs()', (t) => {
   const expected = [
+    'boom',
     'helloworld',
     'methods',
     'promise',
@@ -22,6 +23,11 @@ test('listAPIs()', (t) => {
 
 test('listRoutes()', (t) => {
   const expected = [
+    {
+      'route': '/boom',
+      'module': './boom/index.js',
+      'params': {}
+    },
     {
       'route': '/helloworld',
       'module': './helloworld/index.js',
