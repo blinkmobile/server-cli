@@ -25,28 +25,23 @@ test('listRoutes()', (t) => {
   const expected = [
     {
       'route': '/boom',
-      'module': './boom/index.js',
-      'params': {}
+      'module': './boom/index.js'
     },
     {
       'route': '/helloworld',
-      'module': './helloworld/index.js',
-      'params': {}
+      'module': './helloworld/index.js'
     },
     {
       'route': '/methods',
-      'module': './methods/index.js',
-      'params': {}
+      'module': './methods/index.js'
     },
     {
       'route': '/promise',
-      'module': './promise/index.js',
-      'params': {}
+      'module': './promise/index.js'
     },
     {
       'route': '/request',
-      'module': './request/index.js',
-      'params': {}
+      'module': './request/index.js'
     }
   ]
   return lib.listRoutes(EXAMPLE_DIR)

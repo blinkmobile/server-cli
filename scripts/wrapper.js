@@ -37,31 +37,34 @@ function normaliseLambdaRequest (request) {
   }
 }
 
-function finish (cb, body, statusCode, internalHeaders) {
-  cb(null, {
-    body: JSON.stringify(body),
-    headers: Object.assign({
-      'Content-Type': 'application/json'
-    }, internalHeaders),
-    statusCode: statusCode
-  })
-}
-
 function handler (event, context, cb) {
   const request = normaliseLambdaRequest(event)
   const configPath = path.join(__dirname, 'bm-server.json')
-  const internalHeaders = {}
+  const internalHeaders = {
+    'Content-Type': 'application/json'
+  }
+  const finish = (statusCode, body, customHeaders) => {
+    cb(null, {
+      body: JSON.stringify(body, null, 2),
+      headers: Object.assign(internalHeaders, customHeaders),
+      statusCode: statusCode
+    })
+  }
   return loadJsonFile(configPath, 'utf8')
     .then((config) => {
       // Check for browser requests and apply CORS if required
       if (request.headers.origin) {
         if (!config.cors) {
           // No cors, we will return 405 result and let browser handler error
-          return finish(cb, 'Method Not Implemented', 405)
+          return finish(405, {
+            error: 'Method Not Allowed',
+            message: 'OPTIONS method has not been implemented',
+            statusCode: 405
+          })
         }
         if (!config.cors.origins.some((origin) => origin === '*' || origin === request.headers.origin)) {
           // Invalid origin, we will return 200 result and let browser handler error
-          return finish(cb, undefined, 200)
+          return finish(200)
         }
         // Headers for all cross origin requests
         internalHeaders['Access-Control-Allow-Origin'] = request.headers.origin
@@ -80,26 +83,29 @@ function handler (event, context, cb) {
       if (request.method === 'options') {
         // For OPTIONS requests, we can just finish
         // as we have created our own implementation of CORS
-        return finish(cb, undefined, 200, internalHeaders)
+        return finish(200)
       }
 
       // Get handler module based on route
       const routeConfig = config.routes.find((routeConfig) => routeConfig.route === event.resource)
       if (!routeConfig) {
-        return finish(cb, 'Internal Server Error', 500)
+        return Promise.reject(new Error(`Could not find route configuration for route: ${event.resource}`))
       }
 
-      let handler = handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
-      if (!handler) {
-        return finish(cb, 'Internal Server Error', 500)
-      }
-      if (typeof handler !== 'function') {
-        return finish(cb, 'Method Not Implemented', 405)
-      }
+      return handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
+        .then((handler) => {
+          if (typeof handler !== 'function') {
+            return finish(405, {
+              error: 'Method Not Allowed',
+              message: `${request.method.toUpperCase()} method has not been implemented`,
+              statusCode: 405
+            })
+          }
 
-      return handlers.executeHandler(handler, request)
-        // TODO: Allow for customer to set there own statusCode and headers
-        .then((result) => finish(cb, result, 200, internalHeaders))
+          return handlers.executeHandler(handler, request)
+            // TODO: Allow for customer to set there own statusCode and headers
+            .then((result) => finish(200, result))
+        })
     })
     .catch((error) => {
       if (error && error.isBoom && error.output && error.output.payload && error.output.statusCode) {
@@ -108,13 +114,13 @@ function handler (event, context, cb) {
         // Options:
         // 1. Include in response, prob not safe. Could include sensitive information
         // 2. Log to something in AWS, Not sure if this is possible ???
-        return finish(cb, error.output.payload, error.output.statusCode, Object.assign(internalHeaders, error.output.headers))
+        return finish(error.output.statusCode, error.output.payload, error.output.headers)
       }
-      finish(cb, {
+      finish(500, {
         error: 'Internal Server Error',
         message: 'An internal server error occurred',
         statusCode: 500
-      }, 500, internalHeaders)
+      })
     })
 }
 

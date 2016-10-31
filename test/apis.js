@@ -3,79 +3,128 @@
 const path = require('path')
 
 const test = require('ava')
+const proxyquire = require('proxyquire')
 
-const lib = require('../lib/apis.js')
+const TEST_SUBJECT = '../lib/apis.js'
+
+const lib = require(TEST_SUBJECT)
 
 const EXAMPLE_DIR = path.join(__dirname, '..', 'examples', 'directory')
 const CONFIGURATION_DIR = path.join(__dirname, '..', 'examples', 'configuration')
+const ROUTE_CONFIG = {
+  module: path.join(CONFIGURATION_DIR, '/api/books'),
+  params: {
+    'test': 123
+  }
+}
+const METHOD = 'get'
+const ROUTES = [
+  {
+    'route': '/helloworld',
+    'module': './helloworld/index.js'
+  },
+  {
+    'route': '/api/books/{id}',
+    'module': './api/book.js'
+  }
+]
 
-test('getHandlerConfig()', (t) => {
-  const tests = [
-    { args: [ EXAMPLE_DIR, '/missing', 'get' ], expected: 'undefined', params: undefined },
-    { args: [ EXAMPLE_DIR, '/helloworld', 'get' ], expected: 'function', params: {} },
-    { args: [ EXAMPLE_DIR, '/methods', 'get' ], expected: 'function', params: {} },
-    { args: [ EXAMPLE_DIR, '/methods', 'patch' ], expected: 'object', params: {} },
-    { args: [ CONFIGURATION_DIR, '/api/missing', 'get' ], expected: 'undefined', params: undefined },
-    { args: [ CONFIGURATION_DIR, '/api/books', 'get' ], expected: 'function', params: {} },
-    { args: [ CONFIGURATION_DIR, '/api/books', 'patch' ], expected: 'object', params: {} },
-    { args: [ CONFIGURATION_DIR, '/api/books/123', 'get' ], expected: 'function', params: { id: '123' } }
-  ]
-  return Promise.all(tests.map(({ args, expected, params }) => lib.getHandlerConfig(...args)))
-    .then((results) => {
-      tests.forEach(({ args, expected, params }, index) => {
-        t.is(typeof results[index].handler, expected)
-        t.deepEqual(results[index].params, params)
-      })
+test.beforeEach((t) => {
+  t.context.getTestSubject = (overrides) => {
+    overrides = overrides || {}
+    return proxyquire(TEST_SUBJECT, Object.assign({
+      './handlers.js': {
+        getHandler: (routeConfig) => Promise.resolve({
+          handler: () => {},
+          params: routeConfig ? routeConfig.params : {}
+        })
+      },
+
+      './routes/read.js': (cwd) => Promise.resolve(ROUTES)
+    }, overrides))
+  }
+})
+
+test('getHandlerConfig() should pass correct arguments to getHandler()', (t) => {
+  t.plan(2)
+  const apis = t.context.getTestSubject({
+    './handlers.js': {
+      getHandler: (module, method) => {
+        t.is(module, ROUTE_CONFIG.module)
+        t.is(method, METHOD)
+        return Promise.resolve()
+      }
+    }
+  })
+  return apis.getHandlerConfig(ROUTE_CONFIG, METHOD)
+})
+
+test('getHandlerConfig() should reject if getHandler() throws an error', (t) => {
+  const apis = t.context.getTestSubject({
+    './handlers.js': {
+      getHandler: () => Promise.reject(new Error('test error'))
+    }
+  })
+  return t.throws(apis.getHandlerConfig(ROUTE_CONFIG), 'test error')
+})
+
+test('getHandlerConfig() should return a handler from getHandler() and params from routeConfig', (t) => {
+  const apis = t.context.getTestSubject({
+    './handlers.js': {
+      getHandler: () => Promise.resolve('this is my handler')
+    }
+  })
+  return apis.getHandlerConfig({ params: 'these are my params' })
+    .then((handlerConfig) => {
+      t.is(handlerConfig.handler, 'this is my handler')
+      t.is(handlerConfig.params, 'these are my params')
     })
 })
 
-test('getRouteConfig()', (t) => {
-  const tests = [
-    {
-      args: [ EXAMPLE_DIR, '/helloworld' ],
-      expected: {
-        route: '/helloworld',
-        module: path.join(EXAMPLE_DIR, './helloworld/index.js'),
-        params: {}
-      }
-    },
-    {
-      args: [ CONFIGURATION_DIR, '/api/books' ],
-      expected: {
-        route: '/api/books',
-        module: path.join(CONFIGURATION_DIR, './api/books.js'),
-        params: {}
-      }
-    },
-    {
-      args: [ CONFIGURATION_DIR, '/api/books/123' ],
-      expected: {
-        route: '/api/books/{id}',
-        module: path.join(CONFIGURATION_DIR, './api/book.js'),
-        params: {
-          id: '123'
-        }
-      }
-    },
-    {
-      args: [ CONFIGURATION_DIR, '/missing' ],
-      expected: undefined
+test('getRouteConfig() should pass correct arguments to readRoutes()', (t) => {
+  t.plan(1)
+  const apis = t.context.getTestSubject({
+    './routes/read.js': (cwd) => {
+      t.is(cwd, EXAMPLE_DIR)
+      return Promise.resolve(ROUTES)
     }
-  ]
-  return Promise.all(tests.map(({ args, expected }) => lib.getRouteConfig(...args)))
-    .then((results) => {
-      tests.forEach(({ args, expected }, index) => {
-        t.deepEqual(results[index], expected)
-      })
-    })
+  })
+  return apis.getRouteConfig(EXAMPLE_DIR, ROUTES[0].route)
+})
+
+test('getRouteConfig() should reject if readRoutes() throws an error', (t) => {
+  const apis = t.context.getTestSubject({
+    './routes/read.js': (cwd) => Promise.reject(new Error('test error'))
+  })
+  return t.throws(apis.getRouteConfig(), 'test error')
+})
+
+test('getRouteConfig() should reject if route cannot be found', (t) => {
+  const apis = t.context.getTestSubject()
+  return t.throws(apis.getRouteConfig(CONFIGURATION_DIR, 'missing'), 'Route has not been implemented: /missing')
+})
+
+test('getRouteConfig() should find correct route and return route params', (t) => {
+  const apis = t.context.getTestSubject()
+  return apis.getRouteConfig(CONFIGURATION_DIR, '/api/books/123')
+    .then((routeConfig) => t.deepEqual(routeConfig, {
+      route: ROUTES[1].route,
+      module: path.resolve(CONFIGURATION_DIR, './api/book.js'),
+      params: {
+        id: '123'
+      }
+    }))
 })
 
 test('wipeRouteFromRequireCache()', (t) => {
-  return lib.getHandlerConfig(CONFIGURATION_DIR, '/api/books')
-    .then(() => lib.getRouteConfig(CONFIGURATION_DIR, '/api/books'))
-    .then((routeConfig) => {
-      t.truthy(require.cache[routeConfig.module])
-      return lib.wipeRouteFromRequireCache(CONFIGURATION_DIR, '/api/books')
-        .then(() => t.falsy(require.cache[routeConfig.module]))
-    })
+  const routeConfig = {
+    module: path.join(CONFIGURATION_DIR, '/api/books')
+  }
+  require(routeConfig.module)
+  // Seem to need a timeout here otherwise require.cache[routeConfig.module] is empty
+  setTimeout(() => {
+    t.truthy(require.cache[routeConfig.module])
+    lib.wipeRouteFromRequireCache(routeConfig)
+    t.falsy(require.cache[routeConfig.module])
+  }, 1)
 })
