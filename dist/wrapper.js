@@ -3,25 +3,22 @@
 'use strict'
 
 /* ::
-import type {BmRequest, Headers} from './wrapper.js'
+import type {Headers} from './wrapper.js'
 */
 
 const privateVars = new WeakMap()
 
 class BmResponse {
-  constructor (
-    request /* : BmRequest */
-  ) {
+  constructor () {
     privateVars.set(this, {
       headers: {},
       payload: undefined,
-      request,
       statusCode: 200
     })
   }
 
   get headers () /* : Headers */ {
-    return privateVars.get(this).headers
+    return Object.assign({}, privateVars.get(this).headers)
   }
 
   get payload () /* : any */ {
@@ -71,7 +68,7 @@ function executeHandler (
   handler /* : Function */,
   request /* : BmRequest */
 ) /* : Promise<BmResponse> */ {
-  const response = new BmResponse(request)
+  const response = new BmResponse()
   return Promise.resolve()
     .then(() => handler(request, response))
     .then((result) => {
