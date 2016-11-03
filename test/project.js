@@ -15,7 +15,8 @@ test('listAPIs()', (t) => {
     'helloworld',
     'methods',
     'promise',
-    'request'
+    'request',
+    'response'
   ]
   return lib.listAPIs(EXAMPLE_DIR)
     .then((results) => t.deepEqual(results, expected))
@@ -42,6 +43,10 @@ test('listRoutes()', (t) => {
     {
       'route': '/request',
       'module': './request/index.js'
+    },
+    {
+      'route': '/response',
+      'module': './response/index.js'
     }
   ]
   return lib.listRoutes(EXAMPLE_DIR)
