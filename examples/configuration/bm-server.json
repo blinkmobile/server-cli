@@ -1,4 +1,5 @@
 {
+  "cors": true,
 	"routes": [
 		{
 			"route": "/api/request",

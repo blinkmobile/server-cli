@@ -4,7 +4,12 @@ that wraps a customer function.
 We bundle this module and its dependencies to ../dist/wrapper.js .
 To bundle: `npm run build`
 */
+/* @flow */
 'use strict'
+
+/* ::
+import type {BmRequest} from '../lib/wrapper.js'
+*/
 
 const path = require('path')
 
@@ -14,7 +19,9 @@ const handlers = require('../lib/handlers.js')
 const wrapper = require('../lib/wrapper.js')
 
 // return only the pertinent data from a API Gateway + Lambda event
-function normaliseLambdaRequest (request) {
+function normaliseLambdaRequest (
+  request /* : any */
+) /* : BmRequest */ {
   const headers = wrapper.keysToLowerCase(request.headers)
   let body = request.body
   try {
@@ -37,16 +44,20 @@ function normaliseLambdaRequest (request) {
   }
 }
 
-function handler (event, context, cb) {
+function handler (
+  event /* : any */,
+  context /* : any */,
+  cb /* : Function */
+) /* : Promise<void> */ {
   const request = normaliseLambdaRequest(event)
   const configPath = path.join(__dirname, 'bm-server.json')
-  const internalHeaders = {
-    'Content-Type': 'application/json'
-  }
+  const internalHeaders = {}
+  internalHeaders['Content-Type'] = 'application/json'
   const finish = (statusCode, body, customHeaders) => {
+    const headers = Object.assign(internalHeaders, customHeaders)
     cb(null, {
       body: JSON.stringify(body, null, 2),
-      headers: Object.assign(internalHeaders, customHeaders),
+      headers: wrapper.keysToLowerCase(headers),
       statusCode: statusCode
     })
   }
@@ -103,8 +114,7 @@ function handler (event, context, cb) {
           }
 
           return handlers.executeHandler(handler, request)
-            // TODO: Allow for customer to set there own statusCode and headers
-            .then((result) => finish(200, result))
+            .then((response) => finish(response.statusCode, response.payload, response.headers))
         })
     })
     .catch((error) => {

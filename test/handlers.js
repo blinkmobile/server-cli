@@ -5,19 +5,50 @@ const path = require('path')
 const test = require('ava')
 
 const lib = require('../lib/handlers.js')
+const BmResponse = require('../lib/bm-response.js')
 
 const EXAMPLE_DIR = path.join(__dirname, '..', 'examples', 'directory')
 const CONFIGURATION_DIR = path.join(__dirname, '..', 'examples', 'configuration')
 
-test('executeHandler()', (t) => {
-  let isHandlerCalled = false
+test('executeHandler() should call handler()', (t) => {
+  t.plan(1)
   const request = {}
   const handler = (req) => {
     t.is(req, request)
-    isHandlerCalled = true
   }
   return lib.executeHandler(handler, request)
-    .then(() => t.truthy(isHandlerCalled))
+})
+
+test('executeHandler() should return a BmResponse with correct values', (t) => {
+  const statusCode = 1
+  const payload = {
+    key: 'value'
+  }
+  const headers = {
+    'one': '1',
+    'two': '2'
+  }
+  return lib.executeHandler((request, response) => {
+    response.setStatusCode(statusCode)
+    response.setPayload(payload)
+    Object.keys(headers).forEach((key) => response.setHeader(key, headers[key]))
+  })
+    .then((response) => {
+      t.truthy(response instanceof BmResponse)
+      t.is(response.statusCode, statusCode)
+      t.deepEqual(response.payload, payload)
+      t.deepEqual(response.headers, headers)
+    })
+})
+
+test('executeHandler() should return a BmResponse with status code set from handler that return number', (t) => {
+  return lib.executeHandler(() => 201)
+    .then((response) => t.is(response.statusCode, 201))
+})
+
+test('executeHandler() should return a BmResponse with payload set from handler that return a truthy value that is not a number', (t) => {
+  return lib.executeHandler(() => 'payload')
+    .then((response) => t.is(response.payload, 'payload'))
 })
 
 test('getHandler() valid modules', (t) => {
