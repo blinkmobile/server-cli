@@ -27,6 +27,9 @@ Commands:
   scope                   => displays the current scope
     --project <project>   => sets the project id
     --region <region>     => optionally sets the region
+  deploy                  => deploy the project
+    --force               => deploy without confirmation
+    --stage <stage>       => optionally sets the stage to deploy to, defaults to 'test'
 ```
 
 ## CORS Configuration
