@@ -5,8 +5,8 @@ const test = require('ava')
 const logUpdates = require('../../lib/utils/log-updates.js')
 
 test.cb('Should log the correct amount of times and run beforeStop()', (t) => {
-  t.plan(3)
-  const waitTime = 300
+  t.plan(2)
+  const waitTime = 150
   // t.pass() Should run once for each 100 ms
   const stopUpdates = logUpdates(() => {
     t.pass()
@@ -14,9 +14,7 @@ test.cb('Should log the correct amount of times and run beforeStop()', (t) => {
   })
 
   setTimeout(() => {
-    stopUpdates((logUpdater) => {
-      t.pass()
-    })
+    stopUpdates(() => t.pass())
     t.end()
   }, waitTime)
 })
