@@ -2088,6 +2088,14 @@ function handler (
         return Promise.reject(new Error(`Could not find route configuration for route: ${event.resource}`))
       }
 
+      // Change current working directory to the project
+      // to accomadate for packages using process.cwd()
+      try {
+        process.chdir('project')
+      } catch (err) {
+        return Promise.reject(new Error(`Could not change current working directory to './project': ${err}`))
+      }
+
       return handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
         .then((handler) => {
           if (typeof handler !== 'function') {
