@@ -10,7 +10,11 @@ const meow = require('meow')
 const updateNotifier = require('update-notifier')
 const chalk = require('chalk')
 
+const BlinkMobileIdentity = require('@blinkmobile/bm-identity')
+
 const pkg = require('../package.json')
+
+const blinkMobileIdentity = new BlinkMobileIdentity(pkg.name)
 
 updateNotifier({ pkg }).notify()
 
@@ -30,7 +34,11 @@ const cli = meow({
   help,
   version: true
 }, {
+  boolean: [
+    'force'
+  ],
   default: {
+    'force': false,
     'stage': 'test'
   },
   string: [
@@ -63,7 +71,8 @@ Command not implemented: ${command}`))
 
 const input = cli.input.slice(1)
 const options = {
-  cwd: input[0] || process.cwd()
+  cwd: input[0] || process.cwd(),
+  blinkMobileIdentity
 }
 
 Promise.resolve()
