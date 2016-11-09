@@ -18,7 +18,7 @@ module.exports = function (input, flags, logger, options) {
     })
     .then((server) => logger.log(`
 HTTP service for local development is available from:
-  ${server.info.uri}
+  http://localhost:${server.info.port}
 
 Your current directory "." is:
   ${cwd}

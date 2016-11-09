@@ -137,8 +137,8 @@ test('zip() should log correct updates and return an absolute path to a zip file
           })
           zip.on('end', () => {
             t.deepEqual(entries, [
-              'helloworld/index.js',
-              'package.json'
+              'bm-server.json',
+              'helloworld/index.js'
             ])
             resolve(entries)
           })

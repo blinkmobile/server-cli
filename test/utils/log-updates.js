@@ -10,13 +10,12 @@ test.cb('Should log the correct amount of times and run beforeStop()', (t) => {
   // t.pass() Should run once for each 100 ms
   const stopUpdates = logUpdates(() => {
     t.pass()
-    return 'Message'
+    return 'Testing log updates'
   })
 
   setTimeout(() => {
     stopUpdates((logUpdater) => {
       t.pass()
-      logUpdater.clear()
     })
     t.end()
   }, waitTime)
