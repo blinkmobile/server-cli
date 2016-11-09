@@ -10,19 +10,18 @@ const yauzl = require('yauzl')
 
 const TEST_SUBJECT = '../lib/deploy.js'
 
+const UPLOAD_PATH = path.join(__dirname, 'fixtures', 'upload', 'project.zip')
 const ZIP_PATH = path.join(__dirname, 'fixtures', 'zip')
+const LOCATION = 'this is a location'
+const SERVICE_SETTINGS = {
+  region: 'this is a region',
+  bucket: 'this is a bucket'
+}
 
 test.beforeEach((t) => {
   t.context.getTestSubject = (overrides) => {
     overrides = overrides || {}
-    return proxyquire(TEST_SUBJECT, Object.assign({}, {
-      'inquirer': {
-        prompt: (questions) => Promise.resolve({
-          confirmation: true
-        })
-      },
-      './utils/log-updates.js': (message) => (beforeStop) => beforeStop(() => {})
-    }, overrides))
+    return proxyquire(TEST_SUBJECT, Object.assign({}, overrides))
   }
 })
 
@@ -227,3 +226,66 @@ test('zip() should log correct updates and reject if an archiver emits an error'
   return deploy.zip(ZIP_PATH)
     .catch((err) => t.is(err.message, 'test archiver error'))
 })
+
+test('upload() should log correct updates and return location after upload', (t) => {
+  t.plan(7)
+  const deploy = t.context.getTestSubject({
+    './utils/log-updates.js': (message) => {
+      // Check for correct message
+      t.is(message(), 'Transferring project: 0%')
+      return (beforeStop) => {
+        // Ensure stop function is called
+        t.pass()
+        beforeStop((symbol, str) => {
+          // Ensure before stop is called with correct arguments
+          t.is(symbol, logSymbols.success)
+          t.is(str, 'Transfer complete!')
+        })
+      }
+    },
+    'aws-sdk': {
+      config: {},
+      S3: function () {
+        this.upload = (params) => {
+          t.is(params.Bucket, SERVICE_SETTINGS.bucket)
+          t.is(params.Key, path.basename(UPLOAD_PATH))
+          return {
+            on: () => {},
+            send: (fn) => fn(null, {Location: LOCATION})
+          }
+        }
+      }
+    }
+  })
+  return deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS)
+    .then((location) => t.is(location, LOCATION))
+})
+
+test('upload() should log correct updates and reject if upload returns an error', (t) => {
+  t.plan(4)
+  const deploy = t.context.getTestSubject({
+    './utils/log-updates.js': (message) => {
+      return (beforeStop) => {
+        // Ensure stop function is called
+        t.pass()
+        beforeStop((symbol, str) => {
+          // Ensure before stop is called with correct arguments
+          t.is(symbol, logSymbols.error)
+          t.is(str, 'Transferring project: 0%')
+        })
+      }
+    },
+    'aws-sdk': {
+      config: {},
+      S3: function () {
+        this.upload = (params) => ({
+          on: () => {},
+          send: (fn) => fn(new Error('test upload error'))
+        })
+      }
+    }
+  })
+  return deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS)
+    .catch((err) => t.is(err.message, 'test upload error'))
+})
+
