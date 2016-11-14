@@ -10,13 +10,16 @@ const yauzl = require('yauzl')
 
 const TEST_SUBJECT = '../lib/deploy.js'
 
+const ACCESS_TOKEN = 'this is an access token'
 const UPLOAD_PATH = path.join(__dirname, 'fixtures', 'upload', 'project.zip')
 const ZIP_PATH = path.join(__dirname, 'fixtures', 'zip')
-const LOCATION = 'this is a location'
+const BUNDLE_KEY = 'this is a file key'
 const SERVICE_SETTINGS = {
   region: 'this is a region',
-  bucket: 'this is a bucket'
+  bucket: 'this is a bucket',
+  deploymentUrl: 'this is a deployment url'
 }
+const STAGE = 'test'
 
 test.beforeEach((t) => {
   t.context.getTestSubject = (overrides) => {
@@ -50,7 +53,7 @@ test('confirm() should prompt and log if force is false', (t) => {
 })
 
 test('authenticate() should call blinkMobileIdentity functions and stop updates', (t) => {
-  t.plan(6)
+  t.plan(7)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
       // Check for correct message
@@ -61,7 +64,7 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.success)
-          t.is(str, 'Authenticated!')
+          t.is(str, 'Authentication complete!')
         })
       }
     }
@@ -73,6 +76,10 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
       return Promise.resolve()
     },
     getServiceSettings: () => {
+      t.pass()
+      return Promise.resolve()
+    },
+    getAccessToken: () => {
       t.pass()
       return Promise.resolve()
     }
@@ -89,20 +96,21 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.error)
-          t.is(str, 'Authenticating...')
+          t.is(str, 'Authentication failed...')
         })
       }
     }
   })
   return deploy.authenticate({
     assumeAWSRole: () => Promise.reject(new Error('test error')),
-    getServiceSettings: () => Promise.resolve()
+    getServiceSettings: () => Promise.resolve(),
+    getAccessToken: () => Promise.resolve()
   })
     .catch((err) => t.is(err.message, 'test error'))
 })
 
 test('zip() should log correct updates and return an absolute path to a zip file', (t) => {
-  t.plan(8)
+  t.plan(10)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
       // Check for correct message
@@ -135,10 +143,9 @@ test('zip() should log correct updates and return an absolute path to a zip file
             zip.readEntry()
           })
           zip.on('end', () => {
-            t.deepEqual(entries, [
-              'bm-server.json',
-              'helloworld/index.js'
-            ])
+            t.is(path.basename(entries[0]), '.blinkmrc.json')
+            t.is(entries[1], 'bm-server.json')
+            t.is(entries[2], 'helloworld/index.js')
             resolve(entries)
           })
           zip.on('error', (err) => reject(err))
@@ -158,7 +165,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.error)
-          t.is(str, 'Compressing project...')
+          t.is(str, 'Compression failed...')
         })
       }
     },
@@ -167,7 +174,8 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
         on: () => {},
         pipe: () => {},
         glob: () => {},
-        finalize: () => {}
+        finalize: () => {},
+        file: () => {}
       })
     },
     'temp': {
@@ -185,8 +193,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
       })
     }
   })
-  return deploy.zip(ZIP_PATH)
-    .catch((err) => t.is(err.message, 'test temp error'))
+  t.throws(deploy.zip(ZIP_PATH), 'test temp error')
 })
 
 test('zip() should log correct updates and reject if an archiver emits an error', (t) => {
@@ -199,7 +206,7 @@ test('zip() should log correct updates and reject if an archiver emits an error'
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.error)
-          t.is(str, 'Compressing project...')
+          t.is(str, 'Compression failed...')
         })
       }
     },
@@ -212,7 +219,8 @@ test('zip() should log correct updates and reject if an archiver emits an error'
         },
         pipe: () => {},
         glob: () => {},
-        finalize: () => {}
+        finalize: () => {},
+        file: () => {}
       })
     },
     'temp': {
@@ -223,11 +231,10 @@ test('zip() should log correct updates and reject if an archiver emits an error'
       })
     }
   })
-  return deploy.zip(ZIP_PATH)
-    .catch((err) => t.is(err.message, 'test archiver error'))
+  t.throws(deploy.zip(ZIP_PATH), 'test archiver error')
 })
 
-test('upload() should log correct updates and return location after upload', (t) => {
+test('upload() should log correct updates and return bundle key after upload', (t) => {
   t.plan(7)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
@@ -251,14 +258,14 @@ test('upload() should log correct updates and return location after upload', (t)
           t.is(params.Key, path.basename(UPLOAD_PATH))
           return {
             on: () => {},
-            send: (fn) => fn(null, {Location: LOCATION})
+            send: (fn) => fn(null, {Key: BUNDLE_KEY})
           }
         }
       }
     }
   })
   return deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS)
-    .then((location) => t.is(location, LOCATION))
+    .then((bundleKey) => t.is(bundleKey, BUNDLE_KEY))
 })
 
 test('upload() should log correct updates and reject if upload returns an error', (t) => {
@@ -271,7 +278,7 @@ test('upload() should log correct updates and reject if upload returns an error'
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.error)
-          t.is(str, 'Transferring project: 0%')
+          t.is(str, 'Transfer failed: 0%')
         })
       }
     },
@@ -285,7 +292,83 @@ test('upload() should log correct updates and reject if upload returns an error'
       }
     }
   })
-  return deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS)
-    .catch((err) => t.is(err.message, 'test upload error'))
+  t.throws(deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS), 'test upload error')
 })
 
+test('upload() should log correct updates', (t) => {
+  t.plan(5)
+  const deploy = t.context.getTestSubject({
+    './utils/log-updates.js': (message) => {
+      // Check for correct message
+      t.is(message(), 'Deploying project - this may take several minutes...')
+      return (beforeStop) => {
+        // Ensure stop function is called
+        t.pass()
+        beforeStop((symbol, str) => {
+          // Ensure before stop is called with correct arguments
+          t.is(symbol, logSymbols.success)
+          t.is(str, 'Deployment complete!')
+        })
+      }
+    },
+    'request': (params, cb) => {
+      t.deepEqual(params, {
+        auth: {
+          bearer: ACCESS_TOKEN
+        },
+        json: {
+          bundleBucket: SERVICE_SETTINGS.bucket,
+          bundleKey: BUNDLE_KEY,
+          targetOrigin: 'https://example.com'
+        },
+        method: 'POST',
+        timeout: 9000000,
+        url: SERVICE_SETTINGS.deploymentUrl
+      })
+      cb(null, {statusCode: 200}, {baseUrl: 'https://example.com'})
+    }
+  })
+  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS)
+})
+
+test('deploy() should log correct updates and reject if request() returns an error', (t) => {
+  t.plan(4)
+  const deploy = t.context.getTestSubject({
+    './utils/log-updates.js': (message) => {
+      return (beforeStop) => {
+        // Ensure stop function is called
+        t.pass()
+        beforeStop((symbol, str) => {
+          // Ensure before stop is called with correct arguments
+          t.is(symbol, logSymbols.error)
+          t.is(str, 'Deployment failed...')
+        })
+      }
+    },
+    'request': (params, cb) => cb(new Error('test error'))
+  })
+  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS), 'test error')
+})
+
+test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
+  t.plan(4)
+  const deploy = t.context.getTestSubject({
+    './utils/log-updates.js': (message) => {
+      return (beforeStop) => {
+        // Ensure stop function is called
+        t.pass()
+        beforeStop((symbol, str) => {
+          // Ensure before stop is called with correct arguments
+          t.is(symbol, logSymbols.error)
+          t.is(str, 'Deployment failed - 500 ERROR')
+        })
+      }
+    },
+    'request': (params, cb) => cb(null, {}, {
+      message: 'error message',
+      error: 'ERROR',
+      statusCode: 500
+    })
+  })
+  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS), 'error message')
+})
