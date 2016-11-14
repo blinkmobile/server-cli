@@ -16,9 +16,10 @@ module.exports = function (input, flags, logger, options) {
           .then((results) => {
             const awsCredentials = results[0]
             const serviceSettings = results[1]
+            const accessToken = results[2]
             return deploy.zip(cwd)
               .then((zipFilePath) => deploy.upload(zipFilePath, awsCredentials, serviceSettings))
-              .then((bundleUrl) => deploy.deploy(logger, bundleUrl, stage, serviceSettings))
+              .then((bundleKey) => deploy.deploy(bundleKey, accessToken, stage, serviceSettings))
           })
       }
     })
