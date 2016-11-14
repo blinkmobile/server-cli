@@ -307,10 +307,7 @@ test('upload() should log correct updates', (t) => {
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.success)
-          t.is(str, `Deployment complete!
-
-Base Url: https://example.com
-`)
+          t.is(str, 'Deployment complete!')
         })
       }
     },
