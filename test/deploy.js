@@ -86,7 +86,7 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
   })
 })
 
-test.only('authenticate() should call log correct updates if blinkMobileIdentity functions throw errors', (t) => {
+test('authenticate() should call log correct updates if blinkMobileIdentity functions throw errors', (t) => {
   t.plan(4)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
@@ -307,7 +307,10 @@ test('upload() should log correct updates', (t) => {
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.success)
-          t.is(str, 'Deployment complete!')
+          t.is(str, `Deployment complete!
+
+Base Url: https://example.com
+`)
         })
       }
     },
@@ -325,7 +328,7 @@ test('upload() should log correct updates', (t) => {
         timeout: 9000000,
         url: SERVICE_SETTINGS.deploymentUrl
       })
-      cb(null, {statusCode: 200})
+      cb(null, {statusCode: 200}, {baseUrl: 'https://example.com'})
     }
   })
   return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS)
