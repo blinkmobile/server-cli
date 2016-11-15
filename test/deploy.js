@@ -295,7 +295,7 @@ test('upload() should log correct updates and reject if upload returns an error'
   t.throws(deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS), 'test upload error')
 })
 
-test('upload() should log correct updates', (t) => {
+test('deploy() should log correct updates', (t) => {
   t.plan(5)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
@@ -307,7 +307,7 @@ test('upload() should log correct updates', (t) => {
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.success)
-          t.is(str, 'Deployment complete!')
+          t.is(str, 'Deployment complete - Base Url: https://example.com')
         })
       }
     },
