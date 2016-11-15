@@ -5,5 +5,9 @@
   "main": "bm-server.json",
   "dependencies": {
     "boom": "4.2.0"
+  },
+  "engines": {
+    "node": "~4.3",
+    "npm": ">=2"
   }
 }
