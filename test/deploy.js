@@ -109,7 +109,7 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
     .catch((err) => t.is(err.message, 'test error'))
 })
 
-test('zip() should log correct updates and return an absolute path to a zip file', (t) => {
+test.cb('zip() should log correct updates and return an absolute path to a zip file', (t) => {
   t.plan(10)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
@@ -126,33 +126,32 @@ test('zip() should log correct updates and return an absolute path to a zip file
       }
     }
   })
-  return deploy.zip(ZIP_PATH)
+  deploy.zip(ZIP_PATH)
     .then(zipFilePath => {
       t.truthy(path.isAbsolute(zipFilePath))
       t.is(path.extname(zipFilePath), '.zip')
       t.truthy(fs.statSync(zipFilePath).isFile())
-      return new Promise((resolve, reject) => {
-        yauzl.open(zipFilePath, { lazyEntries: true }, (err, zip) => {
-          if (err) {
-            reject(err)
-            return
-          }
-          const entries = []
-          zip.on('entry', (entry) => {
-            entries.push(entry.fileName)
-            zip.readEntry()
-          })
-          zip.on('end', () => {
-            t.is(path.basename(entries[0]), '.blinkmrc.json')
-            t.is(entries[1], 'bm-server.json')
-            t.is(entries[2], 'helloworld/index.js')
-            resolve(entries)
-          })
-          zip.on('error', (err) => reject(err))
+      yauzl.open(zipFilePath, { lazyEntries: true }, (err, zip) => {
+        if (err) {
+          t.end()
+          return
+        }
+        const entries = []
+        zip.on('entry', (entry) => {
+          entries.push(entry.fileName)
           zip.readEntry()
         })
+        zip.on('end', () => {
+          t.truthy(entries.some((entry) => entry === '.blinkmrc.json'))
+          t.truthy(entries.some((entry) => entry === 'bm-server.json'))
+          t.truthy(entries.some((entry) => entry === 'helloworld/index.js'))
+          t.end()
+        })
+        zip.on('error', () => t.end())
+        zip.readEntry()
       })
     })
+    .catch(() => t.end())
 })
 
 test('zip() should log correct updates and reject if an temp emits an error', (t) => {
@@ -174,8 +173,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
         on: () => {},
         pipe: () => {},
         glob: () => {},
-        finalize: () => {},
-        file: () => {}
+        finalize: () => {}
       })
     },
     'temp': {
@@ -219,8 +217,7 @@ test('zip() should log correct updates and reject if an archiver emits an error'
         },
         pipe: () => {},
         glob: () => {},
-        finalize: () => {},
-        file: () => {}
+        finalize: () => {}
       })
     },
     'temp': {
