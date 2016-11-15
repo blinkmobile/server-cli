@@ -1,4 +1,4 @@
-#! /usr/bin/env node
+#!/usr/bin/env node
 
 /* eslint-disable no-console */ // this is a CLI entrypoint
 

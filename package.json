@@ -42,19 +42,24 @@
   "devDependencies": {
     "ava": "^0.16.0",
     "browserify": "^13.1.0",
-    "eslint": "^3.5.0",
-    "eslint-config-standard": "^6.0.0",
-    "eslint-plugin-promise": "^3.0.0",
-    "eslint-plugin-standard": "^2.0.0",
+    "eslint": "^3.10.1",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-node": "^3.0.3",
+    "eslint-plugin-promise": "^3.3.2",
+    "eslint-plugin-standard": "^2.0.1",
     "fixpack": "^2.3.1",
     "flow-bin": "^0.35.0",
     "npm-bin-ava-tester": "^1.0.0",
-    "nyc": "^8.3.0",
+    "nyc": "^9.0.1",
     "proxyquire": "^1.7.10",
     "remark-cli": "^2.0.0",
     "remark-lint": "^5.1.0",
     "remark-preset-lint-recommended": "^1.0.0",
     "yauzl": "^2.7.0"
+  },
+  "directories": {
+    "example": "examples",
+    "test": "test"
   },
   "engines": {
     "node": ">=4",
@@ -71,6 +76,13 @@
   "keywords": [],
   "license": "MIT",
   "main": "index.js",
+  "nyc": {
+    "exclude": [
+      "dist",
+      "examples",
+      "test"
+    ]
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -79,14 +91,14 @@
     "url": "git+https://github.com/blinkmobile/server-cli.git"
   },
   "scripts": {
-    "ava": "ava",
+    "ava": "nyc ava",
     "browserify": "browserify --node --no-insert-globals --no-detect-globals --standalone wrapper ./scripts/wrapper.js > ./dist/wrapper.js",
     "build": "npm run browserify",
     "eslint": "eslint --fix --cache .",
     "fixpack": "fixpack",
     "flow_check": "flow check || exit 0",
     "lint-md": "remark . --preset lint-recommended",
-    "nyc": "nyc check-coverage",
+    "nyc": "nyc check-coverage --lines 75",
     "posttest": "npm run eslint && npm run flow_check && npm run fixpack && npm run lint-md",
     "prepublish": "npm run build",
     "pretest": "npm run build",

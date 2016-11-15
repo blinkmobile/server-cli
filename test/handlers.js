@@ -61,7 +61,7 @@ test('getHandler() valid modules', (t) => {
     { args: [ path.join(CONFIGURATION_DIR, 'api/books'), 'patch' ], expected: 'object' }
   ]
   return tests.reduce((prev, config) => {
-    return prev.then(() => lib.getHandler(...config.args))
+    return prev.then(() => lib.getHandler.apply(null, config.args))
       .then(result => t.is(typeof result, config.expected))
   }, Promise.resolve())
 })
@@ -73,6 +73,6 @@ test('getHandler() invalid modules', (t) => {
   ]
 
   return tests.reduce((prev, config) => {
-    return prev.then(() => t.throws(lib.getHandler(...config.args), config.expected))
+    return prev.then(() => t.throws(lib.getHandler.apply(null, config.args), config.expected))
   }, Promise.resolve())
 })
