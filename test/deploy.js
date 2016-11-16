@@ -17,7 +17,7 @@ const BUNDLE_KEY = 'this is a file key'
 const SERVICE_SETTINGS = {
   region: 'this is a region',
   bucket: 'this is a bucket',
-  deploymentUrl: 'this is a deployment url'
+  serviceOrigin: 'this is a deployment url'
 }
 const STAGE = 'test'
 
@@ -293,7 +293,7 @@ test('upload() should log correct updates and reject if upload returns an error'
 })
 
 test('deploy() should log correct updates', (t) => {
-  t.plan(5)
+  t.plan(7)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
       // Check for correct message
@@ -304,25 +304,27 @@ test('deploy() should log correct updates', (t) => {
         beforeStop((symbol, str) => {
           // Ensure before stop is called with correct arguments
           t.is(symbol, logSymbols.success)
-          t.is(str, 'Deployment complete - Base Url: https://example.com')
+          t.is(str, 'Deployment complete - Origin: https://example.com')
         })
       }
     },
-    'request': (params, cb) => {
-      t.deepEqual(params, {
-        auth: {
-          bearer: ACCESS_TOKEN
+    'request': {
+      defaults: () => ({
+        post: (url, params, cb) => {
+          t.is(url, '/deploy')
+          t.deepEqual(params, {
+            json: {
+              bundleBucket: SERVICE_SETTINGS.bucket,
+              bundleKey: BUNDLE_KEY
+            }
+          })
+          cb(null, {statusCode: 202}, {id: '123'})
         },
-        json: {
-          bundleBucket: SERVICE_SETTINGS.bucket,
-          bundleKey: BUNDLE_KEY,
-          targetOrigin: 'https://example.com'
-        },
-        method: 'POST',
-        timeout: 9000000,
-        url: SERVICE_SETTINGS.deploymentUrl
+        get: (url, cb) => {
+          t.is(url, '/deployments/123')
+          cb(null, {statusCode: 200}, { result: { baseUrl: 'https://example.com' } })
+        }
       })
-      cb(null, {statusCode: 200}, {baseUrl: 'https://example.com'})
     }
   })
   return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS)
@@ -342,7 +344,11 @@ test('deploy() should log correct updates and reject if request() returns an err
         })
       }
     },
-    'request': (params, cb) => cb(new Error('test error'))
+    'request': {
+      defaults: () => ({
+        post: (url, params, cb) => cb(new Error('test error'))
+      })
+    }
   })
   t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS), 'test error')
 })
@@ -361,11 +367,15 @@ test('deploy() should log correct updates and reject if request() returns an non
         })
       }
     },
-    'request': (params, cb) => cb(null, {}, {
-      message: 'error message',
-      error: 'ERROR',
-      statusCode: 500
-    })
+    'request': {
+      defaults: () => ({
+        post: (url, params, cb) => cb(null, {}, {
+          message: 'error message',
+          error: 'ERROR',
+          statusCode: 500
+        })
+      })
+    }
   })
   t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS), 'error message')
 })
