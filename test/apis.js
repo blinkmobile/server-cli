@@ -74,10 +74,10 @@ test('getHandlerConfig() should return a handler from getHandler() and params fr
       getHandler: () => Promise.resolve('this is my handler')
     }
   })
-  return apis.getHandlerConfig({ params: 'these are my params' })
+  return apis.getHandlerConfig({ params: undefined })
     .then((handlerConfig) => {
       t.is(handlerConfig.handler, 'this is my handler')
-      t.is(handlerConfig.params, 'these are my params')
+      t.deepEqual(handlerConfig.params, {})
     })
 })
 
