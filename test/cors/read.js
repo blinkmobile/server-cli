@@ -5,7 +5,7 @@ const proxyquire = require('proxyquire')
 
 const TEST_SUBJECT = '../../lib/cors/read.js'
 
-const configurationMock = require('../helpers/configuration.js')
+const projectMetaMock = require('../helpers/project-meta.js')
 const values = require('../../lib/values.js')
 
 const CWD = 'current working directory'
@@ -15,8 +15,10 @@ test.beforeEach((t) => {
   t.context.getTestSubject = (overrides) => {
     overrides = overrides || {}
     return proxyquire(TEST_SUBJECT, Object.assign({
-      '../configuration.js': configurationMock(() => Promise.resolve({
-        cors: CORS
+      '../utils/project-meta.js': projectMetaMock(() => Promise.resolve({
+        server: {
+          cors: CORS
+        }
       }))
     }, overrides))
   }
@@ -25,10 +27,12 @@ test.beforeEach((t) => {
 test('Should call configuration.read() with correct input', (t) => {
   t.plan(1)
   const read = t.context.getTestSubject({
-    '../configuration.js': configurationMock((cwd) => {
+    '../utils/project-meta.js': projectMetaMock((cwd) => {
       t.is(cwd, CWD)
       return Promise.resolve({
-        cors: CORS
+        server: {
+          cors: CORS
+        }
       })
     })
   })
@@ -50,7 +54,7 @@ test('Should return the defaults if cors is true', (t) => {
 
 test('Should return false for uninitialised config file', (t) => {
   const read = t.context.getTestSubject({
-    '../configuration.js': configurationMock((cwd) => Promise.resolve({
+    '../utils/project-meta.js': projectMetaMock((cwd) => Promise.resolve({
       'test': 123
     }))
   })
@@ -60,10 +64,12 @@ test('Should return false for uninitialised config file', (t) => {
 
 test('Should return the currently set cors merged with defaults', (t) => {
   const read = t.context.getTestSubject({
-    '../configuration.js': configurationMock((cwd) => Promise.resolve({
-      'cors': {
-        headers: undefined,
-        origins: ['test']
+    '../utils/project-meta.js': projectMetaMock((cwd) => Promise.resolve({
+      server: {
+        'cors': {
+          headers: undefined,
+          origins: ['test']
+        }
       }
     }))
   })
@@ -80,7 +86,7 @@ test('Should return the currently set cors merged with defaults', (t) => {
 
 test('Should reject if configuration.read() throws an error', (t) => {
   const read = t.context.getTestSubject({
-    '../configuration.js': configurationMock((cwd) => Promise.reject(new Error('test')))
+    '../utils/project-meta.js': projectMetaMock((cwd) => Promise.reject(new Error('test')))
   })
 
   t.throws(read(CWD), 'test')

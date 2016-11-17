@@ -5,19 +5,16 @@ const proxyquire = require('proxyquire')
 
 const TEST_SUBJECT = '../lib/scope.js'
 const CWD = 'current working directory'
-const SERVER = {
+const CFG = {
   project: 'name of project',
   region: 'name of region'
-}
-const CFG = {
-  server: SERVER
 }
 
 test.beforeEach((t) => {
   t.context.getTestSubject = (overrides) => {
     overrides = overrides || {}
     return proxyquire(TEST_SUBJECT, Object.assign({
-      './utils/project-meta': {
+      './utils/project-meta.js': {
         read: () => Promise.resolve(CFG),
         write: () => Promise.resolve()
       }
@@ -32,7 +29,7 @@ test.beforeEach((t) => {
 test('read() should call projectMeta.read() with correct input', (t) => {
   t.plan(1)
   const scope = t.context.getTestSubject({
-    './utils/project-meta': {
+    './utils/project-meta.js': {
       read: (cwd) => {
         t.is(cwd, CWD)
         return Promise.resolve(CFG)
@@ -46,10 +43,8 @@ test('read() should call projectMeta.read() with correct input', (t) => {
 test('read() should handle an unitinitalised config file', (t) => {
   t.plan(1)
   const scope = t.context.getTestSubject({
-    './utils/project-meta': {
-      read: (cwd) => Promise.resolve({
-        'test': 123
-      })
+    './utils/project-meta.js': {
+      read: (cwd) => Promise.resolve(null)
     }
   })
   return scope.read()
@@ -60,13 +55,13 @@ test('read() should return the currently set scope', (t) => {
   const scope = t.context.getTestSubject()
 
   return scope.read(CWD)
-    .then((server) => t.deepEqual(server, SERVER))
+    .then((server) => t.deepEqual(server, CFG))
 })
 
 test('read() should reject if projectMeta.read() throws an error', (t) => {
   t.plan(2)
   const scope = t.context.getTestSubject({
-    './utils/project-meta': {
+    './utils/project-meta.js': {
       read: (cwd) => {
         t.pass()
         return Promise.reject()
@@ -81,7 +76,7 @@ test('read() should reject if projectMeta.read() throws an error', (t) => {
 test('display() should call projectMeta.read() with correct input', (t) => {
   t.plan(1)
   const scope = t.context.getTestSubject({
-    './utils/project-meta': {
+    './utils/project-meta.js': {
       read: (cwd) => {
         t.is(cwd, CWD)
         return Promise.resolve(CFG)
@@ -93,10 +88,19 @@ test('display() should call projectMeta.read() with correct input', (t) => {
 })
 
 test('display() should reject with nice error message if projectMeta.read() throws an error', (t) => {
-  t.plan(1)
   const scope = t.context.getTestSubject({
-    './utils/project-meta': {
+    './utils/project-meta.js': {
       read: (cwd) => Promise.reject('test error message')
+    }
+  })
+
+  t.throws(scope.display(t.context.logger, CWD), 'Scope has not been set yet, see --help for information on how to set scope.')
+})
+
+test('display() should reject with nice error message if scope has not been set', (t) => {
+  const scope = t.context.getTestSubject({
+    './utils/project-meta.js': {
+      read: (cwd) => Promise.resolve(null)
     }
   })
 
@@ -122,17 +126,15 @@ test('write() should merge new scope with the current config', (t) => {
     bmp: {
       scope: 'blah'
     },
-    server: {
-      project: 'old',
-      extra: 'existing'
-    }
+    project: 'old',
+    extra: 'existing'
   }
   const newConfig = {
     project: 'new project',
     region: 'new region'
   }
   const scope = t.context.getTestSubject({
-    './utils/project-meta': {
+    './utils/project-meta.js': {
       write: (cwd, updater) => {
         t.is(cwd, CWD)
         return Promise.resolve(updater(originalConfig))
@@ -141,7 +143,10 @@ test('write() should merge new scope with the current config', (t) => {
   })
 
   return scope.write(CWD, newConfig)
-    .then((server) => t.deepEqual(server, {
+    .then((config) => t.deepEqual(config, {
+      bmp: {
+        scope: 'blah'
+      },
       project: 'new project',
       region: 'new region',
       extra: 'existing'

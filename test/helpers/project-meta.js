@@ -1,6 +1,6 @@
 'use strict'
 
-function configurationMock (readFn, writeFn) {
+function projectMetaMock (readFn, writeFn) {
   readFn = readFn || ((cwd) => Promise.resolve({}))
   writeFn = writeFn || ((cwd, updateFn) => Promise.resolve(updateFn({})))
   return {
@@ -9,4 +9,4 @@ function configurationMock (readFn, writeFn) {
   }
 }
 
-module.exports = configurationMock
+module.exports = projectMetaMock
