@@ -113,11 +113,12 @@ function handler (
 
       // Change current working directory to the project
       // to accomadate for packages using process.cwd()
-      if (process.cwd() !== path.join(__dirname, 'project')) {
+      const projectPath = path.join(__dirname, 'project')
+      if (process.cwd() !== projectPath) {
         try {
-          process.chdir('project')
+          process.chdir(projectPath)
         } catch (err) {
-          return Promise.reject(new Error(`Could not change current working directory to './project': ${err}`))
+          return Promise.reject(new Error(`Could not change current working directory to '${projectPath}': ${err}`))
         }
       }
 
@@ -144,6 +145,7 @@ function handler (
         // 2. Log to something in AWS, Not sure if this is possible ???
         return finish(error.output.statusCode, error.output.payload, error.output.headers)
       }
+      // TODO: Log the original error
       finish(500, {
         error: 'Internal Server Error',
         message: 'An internal server error occurred',
