@@ -47,6 +47,18 @@ test('Should call read() with correct input', (t) => {
   return display(t.context.logger, CWD)
 })
 
+test('Should not log or validate if read() does not return cors', (t) => {
+  const display = t.context.getTestSubject({
+    './read.js': (cwd) => Promise.resolve(),
+    './validate.js': (cors) => {
+      t.fail('Should not validate')
+      return Promise.resolve(CORS)
+    }
+  })
+
+  return display({ log: () => t.fail('Should not log') }, CWD)
+})
+
 test('Should call validate() with correct input', (t) => {
   const display = t.context.getTestSubject({
     './validate.js': (cors) => {

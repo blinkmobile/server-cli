@@ -74,10 +74,10 @@ test('getHandlerConfig() should return a handler from getHandler() and params fr
       getHandler: () => Promise.resolve('this is my handler')
     }
   })
-  return apis.getHandlerConfig({ params: 'these are my params' })
+  return apis.getHandlerConfig({ params: undefined })
     .then((handlerConfig) => {
       t.is(handlerConfig.handler, 'this is my handler')
-      t.is(handlerConfig.params, 'these are my params')
+      t.deepEqual(handlerConfig.params, {})
     })
 })
 
@@ -118,7 +118,7 @@ test('getRouteConfig() should find correct route and return route params', (t) =
 
 test('wipeRouteFromRequireCache()', (t) => {
   const routeConfig = {
-    module: path.join(CONFIGURATION_DIR, '/api/books')
+    module: path.join(CONFIGURATION_DIR, '/api/books.js')
   }
   require(routeConfig.module)
   // Seem to need a timeout here otherwise require.cache[routeConfig.module] is empty

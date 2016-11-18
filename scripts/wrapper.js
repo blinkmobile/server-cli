@@ -8,7 +8,11 @@ To bundle: `npm run build`
 'use strict'
 
 /* ::
-import type {BmRequest} from '../lib/wrapper.js'
+import type {
+  BmRequest,
+  Headers,
+  LambdaEvent
+} from '../types.js'
 */
 
 const path = require('path')
@@ -20,10 +24,10 @@ const wrapper = require('../lib/wrapper.js')
 
 // return only the pertinent data from a API Gateway + Lambda event
 function normaliseLambdaRequest (
-  request /* : any */
+  event /* : LambdaEvent */
 ) /* : BmRequest */ {
-  const headers = wrapper.keysToLowerCase(request.headers)
-  let body = request.body
+  const headers = wrapper.keysToLowerCase(event.headers)
+  let body = event.body
   try {
     body = JSON.parse(body)
   } catch (e) {
@@ -32,22 +36,26 @@ function normaliseLambdaRequest (
   return {
     body,
     headers,
-    method: wrapper.normaliseMethod(request.httpMethod),
+    method: wrapper.normaliseMethod(event.httpMethod),
     url: {
       host: headers.host,
       hostname: headers.host,
-      params: request.pathParameters || {},
-      pathname: request.path,
+      params: event.pathParameters || {},
+      pathname: event.path,
       protocol: wrapper.protocolFromHeaders(headers),
-      query: request.queryStringParameters || {}
+      query: event.queryStringParameters || {}
     }
   }
 }
 
 function handler (
-  event /* : any */,
+  event /* : LambdaEvent */,
   context /* : any */,
-  cb /* : Function */
+  cb /* : (error: null, response: {
+    body: string,
+    headers: Headers,
+    statusCode: number
+  }) => void */
 ) /* : Promise<void> */ {
   const request = normaliseLambdaRequest(event)
   const configPath = path.join(__dirname, 'bm-server.json')
@@ -105,11 +113,12 @@ function handler (
 
       // Change current working directory to the project
       // to accomadate for packages using process.cwd()
-      if (process.cwd() !== path.join(__dirname, 'project')) {
+      const projectPath = path.join(__dirname, 'project')
+      if (process.cwd() !== projectPath) {
         try {
-          process.chdir('project')
+          process.chdir(projectPath)
         } catch (err) {
-          return Promise.reject(new Error(`Could not change current working directory to './project': ${err}`))
+          return Promise.reject(new Error(`Could not change current working directory to '${projectPath}': ${err}`))
         }
       }
 
@@ -136,6 +145,7 @@ function handler (
         // 2. Log to something in AWS, Not sure if this is possible ???
         return finish(error.output.statusCode, error.output.payload, error.output.headers)
       }
+      // TODO: Log the original error
       finish(500, {
         error: 'Internal Server Error',
         message: 'An internal server error occurred',

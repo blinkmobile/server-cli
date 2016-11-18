@@ -5,7 +5,7 @@ const proxyquire = require('proxyquire')
 
 const TEST_SUBJECT = '../../lib/routes/read.js'
 
-const configurationMock = require('../helpers/configuration.js')
+const projectMetaMock = require('../helpers/project-meta.js')
 
 const CWD = 'current working directory'
 const CONFIGURATION_ROUTES = 'configuration routes'
@@ -15,8 +15,10 @@ test.beforeEach((t) => {
   t.context.getTestSubject = (overrides) => {
     overrides = overrides || {}
     return proxyquire(TEST_SUBJECT, Object.assign({
-      '../configuration.js': configurationMock(() => Promise.resolve({
-        routes: CONFIGURATION_ROUTES
+      '../utils/project-meta.js': projectMetaMock(() => Promise.resolve({
+        server: {
+          routes: CONFIGURATION_ROUTES
+        }
       })),
 
       '../project.js': {
@@ -29,10 +31,12 @@ test.beforeEach((t) => {
 test('Should use configuration routes if available', (t) => {
   t.plan(2)
   const read = t.context.getTestSubject({
-    '../configuration.js': configurationMock((cwd) => {
+    '../utils/project-meta.js': projectMetaMock((cwd) => {
       t.is(cwd, CWD)
       return Promise.resolve({
-        routes: CONFIGURATION_ROUTES
+        server: {
+          routes: CONFIGURATION_ROUTES
+        }
       })
     }),
     '../project.js': {
@@ -50,8 +54,10 @@ test('Should use configuration routes if available', (t) => {
 test('Should use project routes if configuration routes are unavailable', (t) => {
   t.plan(2)
   const read = t.context.getTestSubject({
-    '../configuration.js': configurationMock((cwd) => Promise.resolve({
-      routes: null
+    '../utils/project-meta.js': projectMetaMock((cwd) => Promise.resolve({
+      server: {
+        routes: null
+      }
     })),
     '../project.js': {
       listRoutes: (cwd) => {
@@ -68,8 +74,10 @@ test('Should use project routes if configuration routes are unavailable', (t) =>
 test('Should not reject and should always return an array if no routes are found', (t) => {
   t.plan(1)
   const read = t.context.getTestSubject({
-    '../configuration.js': configurationMock((cwd) => Promise.resolve({
-      routes: null
+    '../utils/project-meta.js': projectMetaMock((cwd) => Promise.resolve({
+      server: {
+        routes: null
+      }
     })),
     '../project.js': {
       listRoutes: (cwd) => Promise.resolve(null)

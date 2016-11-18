@@ -1,0 +1,21 @@
+{
+  "project": "example-configuration",
+  "region": "ap-southeast-2",
+  "server": {
+    "cors": true,
+    "routes": [
+      {
+        "route": "/api/request",
+        "module": "./api/request/index.js"
+      },
+      {
+        "route": "/api/books",
+        "module": "./api/books.js"
+      },
+      {
+        "route": "/api/books/{id}",
+        "module": "./api/book.js"
+      }
+    ]
+  }
+}

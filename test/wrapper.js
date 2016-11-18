@@ -17,4 +17,8 @@ test('normaliseMethod()', (t) => {
 
 test('protocolFromHeaders() with no headers', (t) => {
   t.is(lib.protocolFromHeaders({}), 'http:')
+  t.is(lib.protocolFromHeaders({ 'x-forwarded-proto': 'https' }), 'https:')
+  t.is(lib.protocolFromHeaders({ 'forwarded': 'abcproto=https123' }), 'https:')
+  t.is(lib.protocolFromHeaders({ 'forwarded': 'abc123' }), 'http:')
+  t.is(lib.protocolFromHeaders({ 'front-end-https': 'on' }), 'https:')
 })
