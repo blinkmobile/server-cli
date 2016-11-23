@@ -6,6 +6,8 @@ Routes can be defined in two different ways to allow for ease of use or flexibil
 
 ### Directory Defined
 
+-   See [directory example](../examples/directory) for sample
+
 -   Quick to get started
 
 -   Must follow a strict directory structure. All files that match the following [glob](https://github.com/isaacs/node-glob) pattern will become handlers for functions:
@@ -41,6 +43,8 @@ Would create the following routes:
 -   The files in the `lib` directory are ignored as they do not match the glob pattern.
 
 ### Configuration Defined
+
+-   See [configuration example](../examples/configuration) for sample
 
 -   Allows for any number of sections in URL path
 
