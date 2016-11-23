@@ -58,8 +58,8 @@ The following route definitions:
 
 ```json
 {
+  "project": "project-id",
   "server": {
-    "project": "project-id",
     "routes": [
       {
         "route": "/api/hello/{name}",
