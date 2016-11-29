@@ -22,7 +22,6 @@ By setting cors to `false`, Cross-Origin resource sharing will not be allowed. *
 
 ```json
 {
-  "project": "project-id",
   "server": {
     "cors": false
   }
@@ -33,7 +32,6 @@ By setting cors to `true`, defaults below will be used.
 
 ```json
 {
-  "project": "project-id",
   "server": {
     "cors": true
   }
@@ -44,7 +42,6 @@ By setting cors to `true`, defaults below will be used.
 
 ```json
 {
-  "project": "project-id",
   "server": {
     "cors": {
       "origins": [

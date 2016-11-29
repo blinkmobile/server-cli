@@ -1,7 +1,7 @@
 {
-  "project": "example-directory",
-  "region": "ap-southeast-2",
   "server": {
+    "project": "example-directory",
+    "region": "ap-southeast-2",
     "cors": true
   }
 }

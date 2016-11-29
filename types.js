@@ -7,12 +7,14 @@ import type BmResponse from './lib/bm-response.js'
 
 /* ::
 export type BlinkMRC = {
+  server?: BlinkMRCServer
+}
+
+export type BlinkMRCServer = {
   project?: string,
   region?: string,
-  server?: {
-    cors?: CorsConfiguration | boolean,
-    routes?: Array<RouteConfiguration>
-  }
+  cors?: CorsConfiguration | boolean,
+  routes?: Array<RouteConfiguration>
 }
 
 export type BmRequest = {
