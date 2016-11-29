@@ -20,16 +20,32 @@ bm server --help
 ```
 Usage: blinkm server <command> <project_path>
 
-Commands:
+Where command is one of:
+
+  info, serve, scope, deploy
+
+And project_path is path to project directory, defaults to current working directory
+
+Local development:
+
+  info                    => displays project information
   serve                   => start a local development server using local API files
     --port <port>         => sets the port to use for server
-  info                    => displays project information
+
+Initial settings:
+
   scope                   => displays the current scope
     --project <project>   => sets the project id
     --region <region>     => optionally sets the region
+
+Deploying server side code:
+
+  The deploy command requires a login to BlinkMobile before use.
+  For help on the login and logout commands please see:
+  https://github.com/blinkmobile/identity-cli#usage
+
   deploy                  => deploy the project
     --force               => deploy without confirmation
-    --stage <stage>       => optionally sets the stage to deploy to, defaults to 'test'
 ```
 
 

@@ -28,16 +28,23 @@ Where command is one of:
 And project_path is path to project directory, defaults to current working directory
 
 Local development:
+
   info                    => displays project information
   serve                   => start a local development server using local API files
     --port <port>         => sets the port to use for server
 
 Initial settings:
+
   scope                   => displays the current scope
     --project <project>   => sets the project id
     --region <region>     => optionally sets the region
 
 Deploying server side code:
+
+  The deploy command requires a login to BlinkMobile before use.
+  For help on the login and logout commands please see:
+  https://github.com/blinkmobile/identity-cli#usage
+
   deploy                  => deploy the project
     --force               => deploy without confirmation
 `
