@@ -694,6 +694,9 @@ var constants = require('constants')
 
 var origCwd = process.cwd
 var cwd = null
+
+var platform = process.env.GRACEFUL_FS_PLATFORM || process.platform
+
 process.cwd = function() {
   if (!cwd)
     cwd = origCwd.call(process)
@@ -778,7 +781,7 @@ function patch (fs) {
   // failures. Also, take care to yield the scheduler. Windows scheduling gives
   // CPU to a busy looping process, which can cause the program causing the lock
   // contention to be starved of CPU by node, so the contention doesn't resolve.
-  if (process.platform === "win32") {
+  if (platform === "win32") {
     fs.rename = (function (fs$rename) { return function (from, to, cb) {
       var start = Date.now()
       var backoff = 0;
@@ -787,7 +790,12 @@ function patch (fs) {
             && (er.code === "EACCES" || er.code === "EPERM")
             && Date.now() - start < 60000) {
           setTimeout(function() {
-            fs$rename(from, to, CB);
+            fs.stat(to, function (stater, st) {
+              if (stater && stater.code === "ENOENT")
+                fs$rename(from, to, CB);
+              else
+                cb(er)
+            })
           }, backoff)
           if (backoff < 100)
             backoff += 10;
