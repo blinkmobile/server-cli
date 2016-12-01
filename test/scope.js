@@ -6,8 +6,10 @@ const proxyquire = require('proxyquire')
 const TEST_SUBJECT = '../lib/scope.js'
 const CWD = 'current working directory'
 const CFG = {
-  project: 'name of project',
-  region: 'name of region'
+  server: {
+    project: 'name of project',
+    region: 'name of region'
+  }
 }
 
 test.beforeEach((t) => {
@@ -55,7 +57,7 @@ test('read() should return the currently set scope', (t) => {
   const scope = t.context.getTestSubject()
 
   return scope.read(CWD)
-    .then((server) => t.deepEqual(server, CFG))
+    .then((server) => t.deepEqual(server, CFG.server))
 })
 
 test('read() should reject if projectMeta.read() throws an error', (t) => {
@@ -126,7 +128,9 @@ test('write() should merge new scope with the current config', (t) => {
     bmp: {
       scope: 'blah'
     },
-    project: 'old',
+    server: {
+      project: 'old'
+    },
     extra: 'existing'
   }
   const newConfig = {
@@ -144,11 +148,7 @@ test('write() should merge new scope with the current config', (t) => {
 
   return scope.write(CWD, newConfig)
     .then((config) => t.deepEqual(config, {
-      bmp: {
-        scope: 'blah'
-      },
       project: 'new project',
-      region: 'new region',
-      extra: 'existing'
+      region: 'new region'
     }))
 })

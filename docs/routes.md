@@ -58,7 +58,6 @@ The following route definitions:
 
 ```json
 {
-  "project": "project-id",
   "server": {
     "routes": [
       {

@@ -12,7 +12,7 @@ module.exports = function (input, flags, logger, options) {
     .then(() => deploy.confirm(logger, force))
     .then((confirmation) => {
       if (confirmation) {
-        return deploy.authenticate(blinkMobileIdentity)
+        return deploy.authenticate(cwd, blinkMobileIdentity)
           .then((results) => {
             const awsCredentials = results[0]
             const serviceSettings = results[1]

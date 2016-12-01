@@ -69,7 +69,7 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
       }
     }
   })
-  return deploy.authenticate({
+  return deploy.authenticate(ZIP_PATH, {
     // Ensure blinkMobileIdentity functions are called
     assumeAWSRole: () => {
       t.pass()
@@ -101,7 +101,7 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
       }
     }
   })
-  return deploy.authenticate({
+  return deploy.authenticate(ZIP_PATH, {
     assumeAWSRole: () => Promise.reject(new Error('test error')),
     getServiceSettings: () => Promise.resolve(),
     getAccessToken: () => Promise.resolve()
