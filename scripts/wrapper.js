@@ -33,13 +33,14 @@ function normaliseLambdaRequest (
   } catch (e) {
     // Do nothing...
   }
+  const host = headers['x-forwarded-host'] || headers.host
   return {
     body,
     headers,
     method: wrapper.normaliseMethod(event.httpMethod),
     url: {
-      host: headers.host,
-      hostname: headers.host,
+      host,
+      hostname: host,
       params: event.pathParameters || {},
       pathname: event.path,
       protocol: wrapper.protocolFromHeaders(headers),
