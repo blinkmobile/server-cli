@@ -47,6 +47,7 @@ Deploying server side code:
 
   deploy                  => deploy the project
     --force               => deploy without confirmation
+    --stage <stage>       => optionally sets the stage to deploy to, defaults to 'dev'
 `
 
 const cli = meow({
@@ -58,7 +59,7 @@ const cli = meow({
   ],
   default: {
     'force': false,
-    'stage': 'test'
+    'stage': 'dev'
   },
   string: [
     'out',

@@ -315,7 +315,8 @@ test('deploy() should log correct updates', (t) => {
           t.deepEqual(params, {
             json: {
               bundleBucket: SERVICE_SETTINGS.bucket,
-              bundleKey: BUNDLE_KEY
+              bundleKey: BUNDLE_KEY,
+              stage: STAGE
             }
           })
           cb(null, {statusCode: 202}, {id: '123'})
