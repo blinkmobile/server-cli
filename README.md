@@ -5,7 +5,9 @@ CLI to develop, test and deploy server-side HTTPS endpoints with BlinkMobile
 
 ## Installation
 
-Not yet published to NPM. Watch this space!
+```
+npm install -g @blinkmobile/cli @blinkmobile/identity-cli @blinkmobile/server-cli
+```
 
 
 ## Usage
