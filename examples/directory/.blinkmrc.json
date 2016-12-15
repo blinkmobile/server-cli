@@ -1,6 +1,6 @@
 {
   "server": {
-    "project": "example-directory",
+    "project": "bm-example.api.blinkm.io",
     "region": "ap-southeast-2",
     "cors": true
   }
