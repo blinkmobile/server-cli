@@ -19,7 +19,7 @@ const SERVICE_SETTINGS = {
   bucket: 'this is a bucket',
   serviceOrigin: 'this is a deployment url'
 }
-const STAGE = 'test'
+const ENV = 'test'
 
 test.beforeEach((t) => {
   t.context.getTestSubject = (overrides) => {
@@ -316,7 +316,7 @@ test('deploy() should log correct updates', (t) => {
             json: {
               bundleBucket: SERVICE_SETTINGS.bucket,
               bundleKey: BUNDLE_KEY,
-              stage: STAGE
+              env: ENV
             }
           })
           cb(null, {statusCode: 202}, {id: '123'})
@@ -328,7 +328,7 @@ test('deploy() should log correct updates', (t) => {
       })
     }
   })
-  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS)
+  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS)
 })
 
 test('deploy() should log correct updates and reject if request() returns an error', (t) => {
@@ -351,7 +351,7 @@ test('deploy() should log correct updates and reject if request() returns an err
       })
     }
   })
-  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS), 'test error')
+  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'test error')
 })
 
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
@@ -378,5 +378,5 @@ test('deploy() should log correct updates and reject if request() returns an non
       })
     }
   })
-  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, STAGE, SERVICE_SETTINGS), 'error message')
+  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'error message')
 })
