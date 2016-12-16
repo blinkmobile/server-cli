@@ -19,25 +19,26 @@ const blinkMobileIdentity = new BlinkMobileIdentity(pkg.name)
 updateNotifier({ pkg }).notify()
 
 const help = `
-Usage: blinkm server <command> <project_path>
+Usage: blinkm server <command>
 
 Where command is one of:
 
   info, serve, scope, deploy
 
-And project_path is path to project directory, defaults to current working directory
-
 Local development:
 
   info                    => displays project information
+    --cwd <path>          => optionally set the path to project, defaults to current working directory
   serve                   => start a local development server using local API files
-    --port <port>         => sets the port to use for server
+    --port <port>         => sets the port to use for server, defaults to 3000
+    --cwd <path>          => optionally set the path to project, defaults to current working directory
 
 Initial settings:
 
   scope                   => displays the current scope
-    --project <project>   => sets the project id
+    <project>             => sets the project id
     --region <region>     => optionally sets the region
+    --cwd <path>          => optionally set the path to project, defaults to current working directory
 
 Deploying server side code:
 
@@ -48,6 +49,7 @@ Deploying server side code:
   deploy                  => deploy the project
     --force               => deploy without confirmation
     --env <environment>   => optionally sets the environment to deploy to, defaults to 'dev'
+    --cwd <path>          => optionally set the path to project, defaults to current working directory
 `
 
 const cli = meow({
@@ -58,10 +60,12 @@ const cli = meow({
     'force'
   ],
   default: {
+    'cwd': process.cwd(),
     'force': false,
     'env': 'dev'
   },
   string: [
+    'cwd',
     'out',
     'port',
     'env'
@@ -91,7 +95,7 @@ Command not implemented: ${command}`))
 
 const input = cli.input.slice(1)
 const options = {
-  cwd: input[0] || process.cwd(),
+  cwd: cli.flags.cwd,
   blinkMobileIdentity
 }
 
