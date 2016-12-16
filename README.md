@@ -48,7 +48,7 @@ Deploying server side code:
 
   deploy                  => deploy the project
     --force               => deploy without confirmation
-    --stage <stage>       => optionally sets the stage to deploy to, defaults to 'dev'
+    --env <environment>   => optionally sets the environment to deploy to, defaults to 'dev'
 ```
 
 

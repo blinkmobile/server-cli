@@ -6,7 +6,7 @@ const deploy = require('../lib/deploy.js')
 module.exports = function (input, flags, logger, options) {
   const blinkMobileIdentity = options.blinkMobileIdentity
   const cwd = options.cwd
-  const stage = flags.stage
+  const env = flags.env
   const force = flags.force
   return info(input, flags, logger, options)
     .then(() => deploy.confirm(logger, force))
@@ -19,7 +19,7 @@ module.exports = function (input, flags, logger, options) {
             const accessToken = results[2]
             return deploy.zip(cwd)
               .then((zipFilePath) => deploy.upload(zipFilePath, awsCredentials, serviceSettings))
-              .then((bundleKey) => deploy.deploy(bundleKey, accessToken, stage, serviceSettings))
+              .then((bundleKey) => deploy.deploy(bundleKey, accessToken, env, serviceSettings))
           })
       }
     })
