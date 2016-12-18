@@ -32,6 +32,19 @@ test('projectConfig() call configLoader with correct input', (t) => {
   projectMeta.projectConfig(CWD)
 })
 
+test('read() should return empty object if load() rejects', (t) => {
+  const projectMeta = t.context.getTestSubject({
+    '@blinkmobile/blinkmrc': {
+      projectConfig: () => ({
+        load: () => Promise.reject()
+      })
+    }
+  })
+
+  return projectMeta.read(CWD)
+    .then((meta) => t.deepEqual(meta, {}))
+})
+
 test('read() should return contents of .blinkmrc.json file', (t) => {
   const projectMeta = t.context.getTestSubject()
 
