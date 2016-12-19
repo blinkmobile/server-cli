@@ -25,7 +25,7 @@
         "Integration": {
           "IntegrationHttpMethod": "GET",
           "Type": "HTTP",
-          "Uri": "https://github.com/blinkmobile",
+          "Uri": "https://blinkmobile.github.io/server-cli/root-route.html",
           "IntegrationResponses": [
             {
               "ResponseParameters": {
