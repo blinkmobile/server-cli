@@ -96,7 +96,7 @@
     "build": "npm run browserify",
     "eslint": "eslint --fix --cache .",
     "fixpack": "fixpack",
-    "flow_check": "flow check || exit 0",
+    "flow_check": "flow check",
     "lint-md": "remark . --preset lint-recommended",
     "nyc": "nyc check-coverage --lines 75",
     "posttest": "npm run eslint && npm run flow_check && npm run fixpack && npm run lint-md",
