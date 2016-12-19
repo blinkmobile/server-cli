@@ -1,6 +1,16 @@
 # Change Log
 
+
+## Unreleased
+
+
+### Fixed
+
+-   SC-45: root route "/" has content instead of authorisation error
+
+
 ## 1.0.0-beta.1 - 2016-12-19
+
 
 ### Changed
 
