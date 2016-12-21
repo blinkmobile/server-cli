@@ -20,4 +20,5 @@ module.exports = function (input, flags, logger, options) {
     .then(() => lib.copyWrapper(out))
     .then(() => lib.copyConfiguration(out, env))
     .then(() => lib.registerFunctions(out, env))
+    .then(() => lib.registerRootProxy(out, env))
 }
