@@ -4,6 +4,13 @@
 ## Unreleased
 
 
+### Added
+
+-   SC-46: `bm server serverless --deployment-bucket` flag to specify a custom AWS S3 bucket for deployment
+
+-   SC-46: `bm server serverless --execution-role` flag to specify a custom AWS IAM role ARN during function execution
+
+
 ### Fixed
 
 -   SC-45: root route "/" has content instead of authorisation error
