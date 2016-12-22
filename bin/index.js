@@ -67,9 +67,10 @@ const cli = meow({
   string: [
     'deploymentBucket',
     'cwd',
+    'env',
+    'executionRole',
     'out',
-    'port',
-    'env'
+    'port'
   ]
 })
 
