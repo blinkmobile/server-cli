@@ -4,6 +4,11 @@
 ## Unreleased
 
 
+### Added
+
+-   SC-46: `bm server serverless --deployment-bucket` flag to specify a custom AWS S3 bucket for deployment
+
+
 ### Fixed
 
 -   SC-45: root route "/" has content instead of authorisation error
