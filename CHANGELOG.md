@@ -9,6 +9,11 @@
 -   SC-45: root route "/" has content instead of authorisation error
 
 
+### Changed
+
+-   SC-49: Changed methods from `DELETE`, `GET`, `OPTIONS`, `PATCH`, `POST` and `PUT`  to `ANY` when creating Serverless projects
+
+
 ## 1.0.0-beta.1 - 2016-12-19
 
 
