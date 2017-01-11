@@ -1,7 +1,7 @@
 # Change Log
 
 
-## Unreleased
+## 1.0.0-beta.2 - 2017-01-11
 
 
 ### Added
