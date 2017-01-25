@@ -10,6 +10,8 @@ module.exports = function (input, flags, logger, options) {
   const cwd = options.cwd
   const out = flags.out
   const env = flags.env
+  const vpcSecurityGroups = flags.vpcSecurityGroups
+  const vpcSubnets = flags.vpcSubnets
   const deploymentBucket = flags.deploymentBucket
   const executionRole = flags.executionRole
 
@@ -23,4 +25,5 @@ module.exports = function (input, flags, logger, options) {
     .then(() => lib.copyConfiguration(out, env))
     .then(() => lib.registerFunctions(out, env, deploymentBucket, executionRole))
     .then(() => lib.registerRootProxy(out, env))
+    .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
 }

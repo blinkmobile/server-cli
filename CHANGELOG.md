@@ -1,6 +1,14 @@
 # Change Log
 
 
+## Unreleased
+
+
+### Added
+
+-   SC-51: `bm server serverless --vpc-security-groups --vpc-subnets` flags to specify Virtual Private Cloud configuration
+
+
 ## 1.0.0-beta.2 - 2017-01-11
 
 
