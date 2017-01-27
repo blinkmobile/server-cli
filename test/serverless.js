@@ -37,11 +37,7 @@ test('registerVpc() should return config with vpc configuration added', (t) => {
       }
     }
   }
-  const serverless = t.context.getTestSubject({
-    './utils/yaml.js': {
-      updateYamlFile: (filePath, update) => Promise.resolve(update({}))
-    }
-  })
+  const serverless = t.context.getTestSubject()
   return serverless.registerVpc('.', '123, 456', 'abc, def', ',')
     .then((result) => t.deepEqual(result, expected))
 })
