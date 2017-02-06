@@ -1,12 +1,21 @@
 # Change Log
 
 
-## Unreleased
+## 1.0.0-beta.3 - 2017-02-06
 
 
 ### Added
 
 -   SC-51: `bm server serverless --vpc-security-groups --vpc-subnets` flags to specify Virtual Private Cloud configuration
+
+
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [2.3.1](https://github.com/blinkmobile/bm-identity.js/releases/tag/2.3.1) (from [2.3.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/2.3.0))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.7.27](https://github.com/aws/aws-sdk-js/releases/tag/v2.7.27) (from [2.7.21](https://github.com/aws/aws-sdk-js/releases/tag/v2.7.21))
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to [3.0.1](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.0.1) (from [2.0.0](https://github.com/SBoudrias/Inquirer.js/releases/tag/v2.0.0))
 
 
 ## 1.0.0-beta.2 - 2017-01-11
