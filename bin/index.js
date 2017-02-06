@@ -70,7 +70,9 @@ const cli = meow({
     'env',
     'executionRole',
     'out',
-    'port'
+    'port',
+    'vpcSecurityGroups',
+    'vpcSubnets'
   ]
 })
 
