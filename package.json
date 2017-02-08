@@ -22,7 +22,7 @@
     "execa": "0.6.0",
     "glob": "7.1.1",
     "good": "7.1.0",
-    "good-console": "6.2.0",
+    "good-console": "6.4.0",
     "hapi": "16.1.0",
     "inquirer": "3.0.1",
     "js-yaml": "3.8.1",
