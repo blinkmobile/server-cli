@@ -35,7 +35,7 @@
     "request": "2.79.0",
     "temp": "0.8.3",
     "uniloc": "0.3.0",
-    "update-notifier": "2.0.0",
+    "update-notifier": "2.1.0",
     "valid-url": "1.0.9",
     "write-json-file": "2.0.0"
   },
