@@ -54,7 +54,7 @@
     "proxyquire": "^1.7.10",
     "remark-cli": "^2.0.0",
     "remark-lint": "^5.1.0",
-    "remark-preset-lint-recommended": "^1.0.0",
+    "remark-preset-lint-recommended": "^2.0.0",
     "yauzl": "^2.7.0"
   },
   "directories": {
