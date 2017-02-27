@@ -2,9 +2,23 @@
 
 ## Unreleased
 
+## 1.0.0-beta.4 - 2017-02-27
+
 ### Added
 
 -   SC-58: multiple replaceable parameters for single route
+
+### Dependencies
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.19.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.19.0) (from [2.7.27](https://github.com/aws/aws-sdk-js/releases/tag/v2.7.27))
+
+-   update [good-console](https://www.npmjs.com/package/good-console) to 6.4.0 (from 6.2.0)
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to [3.0.3](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.0.3) (from [3.0.1](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.0.1))
+
+-   update [js-yaml](https://www.npmjs.com/package/js-yaml) to [3.8.1](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md) (from [3.7.0](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md))
+
+-   update [update-notifier](https://www.npmjs.com/package/update-notifier) to 2.1.0 (from [1.0.3](https://github.com/yeoman/update-notifier/releases/tag/v1.0.3))
 
 
 ## 1.0.0-beta.3 - 2017-02-06
