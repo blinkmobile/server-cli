@@ -1,5 +1,11 @@
 # Change Log
 
+## Unreleased
+
+### Added
+
+-   SC-58: multiple replaceable parameters for single route
+
 
 ## 1.0.0-beta.3 - 2017-02-06
 

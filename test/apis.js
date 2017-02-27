@@ -38,9 +38,7 @@ test.beforeEach((t) => {
           handler: () => {},
           params: routeConfig ? routeConfig.params : {}
         })
-      },
-
-      './routes/read.js': (cwd) => Promise.resolve(ROUTES)
+      }
     }, overrides))
   }
 })
@@ -106,12 +104,13 @@ test('getRouteConfig() should reject if route cannot be found', (t) => {
 
 test('getRouteConfig() should find correct route and return route params', (t) => {
   const apis = t.context.getTestSubject()
-  return apis.getRouteConfig(CONFIGURATION_DIR, '/api/books/123')
+  return apis.getRouteConfig(CONFIGURATION_DIR, '/api/books/123/chapters/1')
     .then((routeConfig) => t.deepEqual(routeConfig, {
-      route: ROUTES[1].route,
-      module: path.resolve(CONFIGURATION_DIR, './api/book.js'),
+      route: '/api/books/{id}/chapters/{chapterNo}',
+      module: path.resolve(CONFIGURATION_DIR, './api/chapter.js'),
       params: {
-        id: '123'
+        id: '123',
+        chapterNo: '1'
       }
     }))
 })
