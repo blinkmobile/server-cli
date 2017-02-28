@@ -1,6 +1,13 @@
 # Change Log
 
-## Unreleased
+## 1.0.0-beta.5 - 2017-02-28
+
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [2.3.2](https://github.com/blinkmobile/bm-identity.js/blob/master/CHANGELOG.md) (from [2.3.1](https://github.com/blinkmobile/bm-identity.js/blob/master/CHANGELOG.md))
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to 3.0.5 (from 3.0.3)
+
 
 ## 1.0.0-beta.4 - 2017-02-27
 
