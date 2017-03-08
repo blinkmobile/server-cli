@@ -2,9 +2,21 @@
 
 ## Unreleased
 
+## 1.0.0-beta.6 - 2017-03-09
+
 ### Changed
 
 -   SC-61: default timeout for all handlers from 6 seconds to 15 seconds
+
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [2.3.3](https://github.com/blinkmobile/bm-identity.js/releases/tag/2.3.3) (from [2.3.2](https://github.com/blinkmobile/bm-identity.js/releases/tag/2.3.2))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.24.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.24.0) (from [2.19.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.19.0))
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to [3.0.6](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.0.6) (from [3.0.5](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.0.5))
+
+-   update [request](https://www.npmjs.com/package/request) to [2.80.0](https://github.com/request/request/blob/master/CHANGELOG.md) (from [2.79.0](https://github.com/request/request/blob/master/CHANGELOG.md))
 
 
 ## 1.0.0-beta.5 - 2017-02-28
