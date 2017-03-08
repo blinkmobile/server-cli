@@ -97,3 +97,7 @@ Would create the following routes:
 -   The `module` property must specify a relative path to the handler file. This file must be in the project.
 
 -   The `{name}` parameter will be available via `request.url.params.name` in the handler function(s) in `./api/hello.js`.
+
+### Timeouts
+
+Each route will have **15 seconds** to complete before it will automatically timeout. This will become configuable at the project and route level in a future release.
