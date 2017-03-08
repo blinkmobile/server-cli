@@ -1,5 +1,12 @@
 # Change Log
 
+## Unreleased
+
+### Changed
+
+-   SC-61: default timeout for all handlers from 6 seconds to 15 seconds
+
+
 ## 1.0.0-beta.5 - 2017-02-28
 
 ### Dependencies
