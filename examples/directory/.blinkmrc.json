@@ -2,6 +2,7 @@
   "server": {
     "project": "bm-example.api.blinkm.io",
     "region": "ap-southeast-2",
-    "cors": true
+    "cors": true,
+    "timeout": 5
   }
 }
