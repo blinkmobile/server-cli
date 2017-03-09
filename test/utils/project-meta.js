@@ -36,7 +36,7 @@ test('read() should return empty object if load() rejects', (t) => {
   const projectMeta = t.context.getTestSubject({
     '@blinkmobile/blinkmrc': {
       projectConfig: () => ({
-        load: () => Promise.reject()
+        load: () => Promise.reject(new Error())
       })
     }
   })

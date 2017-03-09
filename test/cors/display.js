@@ -73,7 +73,7 @@ test('Should call validate() with correct input', (t) => {
 test('Should not log the cors and reject if no routes are found', (t) => {
   t.plan(1)
   const display = t.context.getTestSubject({
-    './validate.js': () => Promise.reject()
+    './validate.js': () => Promise.reject(new Error())
   })
 
   return display({log: () => t.fail('Should not log if there are no routes')}, CWD)

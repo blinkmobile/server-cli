@@ -55,7 +55,11 @@ test('Should contain error message if module can not be found', (t) => {
 test('Should contain different error message if module can not be found with ENOENT code', (t) => {
   const validate = t.context.getTestSubject({
     '@jokeyrhyme/pify-fs': {
-      stat: (path) => Promise.reject({code: 'ENOENT'})
+      stat: (path) => {
+        const err = new Error()
+        err.code = 'ENOENT'
+        return Promise.reject(err)
+      }
     }
   })
   return validate(CWD, {

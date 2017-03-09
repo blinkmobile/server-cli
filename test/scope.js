@@ -66,7 +66,7 @@ test('read() should reject if projectMeta.read() throws an error', (t) => {
     './utils/project-meta.js': {
       read: (cwd) => {
         t.pass()
-        return Promise.reject()
+        return Promise.reject(new Error())
       }
     }
   })
@@ -92,7 +92,7 @@ test('display() should call projectMeta.read() with correct input', (t) => {
 test('display() should reject with nice error message if projectMeta.read() throws an error', (t) => {
   const scope = t.context.getTestSubject({
     './utils/project-meta.js': {
-      read: (cwd) => Promise.reject('test error message')
+      read: (cwd) => Promise.reject(new Error('test error message'))
     }
   })
 
