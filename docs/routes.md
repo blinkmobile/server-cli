@@ -100,4 +100,30 @@ Would create the following routes:
 
 ### Timeouts
 
-Each route will have **15 seconds** to complete before it will automatically timeout. This will become configuable at the project and route level in a future release.
+-   Each route will have a default of **15 seconds** to complete before it will automatically timeout. The default for the project and overrides at the route level can be set in `.blinkmrc.json`:
+
+    ```json
+    {
+      "server": {
+        "timeout": 10,
+        "routes": [
+          {
+            "route": "/api/hello/{name}",
+            "module": "./api/hello.js",
+            "timeout": 20
+          },
+          {
+            "route": "/api/helloworld",
+            "module": "./api/helloworld.js"
+          }
+        ]
+      }
+    }
+    ```
+
+-   The example above, would result in the following timeouts for each route:
+
+    Route             | Module              | Timeout (seconds)
+    ------------------|---------------------|------------------
+    /api/hello/{name} | ./api/hello.js      | 20
+    /api/helloworld   | ./api/helloworld.js | 10
