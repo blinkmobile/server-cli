@@ -58,6 +58,7 @@
     "yauzl": "^2.7.0"
   },
   "directories": {
+    "doc": "docs",
     "example": "examples",
     "test": "test"
   },
@@ -98,7 +99,7 @@
     "fixpack": "fixpack",
     "flow_check": "flow check",
     "lint-md": "remark . --use remark-preset-lint-recommended",
-    "nyc": "nyc check-coverage --lines 75",
+    "nyc": "nyc check-coverage",
     "posttest": "npm run eslint && npm run flow_check && npm run fixpack && npm run lint-md",
     "prepublish": "npm run build",
     "pretest": "npm run build",
