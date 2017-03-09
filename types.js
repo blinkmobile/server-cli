@@ -14,7 +14,8 @@ export type BlinkMRCServer = {
   project?: string,
   region?: string,
   cors?: CorsConfiguration | boolean,
-  routes?: Array<RouteConfiguration>
+  routes?: Array<RouteConfiguration>,
+  timeout?: number
 }
 
 export type BmRequest = {
@@ -74,6 +75,7 @@ export type Protocol = 'http:' | 'https:'
 export type RouteConfiguration = {
   route: string,
   module: string,
+  timeout: number,
   params?: {[id:string]: string}
 }
 */

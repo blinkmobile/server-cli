@@ -5,6 +5,7 @@ const path = require('path')
 const test = require('ava')
 
 const lib = require('../lib/project.js')
+const values = require('../lib/values.js')
 
 const EXAMPLE_DIR = path.join(__dirname, '..', 'examples', 'directory')
 
@@ -25,27 +26,33 @@ test('listRoutes()', (t) => {
   const expected = [
     {
       'route': '/boom',
-      'module': './boom/index.js'
+      'module': './boom/index.js',
+      'timeout': values.DEFAULT_TIMEOUT_SECONDS
     },
     {
       'route': '/helloworld',
-      'module': './helloworld/index.js'
+      'module': './helloworld/index.js',
+      'timeout': values.DEFAULT_TIMEOUT_SECONDS
     },
     {
       'route': '/methods',
-      'module': './methods/index.js'
+      'module': './methods/index.js',
+      'timeout': values.DEFAULT_TIMEOUT_SECONDS
     },
     {
       'route': '/promise',
-      'module': './promise/index.js'
+      'module': './promise/index.js',
+      'timeout': values.DEFAULT_TIMEOUT_SECONDS
     },
     {
       'route': '/request',
-      'module': './request/index.js'
+      'module': './request/index.js',
+      'timeout': values.DEFAULT_TIMEOUT_SECONDS
     },
     {
       'route': '/response',
-      'module': './response/index.js'
+      'module': './response/index.js',
+      'timeout': values.DEFAULT_TIMEOUT_SECONDS
     }
   ]
   return lib.listRoutes(EXAMPLE_DIR)

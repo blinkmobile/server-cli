@@ -108,6 +108,7 @@ test('getRouteConfig() should find correct route and return route params', (t) =
     .then((routeConfig) => t.deepEqual(routeConfig, {
       route: '/api/books/{id}/chapters/{chapterNo}',
       module: path.resolve(CONFIGURATION_DIR, './api/chapter.js'),
+      timeout: 15,
       params: {
         id: '123',
         chapterNo: '1'

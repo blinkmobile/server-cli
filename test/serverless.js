@@ -16,7 +16,8 @@ function getTestSubject (
     },
     './routes/read.js': () => Promise.resolve([{
       route: '/helloworld',
-      module: '.'
+      module: '.',
+      timeout: 15
     }]),
     './scope.js': {
       read: () => Promise.resolve({
