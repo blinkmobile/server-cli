@@ -36,6 +36,21 @@ test('Should contain error if route does not start with "/"', (t) => {
     ]))
 })
 
+test('Should contain error if timeout is invalid', (t) => {
+  const validate = t.context.getTestSubject()
+  const tests = [
+    { args: { route: '/test', module: 'test', timeout: 0 }, expected: [ 'Timeout must be between 1 and 300 (inclusive)' ] },
+    { args: { route: '/test', module: 'test', timeout: 301 }, expected: [ 'Timeout must be between 1 and 300 (inclusive)' ] },
+    { args: { route: '/test', module: 'test', timeout: 1 }, expected: [] },
+    { args: { route: '/test', module: 'test', timeout: 300 }, expected: [] }
+  ]
+
+  return tests.reduce((prev, config) => {
+    return prev.then(() => validate(CWD, config.args))
+      .then((result) => t.deepEqual(result, config.expected))
+  }, Promise.resolve())
+})
+
 test('Should contain error message if module can not be found', (t) => {
   const errorMessage = 'This is an error'
   const validate = t.context.getTestSubject({
@@ -55,7 +70,11 @@ test('Should contain error message if module can not be found', (t) => {
 test('Should contain different error message if module can not be found with ENOENT code', (t) => {
   const validate = t.context.getTestSubject({
     '@jokeyrhyme/pify-fs': {
-      stat: (path) => Promise.reject({code: 'ENOENT'})
+      stat: (path) => {
+        const err = new Error()
+        err.code = 'ENOENT'
+        return Promise.reject(err)
+      }
     }
   })
   return validate(CWD, {
