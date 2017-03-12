@@ -1,87 +1,70 @@
 /* @flow */
 'use strict'
 
+const path = require('path')
+
 const test = require('ava')
-const proxyquire = require('proxyquire')
+const BlinkMobileIdentity = require('@blinkmobile/bm-identity')
+const pify = require('pify')
+const temp = require('temp').track()
 
-const TEST_SUBJECT = '../lib/serverless.js'
+const readYamlFile = require('../lib/utils/yaml.js').readYamlFile
+const serverless = require('../commands/serverless.js')
+const createCliFlags = require('./fixtures/create-cli-flags.js')
 
-function getTestSubject (
-  overrides /* : { [id:string]: any } | void */
-) /* : any */ {
-  overrides = overrides || {}
-  return proxyquire(TEST_SUBJECT, Object.assign({
-    './utils/yaml.js': {
-      updateYamlFile: (filePath, update) => Promise.resolve(update({}))
-    },
-    './routes/read.js': () => Promise.resolve([{
-      route: '/helloworld',
-      module: '.',
-      timeout: 15
-    }]),
-    './scope.js': {
-      read: () => Promise.resolve({
-        project: 'project-name.api.blinkm.io',
-        region: 'region-name'
+const mkdir = pify(temp.mkdir)
+const CONFIGURATION_DIR = path.join(__dirname, '../examples/configuration')
+const DIRECTORY_DIR = path.join(__dirname, '../examples/directory')
+
+test('should produce the expected serverless.yml for configuration example project', (t) => {
+  return mkdir('serverless-test')
+    .then((tempDir) => {
+      return serverless([], createCliFlags({
+        cwd: CONFIGURATION_DIR,
+        deploymentBucket: 'deployment-bucket',
+        env: 'prod',
+        executionRole: 'execution-role',
+        out: tempDir,
+        vpcSecurityGroups: '123, 456',
+        vpcSubnets: 'abc, def'
+      }), console, {
+        cwd: CONFIGURATION_DIR,
+        blinkMobileIdentity: new BlinkMobileIdentity()
       })
-    }
-  }, overrides))
-}
-
-test('registerFunctions()', (t) => {
-  const expected = {
-    functions: {
-      '0': {
-        description: '/helloworld',
-        events: [{
-          http: 'ANY helloworld'
-        }],
-        handler: 'handler.handler',
-        name: 'project-name-api-blinkm-io-prod-0',
-        timeout: 15
-      }
-    },
-    provider: {
-      deploymentBucket: 'deployment-bucket',
-      region: 'region-name',
-      role: 'execution-role',
-      stage: 'prod'
-    },
-    service: 'project-name-api-blinkm-io'
-  }
-  const serverless = getTestSubject()
-  return serverless.registerFunctions('.', 'prod', 'deployment-bucket', 'execution-role')
-    .then((result) => t.deepEqual(result, expected))
+        .then(() => {
+          return Promise.all([
+            readYamlFile(path.join(tempDir, 'serverless.yml')),
+            readYamlFile(path.join(__dirname, './fixtures/serverless/examples/configuration.yml'))
+          ])
+        })
+        .then((results) => t.deepEqual(results[0], results[1]))
+    })
 })
 
-test('registerVpc() should return undefined if vpc configuation was not added', (t) => {
-  const serverless = getTestSubject()
-  return serverless.registerVpc()
-    .then((result) => t.falsy(result))
+test('should produce the expected serverless.yml for directory example project', (t) => {
+  return mkdir('serverless-test')
+    .then((tempDir) => {
+      return serverless([], createCliFlags({
+        cwd: DIRECTORY_DIR,
+        env: 'test',
+        out: tempDir
+      }), console, {
+        cwd: DIRECTORY_DIR,
+        blinkMobileIdentity: new BlinkMobileIdentity()
+      })
+        .then(() => {
+          return Promise.all([
+            readYamlFile(path.join(tempDir, 'serverless.yml')),
+            readYamlFile(path.join(__dirname, './fixtures/serverless/examples/directory.yml'))
+          ])
+        })
+        .then((results) => t.deepEqual(results[0], results[1]))
+    })
 })
 
-test('registerVpc() should return undefined if vpc configuation was not added', (t) => {
-  const serverless = getTestSubject()
-  return serverless.registerVpc()
-    .then((result) => t.falsy(result))
-})
-
-test('registerVpc() should return config with vpc configuration added', (t) => {
-  const expected = {
-    provider: {
-      vpc: {
-        securityGroupIds: [
-          '123',
-          '456'
-        ],
-        subnetIds: [
-          'abc',
-          'def'
-        ]
-      }
-    }
-  }
-  const serverless = getTestSubject()
-  return serverless.registerVpc('.', '123, 456', 'abc, def', ',')
-    .then((result) => t.deepEqual(result, expected))
+test('should reject if --out flag is falsey', (t) => {
+  t.throws(serverless([], createCliFlags(), console, {
+    cwd: CONFIGURATION_DIR,
+    blinkMobileIdentity: new BlinkMobileIdentity()
+  }), '"--out" is mandatory')
 })

@@ -33,10 +33,14 @@ module.exports = function (
   }
 
   return lib.copyProject(cwd, out)
-    .then(() => lib.applyTemplate(out)) // TODO: eventually unnecessary?
-    .then(() => lib.copyWrapper(out))
-    .then(() => lib.copyConfiguration(out, env))
-    .then(() => lib.registerFunctions(out, env, deploymentBucket, executionRole))
-    .then(() => lib.registerRootProxy(out, env))
-    .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
+    .then((projectPath) => {
+      return lib.applyTemplate(out)
+        .then(() => lib.copyWrapper(out))
+        .then(() => lib.copyConfiguration(out, projectPath, env))
+        .then(() => lib.registerFunctions(out, projectPath, env))
+        .then(() => lib.registerDeploymentBucket(out, deploymentBucket))
+        .then(() => lib.registerExecutionRole(out, executionRole))
+        .then(() => lib.registerRootProxy(out, env))
+        .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
+    })
 }
