@@ -62,7 +62,8 @@ const cli = meow({
   default: {
     'cwd': process.cwd(),
     'force': false,
-    'env': 'dev'
+    'env': 'dev',
+    'region': 'ap-southeast-2'
   },
   string: [
     'deploymentBucket',
@@ -71,6 +72,7 @@ const cli = meow({
     'executionRole',
     'out',
     'port',
+    'region',
     'vpcSecurityGroups',
     'vpcSubnets'
   ]

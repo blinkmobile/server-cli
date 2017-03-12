@@ -6,6 +6,18 @@ import type BmResponse from './lib/bm-response.js'
 */
 
 /* ::
+export type AWSCredentials = {
+  accessKeyId : string,
+  secretAccessKey : string,
+  sessionToken : string
+}
+
+export type BlinkMobileIdentity = {
+  assumeAWSRole : () => Promise<AWSCredentials>,
+  getServiceSettings : () => Promise<BMServerSettings>,
+  getAccessToken : () => Promise<string>
+}
+
 export type BlinkMRC = {
   server?: BlinkMRCServer
 }
@@ -16,6 +28,13 @@ export type BlinkMRCServer = {
   cors?: CorsConfiguration | boolean,
   routes?: Array<RouteConfiguration>,
   timeout?: number
+}
+
+export type BMServerSettings = {
+  analyticsKeys : any,
+  bucket : string,
+  region: string,
+  serviceOrigin : string
 }
 
 export type BmRequest = {
@@ -30,6 +49,24 @@ export type BmRequest = {
     protocol: Protocol,
     query: { [id:string]: string }
   }
+}
+
+export type CLIFlags = {
+  deploymentBucket?: string,
+  cwd: string,
+  env: string,
+  executionRole?: string,
+  force: boolean,
+  out?: string,
+  port?: string,
+  region: string,
+  vpcSecurityGroups?: string,
+  vpcSubnets?: string
+}
+
+export type CLIOptions = {
+  cwd: string,
+  blinkMobileIdentity: BlinkMobileIdentity
 }
 
 export type CorsConfiguration = {
