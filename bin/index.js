@@ -23,7 +23,7 @@ Usage: blinkm server <command>
 
 Where command is one of:
 
-  info, serve, scope, deploy
+  info, serve, scope, deploy, logs
 
 Local development:
 
