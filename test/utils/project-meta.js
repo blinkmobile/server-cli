@@ -65,7 +65,4 @@ test('write() should merge changes with .blinkmrc.json file', (t) => {
       'new': 'test new property',
       'project-meta': 'test'
     }))
-    .then(() => projectMeta.write(CWD, (config) => ({
-      'project-meta': 'test'
-    })))
 })
