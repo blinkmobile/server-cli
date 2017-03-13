@@ -19,9 +19,9 @@ module.exports = function (
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
   const tasks = [
-    () => scope.display(logger, options.cwd),
-    () => displayCors(logger, options.cwd),
-    () => displayRoutes(logger, options.cwd)
+    () => scope.display(logger, flags.cwd),
+    () => displayCors(logger, flags.cwd),
+    () => displayRoutes(logger, flags.cwd)
   ]
   // Catch all errors and let all tasks run before
   // transforming into a single error

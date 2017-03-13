@@ -20,7 +20,7 @@ module.exports = function (
   logger /* : typeof console */,
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
-  const cwd = options.cwd
+  const cwd = flags.cwd
   const out = flags.out
   const env = flags.env
   const vpcSecurityGroups = flags.vpcSecurityGroups || ''

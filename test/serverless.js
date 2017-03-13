@@ -28,7 +28,6 @@ test('should produce the expected serverless.yml for configuration example proje
         vpcSecurityGroups: '123, 456',
         vpcSubnets: 'abc, def'
       }), console, {
-        cwd: CONFIGURATION_DIR,
         blinkMobileIdentity: new BlinkMobileIdentity()
       })
         .then(() => {
@@ -49,7 +48,6 @@ test('should produce the expected serverless.yml for directory example project',
         env: 'test',
         out: tempDir
       }), console, {
-        cwd: DIRECTORY_DIR,
         blinkMobileIdentity: new BlinkMobileIdentity()
       })
         .then(() => {
@@ -64,7 +62,6 @@ test('should produce the expected serverless.yml for directory example project',
 
 test('should reject if --out flag is falsey', (t) => {
   t.throws(serverless([], createCliFlags(), console, {
-    cwd: CONFIGURATION_DIR,
     blinkMobileIdentity: new BlinkMobileIdentity()
   }), '"--out" is mandatory')
 })

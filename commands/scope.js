@@ -16,7 +16,7 @@ module.exports = function (
   logger /* : typeof console */,
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
-  const cwd = options.cwd
+  const cwd = flags.cwd
   const project = input[0]
   const region = flags.region
   return Promise.resolve()

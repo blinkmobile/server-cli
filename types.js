@@ -65,7 +65,6 @@ export type CLIFlags = {
 }
 
 export type CLIOptions = {
-  cwd: string,
   blinkMobileIdentity: BlinkMobileIdentity
 }
 

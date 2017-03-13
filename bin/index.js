@@ -101,7 +101,6 @@ Command not implemented: ${command}`))
 
 const input = cli.input.slice(1)
 const options = {
-  cwd: cli.flags.cwd,
   blinkMobileIdentity
 }
 

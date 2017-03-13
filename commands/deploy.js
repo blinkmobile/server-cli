@@ -18,7 +18,7 @@ module.exports = function (
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
   const blinkMobileIdentity = options.blinkMobileIdentity
-  const cwd = options.cwd
+  const cwd = flags.cwd
   const env = flags.env
   const force = flags.force
   return info(input, flags, logger, options)
