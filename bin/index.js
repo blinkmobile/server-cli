@@ -27,18 +27,18 @@ Where command is one of:
 
 Local development:
 
-  info                    => displays project information
-    --cwd <path>          => optionally set the path to project, defaults to current working directory
-  serve                   => start a local development server using local API files
-    --port <port>         => sets the port to use for server, defaults to 3000
-    --cwd <path>          => optionally set the path to project, defaults to current working directory
+  info                        => displays project information
+    --cwd <path>              => optionally set the path to project, defaults to current working directory
+  serve                       => start a local development server using local API files
+    --port <port>             => sets the port to use for server, defaults to 3000
+    --cwd <path>              => optionally set the path to project, defaults to current working directory
 
 Initial settings:
 
-  scope                   => displays the current scope
-    <project>             => sets the project id
-    --region <region>     => optionally sets the region
-    --cwd <path>          => optionally set the path to project, defaults to current working directory
+  scope                       => displays the current scope
+    <project>                 => sets the project id
+    --region <region>         => optionally sets the region
+    --cwd <path>              => optionally set the path to project, defaults to current working directory
 
 Deploying server side code:
 
@@ -46,10 +46,19 @@ Deploying server side code:
   For help on the login and logout commands please see:
   https://github.com/blinkmobile/identity-cli#usage
 
-  deploy                  => deploy the project
-    --force               => deploy without confirmation
-    --env <environment>   => optionally sets the environment to deploy to, defaults to 'dev'
-    --cwd <path>          => optionally set the path to project, defaults to current working directory
+  deploy                      => deploy the project
+    --force                   => deploy without confirmation
+    --env <environment>       => optionally sets the environment to deploy to, defaults to 'dev'
+    --cwd <path>              => optionally set the path to project, defaults to current working directory
+
+Viewing server logs:
+
+  logs <route>                => view logs for a specific route
+    --tail                    => keep listening for new logs in your terminal session
+    --filter <filterPattern>  => optionally set a search filter, defaults to all logs
+    --start-time <startTime>  => a unit in time to start fetching logs from (ie: 2010-10-20 or 1469705761), defaults to all logs
+    --env <environment>       => optionally set the environment to view logs for, defaults to 'dev'
+    --cwd <path>              => optionally set the path to project, defaults to current working directory
 `
 
 const cli = meow({
@@ -57,22 +66,26 @@ const cli = meow({
   version: true
 }, {
   boolean: [
-    'force'
+    'force',
+    'tail'
   ],
   default: {
     'cwd': process.cwd(),
     'force': false,
     'env': 'dev',
-    'region': 'ap-southeast-2'
+    'region': 'ap-southeast-2',
+    'tail': false
   },
   string: [
     'deploymentBucket',
     'cwd',
     'env',
     'executionRole',
+    'filter',
     'out',
     'port',
     'region',
+    'startTime',
     'vpcSecurityGroups',
     'vpcSubnets'
   ]

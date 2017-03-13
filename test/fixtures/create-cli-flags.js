@@ -12,7 +12,8 @@ function createCLIFlags (
     cwd: '.',
     force: false,
     env: 'dev',
-    region: 'ap-southeast-2'
+    region: 'ap-southeast-2',
+    tail: false
   }, overrides || {})
 }
 

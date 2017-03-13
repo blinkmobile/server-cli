@@ -31,9 +31,7 @@ export type BlinkMRCServer = {
 }
 
 export type BMServerSettings = {
-  analyticsKeys : any,
   bucket : string,
-  region: string,
   serviceOrigin : string
 }
 
@@ -56,10 +54,13 @@ export type CLIFlags = {
   cwd: string,
   env: string,
   executionRole?: string,
+  filter?: string,
   force: boolean,
   out?: string,
   port?: string,
   region: string,
+  startTime?: string,
+  tail: boolean,
   vpcSecurityGroups?: string,
   vpcSubnets?: string
 }
