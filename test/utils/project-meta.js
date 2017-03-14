@@ -54,15 +54,19 @@ test('read() should return contents of .blinkmrc.json file', (t) => {
     }))
 })
 
-test('write() should merge changes with .blinkmrc.json file', (t) => {
-  const projectMeta = t.context.getTestSubject()
-
-  return projectMeta.write(CWD, (config) => {
-    config.new = 'test new property'
-    return config
+test('write() should call the updater function passed', (t) => {
+  t.plan(2)
+  const projectMeta = t.context.getTestSubject({
+    '@blinkmobile/blinkmrc': {
+      projectConfig: () => ({
+        update: (updater) => {
+          t.pass()
+          updater()
+          return Promise.resolve()
+        }
+      })
+    }
   })
-    .then((meta) => t.deepEqual(meta, {
-      'new': 'test new property',
-      'project-meta': 'test'
-    }))
+
+  return projectMeta.write(CWD, (config) => t.pass())
 })
