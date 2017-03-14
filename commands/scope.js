@@ -1,20 +1,32 @@
+/* @flow */
 'use strict'
+
+/* ::
+import type {
+  CLIFlags,
+  CLIOptions
+} from '../types.js'
+*/
 
 const scope = require('../lib/scope')
 
-const REGION = 'ap-southeast-2'
-
-module.exports = function (input, flags, logger, options) {
-  const cwd = options.cwd
+module.exports = function (
+  input /* : Array<string> */,
+  flags /* : CLIFlags */,
+  logger /* : typeof console */,
+  options /* : CLIOptions */
+) /* : Promise<void> */ {
+  const cwd = flags.cwd
   const project = input[0]
-  const region = flags.region || REGION
-  let promise = Promise.resolve()
-  if (project) {
-    promise = scope.write(cwd, {
-      project,
-      region
+  const region = flags.region
+  return Promise.resolve()
+    .then(() => {
+      if (project) {
+        return scope.write(cwd, {
+          project,
+          region
+        })
+      }
     })
-  }
-  return promise
     .then(() => scope.display(logger, cwd))
 }

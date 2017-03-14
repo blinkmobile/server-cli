@@ -104,9 +104,9 @@ test('getRouteConfig() should reject if route cannot be found', (t) => {
 
 test('getRouteConfig() should find correct route and return route params', (t) => {
   const apis = t.context.getTestSubject()
-  return apis.getRouteConfig(CONFIGURATION_DIR, '/api/books/123/chapters/1')
+  return apis.getRouteConfig(CONFIGURATION_DIR, '/books/123/chapters/1')
     .then((routeConfig) => t.deepEqual(routeConfig, {
-      route: '/api/books/{id}/chapters/{chapterNo}',
+      route: '/books/{id}/chapters/{chapterNo}',
       module: path.resolve(CONFIGURATION_DIR, './api/chapter.js'),
       timeout: 15,
       params: {

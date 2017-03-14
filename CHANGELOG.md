@@ -6,6 +6,8 @@
 
 -   SC-55: timeout configuration for entire project (still defaults to 15 seconds), with an override at the route level
 
+-   SC-57: added `bm server logs` command to view server logs
+
 ## 1.0.0-beta.6 - 2017-03-09
 
 ### Changed

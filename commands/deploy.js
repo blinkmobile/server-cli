@@ -1,11 +1,24 @@
+/* @flow */
 'use strict'
+
+/* ::
+import type {
+  CLIFlags,
+  CLIOptions
+} from '../types.js'
+*/
 
 const info = require('./info.js')
 const deploy = require('../lib/deploy.js')
 
-module.exports = function (input, flags, logger, options) {
+module.exports = function (
+  input /* : Array<string> */,
+  flags /* : CLIFlags */,
+  logger /* : typeof console */,
+  options /* : CLIOptions */
+) /* : Promise<void> */ {
   const blinkMobileIdentity = options.blinkMobileIdentity
-  const cwd = options.cwd
+  const cwd = flags.cwd
   const env = flags.env
   const force = flags.force
   return info(input, flags, logger, options)
