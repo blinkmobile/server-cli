@@ -11,6 +11,7 @@ import type {
 const displayCors = require('../lib/cors/display.js')
 const displayRoutes = require('../lib/routes/display.js')
 const scope = require('../lib/scope.js')
+const variables = require('../lib/variables.js')
 
 module.exports = function (
   input /* : Array<string> */,
@@ -21,7 +22,8 @@ module.exports = function (
   const tasks = [
     () => scope.display(logger, flags.cwd, flags.env),
     () => displayCors(logger, flags.cwd),
-    () => displayRoutes(logger, flags.cwd)
+    () => displayRoutes(logger, flags.cwd),
+    () => variables.display(logger, flags.cwd, flags.env)
   ]
   // Catch all errors and let all tasks run before
   // transforming into a single error
