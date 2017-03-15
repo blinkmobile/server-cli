@@ -55,12 +55,11 @@ test('read() should return contents of .blinkmrc.json file', (t) => {
 })
 
 test('write() should call the updater function passed', (t) => {
-  t.plan(2)
+  let updaterCalled = false
   const projectMeta = t.context.getTestSubject({
     '@blinkmobile/blinkmrc': {
       projectConfig: () => ({
         update: (updater) => {
-          t.pass()
           updater()
           return Promise.resolve()
         }
@@ -68,5 +67,8 @@ test('write() should call the updater function passed', (t) => {
     }
   })
 
-  return projectMeta.write(CWD, (config) => t.pass())
+  return projectMeta.write(CWD, (config) => {
+    updaterCalled = true
+  })
+    .then(() => t.truthy(updaterCalled))
 })
