@@ -2180,15 +2180,15 @@ function handler (
         })
     })
     .catch((error) => {
+      if (error && error.stack) {
+        console.error(error.stack) // eslint-disable-line no-console
+      }
       if (error && error.isBoom && error.output && error.output.payload && error.output.statusCode) {
-        // TODO: Make sure the docs indicate what we do with the
-        // [data] argument of all Boom functions. (Available through error.data)
-        // Options:
-        // 1. Include in response, prob not safe. Could include sensitive information
-        // 2. Log to something in AWS, Not sure if this is possible ???
+        if (error.data) {
+          console.error('Boom Data: ', JSON.stringify(error.data, null, 2)) // eslint-disable-line no-console
+        }
         return finish(error.output.statusCode, error.output.payload, error.output.headers)
       }
-      // TODO: Log the original error
       finish(500, {
         error: 'Internal Server Error',
         message: 'An internal server error occurred',
