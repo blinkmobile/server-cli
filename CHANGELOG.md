@@ -2,11 +2,26 @@
 
 ## Unreleased
 
+## 1.0.0 - 2017-03-15
+
 ### Added
 
 -   SC-55: timeout configuration for entire project (still defaults to 15 seconds), with an override at the route level
 
 -   SC-57: added `bm server logs` command to view server logs
+
+### Dependencies
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.28.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.28.0) (from [2.24.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.24.0))
+
+-   update [execa](https://www.npmjs.com/package/execa) to 0.6.1 (from 0.6.0)
+
+-   update [js-yaml](https://www.npmjs.com/package/js-yaml) to [3.8.2](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md) (from [3.8.1](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md))
+
+-   update [request](https://www.npmjs.com/package/request) to [2.81.0](https://github.com/request/request/blob/master/CHANGELOG.md) (from [2.80.0](https://github.com/request/request/blob/master/CHANGELOG.md))
+
+-   depend upon [serverless](https://www.npmjs.com/package/serverless) [1.9.0](https://github.com/serverless/serverless/releases/tag/v1.9.0)
+
 
 ## 1.0.0-beta.6 - 2017-03-09
 
