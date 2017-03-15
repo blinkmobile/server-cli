@@ -67,6 +67,7 @@ module.exports = function (
             stdio: 'inherit',
             cwd: tempDir,
             env: Object.assign({}, process.env, {
+              SLS_IGNORE_WARNING: '*',
               AWS_ACCESS_KEY_ID: credentials.accessKeyId,
               AWS_SECRET_ACCESS_KEY: credentials.secretAccessKey,
               AWS_SESSION_TOKEN: credentials.sessionToken

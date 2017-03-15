@@ -24,7 +24,7 @@ module.exports = function (
   const cwd = path.resolve(flags.cwd)
   const example = path.join('helloworld', 'index.js')
   return readCors(cwd)
-    .then((cors) => serve.startServer({
+    .then((cors) => serve.startServer(logger, {
       cors,
       cwd,
       port: flags.port || 3000
