@@ -3,21 +3,10 @@
 
 /* ::
 import type BmResponse from './lib/bm-response.js'
+import type BlinkMobileIdentity from '@blinkmobile/bm-identity'
 */
 
 /* ::
-export type AWSCredentials = {
-  accessKeyId : string,
-  secretAccessKey : string,
-  sessionToken : string
-}
-
-export type BlinkMobileIdentity = {
-  assumeAWSRole : () => Promise<AWSCredentials>,
-  getServiceSettings : () => Promise<BMServerSettings>,
-  getAccessToken : () => Promise<string>
-}
-
 export type BlinkMRC = {
   server?: BlinkMRCServer
 }

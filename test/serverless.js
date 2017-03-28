@@ -4,12 +4,12 @@
 const path = require('path')
 
 const test = require('ava')
-const BlinkMobileIdentity = require('@blinkmobile/bm-identity')
 const pify = require('pify')
 const temp = require('temp').track()
 
 const readYamlFile = require('../lib/utils/yaml.js').readYamlFile
 const serverless = require('../commands/serverless.js')
+const BlinkMobileIdentityMock = require('./fixtures/blink-mobile-identity.js')
 const createCliFlags = require('./fixtures/create-cli-flags.js')
 
 const mkdir = pify(temp.mkdir)
@@ -28,7 +28,7 @@ test('should produce the expected serverless.yml for configuration example proje
         vpcSecurityGroups: '123, 456',
         vpcSubnets: 'abc, def'
       }), console, {
-        blinkMobileIdentity: new BlinkMobileIdentity()
+        blinkMobileIdentity: new BlinkMobileIdentityMock()
       })
         .then(() => {
           return Promise.all([
@@ -48,7 +48,7 @@ test('should produce the expected serverless.yml for directory example project',
         env: 'test',
         out: tempDir
       }), console, {
-        blinkMobileIdentity: new BlinkMobileIdentity()
+        blinkMobileIdentity: new BlinkMobileIdentityMock()
       })
         .then(() => {
           return Promise.all([
@@ -62,6 +62,6 @@ test('should produce the expected serverless.yml for directory example project',
 
 test('should reject if --out flag is falsey', (t) => {
   t.throws(serverless([], createCliFlags(), console, {
-    blinkMobileIdentity: new BlinkMobileIdentity()
+    blinkMobileIdentity: new BlinkMobileIdentityMock()
   }), '"--out" is mandatory')
 })
