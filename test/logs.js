@@ -13,22 +13,12 @@ const path = require('path')
 const test = require('ava')
 const proxyquire /* : (string, { [id:string]: any }) => (Array<string>, CLIFlags, typeof console, CLIOptions) => Promise<void> */ = require('proxyquire')
 
+const BlinkMobileIdentityMock = require('./fixtures/blink-mobile-identity.js')
 const createCliFlags = require('./fixtures/create-cli-flags.js')
 
 const DIRECTORY_DIR = path.join(__dirname, '../examples/directory')
 const CLI_OPTIONS = {
-  blinkMobileIdentity: {
-    assumeAWSRole: () => Promise.resolve({
-      accessKeyId: 'access key id',
-      secretAccessKey: 'secret access key',
-      sessionToken: 'session token'
-    }),
-    getAccessToken: () => Promise.resolve('access token'),
-    getServiceSettings: () => Promise.resolve({
-      bucket: 's3 bucket',
-      serviceOrigin: 'http service origin'
-    })
-  }
+  blinkMobileIdentity: new BlinkMobileIdentityMock()
 }
 
 test('should reject if a route is not specified', (t) => {
