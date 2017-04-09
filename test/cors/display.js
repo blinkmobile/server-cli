@@ -57,6 +57,7 @@ test('Should not log or validate if read() does not return cors', (t) => {
   })
 
   return display({ log: () => t.fail('Should not log') }, CWD)
+    .then(() => t.pass())
 })
 
 test('Should call validate() with correct input', (t) => {

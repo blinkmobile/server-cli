@@ -35,6 +35,7 @@ test('confirm() should not prompt or log if force is true', (t) => {
     }
   })
   return deploy.confirm({log: () => t.fail('Should not log')}, true)
+    .then(() => t.pass())
 })
 
 test('confirm() should prompt and log if force is false', (t) => {
@@ -191,7 +192,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
       })
     }
   })
-  t.throws(deploy.zip(ZIP_PATH), 'test temp error')
+  return t.throws(deploy.zip(ZIP_PATH), 'test temp error')
 })
 
 test('zip() should log correct updates and reject if an archiver emits an error', (t) => {
@@ -228,7 +229,7 @@ test('zip() should log correct updates and reject if an archiver emits an error'
       })
     }
   })
-  t.throws(deploy.zip(ZIP_PATH), 'test archiver error')
+  return t.throws(deploy.zip(ZIP_PATH), 'test archiver error')
 })
 
 test('upload() should log correct updates and return bundle key after upload', (t) => {
@@ -289,7 +290,7 @@ test('upload() should log correct updates and reject if upload returns an error'
       }
     }
   })
-  t.throws(deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS), 'test upload error')
+  return t.throws(deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS), 'test upload error')
 })
 
 test('deploy() should log correct updates', (t) => {
@@ -351,7 +352,7 @@ test('deploy() should log correct updates and reject if request() returns an err
       })
     }
   })
-  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'test error')
+  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'test error')
 })
 
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
@@ -378,5 +379,5 @@ test('deploy() should log correct updates and reject if request() returns an non
       })
     }
   })
-  t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'error message')
+  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'error message')
 })
