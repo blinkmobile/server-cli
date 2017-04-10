@@ -116,7 +116,7 @@ test('getRouteConfig() should find correct route and return route params', (t) =
     }))
 })
 
-test('wipeRouteFromRequireCache()', (t) => {
+test.cb('wipeRouteFromRequireCache()', (t) => {
   const routeConfig = {
     module: path.join(CONFIGURATION_DIR, '/api/books.js')
   }
@@ -126,5 +126,6 @@ test('wipeRouteFromRequireCache()', (t) => {
     t.truthy(require.cache[routeConfig.module])
     lib.wipeRouteFromRequireCache(routeConfig)
     t.falsy(require.cache[routeConfig.module])
+    t.end()
   }, 1)
 })

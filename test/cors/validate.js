@@ -7,7 +7,7 @@ const validate = require('../../lib/cors/validate.js')
 const HELP = ', see documentation for information on how to configure cors.'
 
 test('Should reject if cors is not truthy', (t) => {
-  t.throws(validate(), 'Must specify cors configuration' + HELP)
+  return t.throws(validate(), 'Must specify cors configuration' + HELP)
 })
 
 test('Should reject if origins is undefined or is not an array', (t) => {
@@ -25,13 +25,13 @@ test('Should reject if origins is undefined or is not an array', (t) => {
 })
 
 test('Should reject if origins is an empty array', (t) => {
-  t.throws(validate({
+  return t.throws(validate({
     origins: []
   }), 'Must specify at least a single allowable origin in cors configuration' + HELP)
 })
 
 test('Should reject if origins contains invalid urls', (t) => {
-  t.throws(validate({
+  return t.throws(validate({
     origins: ['test', '123']
   }), 'The following origins in cors configuration are not valid: test, 123')
 })

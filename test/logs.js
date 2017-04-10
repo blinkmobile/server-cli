@@ -23,7 +23,7 @@ const CLI_OPTIONS = {
 
 test('should reject if a route is not specified', (t) => {
   const logs = require('../commands/logs.js')
-  t.throws(
+  return t.throws(
     logs([], createCliFlags(), console, CLI_OPTIONS),
     'Must specify a route. E.g. bm server logs /route'
   )
@@ -71,7 +71,7 @@ test('should reject if "serverless logs" fails', (t) => {
       executeSLSCommand: (args, options) => Promise.reject(new Error('error message'))
     }
   })
-  t.throws(
+  return t.throws(
     logs(['/request'], createCliFlags({
       cwd: DIRECTORY_DIR,
       env: 'prod'

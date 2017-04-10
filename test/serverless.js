@@ -61,7 +61,7 @@ test('should produce the expected serverless.yml for directory example project',
 })
 
 test('should reject if --out flag is falsey', (t) => {
-  t.throws(serverless([], createCliFlags(), console, {
+  return t.throws(serverless([], createCliFlags(), console, {
     blinkMobileIdentity: new BlinkMobileIdentityMock()
   }), '"--out" is mandatory')
 })
