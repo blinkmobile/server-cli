@@ -33,7 +33,7 @@
     "object-merge": "2.5.1",
     "pify": "2.3.0",
     "request": "2.81.0",
-    "serverless": "1.9.0",
+    "serverless": "1.10.1",
     "temp": "0.8.3",
     "uniloc": "0.3.0",
     "update-notifier": "2.1.0",
