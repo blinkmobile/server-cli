@@ -31,7 +31,7 @@
     "log-update": "2.0.0",
     "meow": "3.7.0",
     "object-merge": "2.5.1",
-    "pify": "2.3.0",
+    "pify": "3.0.0",
     "request": "2.81.0",
     "serverless": "1.9.0",
     "temp": "0.8.3",
