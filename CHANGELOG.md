@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+-   SC-71: `bm server serverless` now creates one set of AWS resources (Lambda, API Gateway Endpoint and Log Group) for all routes in a project instead of one set for each route.
+
 ## 1.0.0 - 2017-03-15
 
 ### Added

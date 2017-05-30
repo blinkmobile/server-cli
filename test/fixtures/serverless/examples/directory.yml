@@ -5,48 +5,13 @@ provider:
   region: ap-southeast-2
   stage: test
 functions:
-  bm-example-api-blinkm-io-test--boom:
+  bm-example-api-blinkm-io-test:
     events:
-      - http: ANY boom
+      - http: ANY {path+}
     handler: handler.handler
-    name: bm-example-api-blinkm-io-test--boom
-    description: /boom
-    timeout: 15
-  bm-example-api-blinkm-io-test--helloworld:
-    events:
-      - http: ANY helloworld
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-test--helloworld
-    description: /helloworld
-    timeout: 15
-  bm-example-api-blinkm-io-test--methods:
-    events:
-      - http: ANY methods
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-test--methods
-    description: /methods
-    timeout: 15
-  bm-example-api-blinkm-io-test--promise:
-    events:
-      - http: ANY promise
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-test--promise
-    description: /promise
-    timeout: 15
-  bm-example-api-blinkm-io-test--request:
-    events:
-      - http: ANY request
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-test--request
-    description: /request
-    timeout: 15
-  bm-example-api-blinkm-io-test--response:
-    events:
-      - http: ANY response
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-test--response
-    description: /response
-    timeout: 15
+    name: bm-example-api-blinkm-io-test
+    description: 'Server CLI Lambda function for project: bm-example.api.blinkm.io'
+    timeout: 5
 resources:
   Resources:
     ProxyMethod:

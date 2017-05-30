@@ -14,33 +14,12 @@ provider:
       - abc
       - def
 functions:
-  bm-example-api-blinkm-io-prod--request:
+  bm-example-api-blinkm-io-prod:
     events:
-      - http: ANY request
+      - http: ANY {path+}
     handler: handler.handler
-    name: bm-example-api-blinkm-io-prod--request
-    description: /request
-    timeout: 5
-  bm-example-api-blinkm-io-prod--books:
-    events:
-      - http: ANY books
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-prod--books
-    description: /books
-    timeout: 5
-  bm-example-api-blinkm-io-prod--books--id-:
-    events:
-      - http: 'ANY books/{id}'
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-prod--books--id-
-    description: '/books/{id}'
-    timeout: 15
-  bm-example-api-blinkm-io-prod--books--id--chapters--chapterNo-:
-    events:
-      - http: 'ANY books/{id}/chapters/{chapterNo}'
-    handler: handler.handler
-    name: bm-example-api-blinkm-io-prod--books--id--chapters--chapterNo-
-    description: '/books/{id}/chapters/{chapterNo}'
+    name: bm-example-api-blinkm-io-prod
+    description: 'Server CLI Lambda function for project: bm-example.api.blinkm.io'
     timeout: 15
 resources:
   Resources:
@@ -67,3 +46,4 @@ resources:
             - ResponseParameters:
                 method.response.header.Content-Type: integration.response.header.Content-Type
               StatusCode: 200
+

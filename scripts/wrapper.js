@@ -17,8 +17,6 @@ import type {
 
 const path = require('path')
 
-const loadJsonFile = require('load-json-file')
-
 const handlers = require('../lib/handlers.js')
 const wrapper = require('../lib/wrapper.js')
 
@@ -41,7 +39,7 @@ function normaliseLambdaRequest (
     url: {
       host,
       hostname: host,
-      params: event.pathParameters || {},
+      params: {},
       pathname: event.path,
       protocol: wrapper.protocolFromHeaders(headers),
       query: event.queryStringParameters || {}
@@ -59,7 +57,6 @@ function handler (
   }) => void */
 ) /* : Promise<void> */ {
   const request = normaliseLambdaRequest(event)
-  const configPath = path.join(__dirname, 'bm-server.json')
   const internalHeaders = {}
   internalHeaders['Content-Type'] = 'application/json'
   const finish = (statusCode, body, customHeaders) => {
@@ -70,7 +67,10 @@ function handler (
       statusCode: statusCode
     })
   }
-  return loadJsonFile(configPath, 'utf8')
+
+  return Promise.resolve()
+    // $FlowFixMe requiring file without string literal to accomodate for __dirname
+    .then(() => require(path.join(__dirname, 'bm-server.json')))
     .then((config) => {
       // Check for browser requests and apply CORS if required
       if (request.headers.origin) {
@@ -107,9 +107,17 @@ function handler (
       }
 
       // Get handler module based on route
-      const routeConfig = config.routes.find((routeConfig) => routeConfig.route === event.resource)
-      if (!routeConfig) {
-        return Promise.reject(new Error(`Could not find route configuration for route: ${event.resource}`))
+      let routeConfig
+      try {
+        routeConfig = handlers.findRouteConfig(event.path, config.routes)
+        request.url.params = routeConfig.params || {}
+        request.route = routeConfig.route
+      } catch (error) {
+        return finish(404, {
+          error: 'Not Found',
+          message: error.message,
+          statusCode: 404
+        })
       }
 
       // Change current working directory to the project
