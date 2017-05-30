@@ -28,6 +28,7 @@ export type BmRequest = {
   body: any,
   headers: Headers,
   method: string,
+  route: string,
   url: {
     host: string,
     hostname: string,

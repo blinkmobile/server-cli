@@ -57,6 +57,7 @@ test('normaliseLambdaRequest()', (t) => {
       host: 'this is the host'
     },
     method: 'get',
+    route: '',
     url: {
       host: 'this is the host',
       hostname: 'this is the host',

@@ -99,7 +99,7 @@ test('getRouteConfig() should reject if readRoutes() throws an error', (t) => {
 
 test('getRouteConfig() should reject if route cannot be found', (t) => {
   const apis = t.context.getTestSubject()
-  return t.throws(apis.getRouteConfig(CONFIGURATION_DIR, 'missing'), 'Route has not been implemented: /missing')
+  return t.throws(apis.getRouteConfig(CONFIGURATION_DIR, 'missing'), 'Route has not been implemented: missing')
 })
 
 test('getRouteConfig() should find correct route and return route params', (t) => {

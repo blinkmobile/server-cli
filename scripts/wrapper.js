@@ -36,6 +36,7 @@ function normaliseLambdaRequest (
     body,
     headers,
     method: wrapper.normaliseMethod(event.httpMethod),
+    route: '',
     url: {
       host,
       hostname: host,

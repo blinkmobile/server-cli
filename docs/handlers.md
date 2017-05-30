@@ -99,6 +99,7 @@ curl "http://localhost:3000/request?key=123"
     "accept": "*/*"
   },
   "method": "get",
+  "route": "/request/{id}",
   "url": {
     "protocol": "http:",
     "host": "localhost:3000",
@@ -106,8 +107,10 @@ curl "http://localhost:3000/request?key=123"
     "query": {
       "key": "123"
     },
-    "pathname": "/request",
-    "params": {}
+    "pathname": "/request/abc",
+    "params": {
+      "id": "abc"
+    }
   }
 }
 ```
@@ -119,15 +122,15 @@ curl "http://localhost:3000/request?key=123"
 -   See [response example](../examples/directory/response/index.js) for useage
 
 ```js
-interface response = {
+interface Response = {
   headers: {
     [id:string]: string
   },
   payload: any,
   statusCode: number,
-  setHeader: (key: string, value: string) => this
-  setPayload: (payload: any) => this
-  setStatusCode: (code: number) => this
+  setHeader: (key: string, value: string) => Response,
+  setPayload: (payload: any) => Response,
+  setStatusCode: (code: number) => Response
 }
 ```
 

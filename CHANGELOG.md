@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+-   SC-71: `route` property to `request` argument passed to handlers. Will contain the original `route` property.
+
 ### Changed
 
 -   SC-71: `bm server serverless` now creates one set of AWS resources (Lambda, API Gateway Endpoint and Log Group) for all routes in a project instead of one set for each route.
