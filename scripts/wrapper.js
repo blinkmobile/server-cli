@@ -57,11 +57,36 @@ function handler (
     statusCode: number
   }) => void */
 ) /* : Promise<void> */ {
+  const startTime = Date.now()
   const request = normaliseLambdaRequest(event)
   const internalHeaders = {}
   internalHeaders['Content-Type'] = 'application/json'
   const finish = (statusCode, body, customHeaders) => {
     const headers = Object.assign(internalHeaders, customHeaders)
+    const endTime = Date.now()
+    const requestTime = endTime - startTime
+    console.log('BLINKM_ANALYTICS_EVENT', JSON.stringify({ // eslint-disable-line no-console
+      request: {
+        method: request.method.toUpperCase(),
+        query: request.url.query,
+        port: 443,
+        path: request.route,
+        hostName: request.url.hostname,
+        params: request.url.params,
+        protocol: request.url.protocol
+      },
+      response: {
+        statusCode: statusCode
+      },
+      requestTime: {
+        startDateTime: new Date(startTime),
+        startTimeStamp: startTime,
+        endDateTime: new Date(endTime),
+        endTimeStamp: endTime,
+        ms: requestTime,
+        s: requestTime / 1000
+      }
+    }, null, 2))
     cb(null, {
       body: JSON.stringify(body, null, 2),
       headers: wrapper.keysToLowerCase(headers),
