@@ -14,6 +14,7 @@ const temp = require('temp').track()
 const getRouteConfig = require('../lib/routes/get-route-config')
 const scope = require('../lib/scope.js')
 const serverless = require('../lib/serverless.js')
+const logs = require('../lib/logs.js')
 
 module.exports = function (
   input /* : Array<string> */,
@@ -37,10 +38,7 @@ module.exports = function (
         .then(() => serverless.registerFunctions(tempDir, flags.cwd, flags.env))
         .then(() => Promise.all([
           getRouteConfig(flags.cwd, route),
-          options.blinkMobileIdentity.assumeAWSRole({
-            bmProject: cfg.project,
-            command: 'logs'
-          })
+          logs.authenticate(cfg, options.blinkMobileIdentity)
         ]))
         .then((results) => {
           const routeConfig = results[0]
