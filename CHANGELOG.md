@@ -8,6 +8,7 @@
 
 ### Removed
 
+-   SC-71: `/route` input from `bm server logs /route`. Logs will now be retrieved for all routes in the project.
 -   SC-71: timeout override at the route level. All routes will now share the same timeout.
 
 ## 1.0.0 - 2017-03-15

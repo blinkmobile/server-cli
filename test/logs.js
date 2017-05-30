@@ -21,14 +21,6 @@ const CLI_OPTIONS = {
   blinkMobileIdentity: new BlinkMobileIdentityMock()
 }
 
-test('should reject if a route is not specified', (t) => {
-  const logs = require('../commands/logs.js')
-  return t.throws(
-    logs([], createCliFlags(), console, CLI_OPTIONS),
-    'Must specify a route. E.g. bm server logs /route'
-  )
-})
-
 test('should call "serverless logs" with correct arguments and options', (t) => {
   t.plan(5)
   const logs = proxyquire('../commands/logs.js', {
@@ -37,7 +29,7 @@ test('should call "serverless logs" with correct arguments and options', (t) => 
         t.deepEqual(args, [
           'logs',
           '--function',
-          'bm-example-api-blinkm-io-prod--request',
+          'bm-example-api-blinkm-io-prod',
           '--region',
           'ap-southeast-2',
           '--stage',
@@ -56,7 +48,7 @@ test('should call "serverless logs" with correct arguments and options', (t) => 
       }
     }
   })
-  return logs(['/request'], createCliFlags({
+  return logs([], createCliFlags({
     cwd: DIRECTORY_DIR,
     env: 'prod',
     tail: true,
@@ -72,7 +64,7 @@ test('should reject if "serverless logs" fails', (t) => {
     }
   })
   return t.throws(
-    logs(['/request'], createCliFlags({
+    logs([], createCliFlags({
       cwd: DIRECTORY_DIR,
       env: 'prod'
     }), console, CLI_OPTIONS),
