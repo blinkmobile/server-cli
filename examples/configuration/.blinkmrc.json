@@ -6,13 +6,11 @@
     "routes": [
       {
         "route": "/request",
-        "module": "./api/request/index.js",
-        "timeout": 5
+        "module": "./api/request/index.js"
       },
       {
         "route": "/books",
-        "module": "./api/books.js",
-        "timeout": 5
+        "module": "./api/books.js"
       },
       {
         "route": "/books/{id}",
