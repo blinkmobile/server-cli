@@ -108,7 +108,7 @@ test('handler() should return correct boom response', (t) => {
   })
 })
 
-test('handler() should return 500 status code if route is not found', (t) => {
+test('handler() should return 404 status code if route is not found', (t) => {
   t.plan(2)
   const route = '/missing'
   const lib = t.context.getTestSubject()
