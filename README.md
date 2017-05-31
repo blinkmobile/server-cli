@@ -54,7 +54,7 @@ Deploying server side code:
 
 Viewing server logs:
 
-  logs <route>                => view logs for a specific route
+  logs                        => view logs for project
     --tail                    => keep listening for new logs in your terminal session
     --filter <filterPattern>  => optionally set a search filter, defaults to all logs
     --start-time <startTime>  => a unit in time to start fetching logs from (ie: 2010-10-20 or 1469705761), defaults to all logs
