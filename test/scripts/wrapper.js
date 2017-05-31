@@ -1,9 +1,12 @@
 'use strict'
 
+const path = require('path')
+
 const test = require('ava')
 const proxyquire = require('proxyquire')
 
 const TEST_SUBJECT = '../../scripts/wrapper.js'
+const CONFIG_PATH = path.join(__dirname, '..', '..', 'scripts', 'bm-server.json')
 
 const CORS = {
   origins: [
@@ -54,6 +57,7 @@ test('normaliseLambdaRequest()', (t) => {
       host: 'this is the host'
     },
     method: 'get',
+    route: '',
     url: {
       host: 'this is the host',
       hostname: 'this is the host',
@@ -68,7 +72,7 @@ test('normaliseLambdaRequest()', (t) => {
 test('handler() should return correct response', (t) => {
   t.plan(2)
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {resource: '/response'})
+  const event = Object.assign({}, EVENT, {path: '/response'})
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
@@ -86,7 +90,7 @@ test('handler() should return correct response', (t) => {
 test('handler() should return correct boom response', (t) => {
   t.plan(2)
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {resource: '/boom'})
+  const event = Object.assign({}, EVENT, {path: '/boom'})
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
@@ -104,23 +108,24 @@ test('handler() should return correct boom response', (t) => {
   })
 })
 
-test('handler() should return 500 status code if route is not found', (t) => {
+test('handler() should return 404 status code if route is not found', (t) => {
   t.plan(2)
+  const route = '/missing'
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {resource: '/missing'})
+  const event = Object.assign({}, EVENT, {path: route})
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
     t.deepEqual(result, {
       body: JSON.stringify({
-        error: 'Internal Server Error',
-        message: 'An internal server error occurred',
-        statusCode: 500
+        error: 'Not Found',
+        message: `Route has not been implemented: ${route}`,
+        statusCode: 404
       }, null, 2),
       headers: {
         'content-type': 'application/json'
       },
-      statusCode: 500
+      statusCode: 404
     })
   })
 })
@@ -133,7 +138,7 @@ test.serial('handler() should return 500 status code if current working director
     throw new Error('test chdir error')
   }
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {resource: '/response'})
+  const event = Object.assign({}, EVENT, {path: '/response'})
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
@@ -157,7 +162,7 @@ test('handler() should return 405 status code if method is not found', (t) => {
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, {
     httpMethod: 'POST',
-    resource: '/response'
+    path: '/response'
   })
 
   return lib.handler(event, null, (err, result) => {
@@ -181,7 +186,7 @@ test('handler() should return 405 for options requests with no CORS', (t) => {
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, {
     httpMethod: 'OPTIONS',
-    resource: '/response',
+    path: '/response',
     headers: {
       host: 'host',
       origin: 'valid'
@@ -207,13 +212,13 @@ test('handler() should return 405 for options requests with no CORS', (t) => {
 test('handler() should return 200 for options requests with CORS and valid origin', (t) => {
   t.plan(2)
   const lib = t.context.getTestSubject({
-    'load-json-file': () => Promise.resolve({
+    [CONFIG_PATH]: {
       cors: CORS,
       routes: [{
         module: './project/test-response.js',
         route: '/response'
       }]
-    })
+    }
   })
   const event = Object.assign({}, EVENT, {
     headers: {
@@ -222,7 +227,7 @@ test('handler() should return 200 for options requests with CORS and valid origi
       'Access-Control-Request-Method': 'GET'
     },
     httpMethod: 'OPTIONS',
-    resource: '/response'
+    path: '/response'
   })
 
   return lib.handler(event, null, (err, result) => {
@@ -246,9 +251,9 @@ test('handler() should return 200 for options requests with CORS and valid origi
 test('handler() should return 200 for requests with CORS and invalid origin', (t) => {
   t.plan(2)
   const lib = t.context.getTestSubject({
-    'load-json-file': () => Promise.resolve({
+    [CONFIG_PATH]: {
       cors: Object.assign({}, CORS, {origins: ['invalid']})
-    })
+    }
   })
   const event = Object.assign({}, EVENT, {
     headers: {
@@ -256,7 +261,7 @@ test('handler() should return 200 for requests with CORS and invalid origin', (t
       origin: 'valid'
     },
     httpMethod: 'OPTIONS',
-    resource: '/response'
+    path: '/response'
   })
 
   return lib.handler(event, null, (err, result) => {

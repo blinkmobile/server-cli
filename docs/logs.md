@@ -11,10 +11,10 @@ Your Handlers can contain logging statements. The following Node.js statements g
 
 ### Server Logs
 
-Once your project has been deployed you can view the server logs for a specific route using the following command:
+Once your project has been deployed you can view the server logs using the following command:
 
 ```bash
-bm server logs /helloworld
+bm server logs
 ```
 
 **Note:** There's a small lag between invoking the function and actually having the log event registered. So it takes a few seconds for the logs to show up right after invoking the function.
@@ -53,19 +53,19 @@ bm server logs /helloworld
 -   View the logs that happened in the past 5 hours:
 
     ```bash
-    bm server logs /helloworld --start-time 5h
+    bm server logs --start-time 5h
     ```
 
 -   View the logs that happened starting at epoch `1469694264`:
 
     ```bash
-    bm server logs /helloworld --start-time 1469694264
+    bm server logs --start-time 1469694264
     ```
 
 -   Logs will be polled and the output will be logged to your terminal:
 
     ```bash
-    bm server logs /helloworld --tail
+    bm server logs --tail
     ```
 
     **Note**: Requires a `CTRL + C` to stop the polling.
@@ -73,5 +73,5 @@ bm server logs /helloworld
 -   View only the logs that contain the string `CustomError`:
 
     ```bash
-    bm server logs /helloworld --filter CustomError
+    bm server logs --filter CustomError
     ```

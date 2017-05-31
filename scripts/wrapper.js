@@ -17,8 +17,6 @@ import type {
 
 const path = require('path')
 
-const loadJsonFile = require('load-json-file')
-
 const handlers = require('../lib/handlers.js')
 const wrapper = require('../lib/wrapper.js')
 
@@ -38,10 +36,11 @@ function normaliseLambdaRequest (
     body,
     headers,
     method: wrapper.normaliseMethod(event.httpMethod),
+    route: '',
     url: {
       host,
       hostname: host,
-      params: event.pathParameters || {},
+      params: {},
       pathname: event.path,
       protocol: wrapper.protocolFromHeaders(headers),
       query: event.queryStringParameters || {}
@@ -58,20 +57,61 @@ function handler (
     statusCode: number
   }) => void */
 ) /* : Promise<void> */ {
+  const startTime = Date.now()
   const request = normaliseLambdaRequest(event)
-  const configPath = path.join(__dirname, 'bm-server.json')
   const internalHeaders = {}
   internalHeaders['Content-Type'] = 'application/json'
   const finish = (statusCode, body, customHeaders) => {
     const headers = Object.assign(internalHeaders, customHeaders)
+    const endTime = Date.now()
+    const requestTime = endTime - startTime
+    console.log('BLINKM_ANALYTICS_EVENT', JSON.stringify({ // eslint-disable-line no-console
+      request: {
+        method: request.method.toUpperCase(),
+        query: request.url.query,
+        port: 443,
+        path: request.route || request.url.pathname,
+        hostName: request.url.hostname,
+        params: request.url.params,
+        protocol: request.url.protocol
+      },
+      response: {
+        statusCode: statusCode
+      },
+      requestTime: {
+        startDateTime: new Date(startTime),
+        startTimeStamp: startTime,
+        endDateTime: new Date(endTime),
+        endTimeStamp: endTime,
+        ms: requestTime,
+        s: requestTime / 1000
+      }
+    }, null, 2))
     cb(null, {
       body: JSON.stringify(body, null, 2),
       headers: wrapper.keysToLowerCase(headers),
       statusCode: statusCode
     })
   }
-  return loadJsonFile(configPath, 'utf8')
+
+  return Promise.resolve()
+    // $FlowFixMe requiring file without string literal to accomodate for __dirname
+    .then(() => require(path.join(__dirname, 'bm-server.json')))
     .then((config) => {
+      // Get handler module based on route
+      let routeConfig
+      try {
+        routeConfig = handlers.findRouteConfig(event.path, config.routes)
+        request.url.params = routeConfig.params || {}
+        request.route = routeConfig.route
+      } catch (error) {
+        return finish(404, {
+          error: 'Not Found',
+          message: error.message,
+          statusCode: 404
+        })
+      }
+
       // Check for browser requests and apply CORS if required
       if (request.headers.origin) {
         if (!config.cors) {
@@ -104,12 +144,6 @@ function handler (
         // For OPTIONS requests, we can just finish
         // as we have created our own implementation of CORS
         return finish(200)
-      }
-
-      // Get handler module based on route
-      const routeConfig = config.routes.find((routeConfig) => routeConfig.route === event.resource)
-      if (!routeConfig) {
-        return Promise.reject(new Error(`Could not find route configuration for route: ${event.resource}`))
       }
 
       // Change current working directory to the project

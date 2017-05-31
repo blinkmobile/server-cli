@@ -11,7 +11,6 @@ import type {
 const pify = require('pify')
 const temp = require('temp').track()
 
-const getRouteConfig = require('../lib/routes/get-route-config')
 const scope = require('../lib/scope.js')
 const serverless = require('../lib/serverless.js')
 const logs = require('../lib/logs.js')
@@ -22,11 +21,6 @@ module.exports = function (
   logger /* : typeof console */,
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
-  const route = input[0]
-  if (!route) {
-    return Promise.reject(new Error('Must specify a route. E.g. bm server logs /route'))
-  }
-
   return Promise.all([
     scope.read(flags.cwd),
     pify(temp.mkdir)('serverless')
@@ -36,17 +30,12 @@ module.exports = function (
       const tempDir = results[1]
       return serverless.applyTemplate(tempDir)
         .then(() => serverless.registerFunctions(tempDir, flags.cwd, flags.env))
-        .then(() => Promise.all([
-          getRouteConfig(flags.cwd, route),
-          logs.authenticate(cfg, options.blinkMobileIdentity)
-        ]))
-        .then((results) => {
-          const routeConfig = results[0]
-          const credentials = results[1]
+        .then(() => logs.authenticate(cfg, options.blinkMobileIdentity))
+        .then((credentials) => {
           const args = [
             'logs',
             '--function',
-            serverless.getFunctionName(cfg, routeConfig, flags.env),
+            serverless.getFunctionName(cfg, flags.env),
             '--region',
             cfg.region || flags.region,
             '--stage',
