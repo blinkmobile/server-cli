@@ -70,7 +70,7 @@ function handler (
         method: request.method.toUpperCase(),
         query: request.url.query,
         port: 443,
-        path: request.route,
+        path: request.route || request.url.pathname,
         hostName: request.url.hostname,
         params: request.url.params,
         protocol: request.url.protocol
@@ -98,6 +98,20 @@ function handler (
     // $FlowFixMe requiring file without string literal to accomodate for __dirname
     .then(() => require(path.join(__dirname, 'bm-server.json')))
     .then((config) => {
+      // Get handler module based on route
+      let routeConfig
+      try {
+        routeConfig = handlers.findRouteConfig(event.path, config.routes)
+        request.url.params = routeConfig.params || {}
+        request.route = routeConfig.route
+      } catch (error) {
+        return finish(404, {
+          error: 'Not Found',
+          message: error.message,
+          statusCode: 404
+        })
+      }
+
       // Check for browser requests and apply CORS if required
       if (request.headers.origin) {
         if (!config.cors) {
@@ -130,20 +144,6 @@ function handler (
         // For OPTIONS requests, we can just finish
         // as we have created our own implementation of CORS
         return finish(200)
-      }
-
-      // Get handler module based on route
-      let routeConfig
-      try {
-        routeConfig = handlers.findRouteConfig(event.path, config.routes)
-        request.url.params = routeConfig.params || {}
-        request.route = routeConfig.route
-      } catch (error) {
-        return finish(404, {
-          error: 'Not Found',
-          message: error.message,
-          statusCode: 404
-        })
       }
 
       // Change current working directory to the project
