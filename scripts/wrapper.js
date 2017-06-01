@@ -36,7 +36,7 @@ function normaliseLambdaRequest (
     body,
     headers,
     method: wrapper.normaliseMethod(event.httpMethod),
-    route: '',
+    route: event.path,
     url: {
       host,
       hostname: host,
@@ -70,7 +70,7 @@ function handler (
         method: request.method.toUpperCase(),
         query: request.url.query,
         port: 443,
-        path: request.route || request.url.pathname,
+        path: request.route,
         hostName: request.url.hostname,
         params: request.url.params,
         protocol: request.url.protocol
