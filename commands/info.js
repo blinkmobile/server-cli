@@ -19,7 +19,7 @@ module.exports = function (
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
   const tasks = [
-    () => scope.display(logger, flags.cwd),
+    () => scope.display(logger, flags.cwd, flags.env),
     () => displayCors(logger, flags.cwd),
     () => displayRoutes(logger, flags.cwd)
   ]
