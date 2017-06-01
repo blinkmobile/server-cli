@@ -22,7 +22,7 @@ module.exports = function (
   const env = flags.env
   const force = flags.force
   return info(input, flags, logger, options)
-    .then(() => deploy.confirm(logger, force))
+    .then(() => deploy.confirm(logger, force, env))
     .then((confirmation) => {
       if (confirmation) {
         return deploy.authenticate(cwd, blinkMobileIdentity)
