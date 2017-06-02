@@ -19,3 +19,7 @@
 -   [Root Route](./roo-route.md)
 
 -   [Suggestions](./suggestions.md)
+
+## Breaking Changes
+
+-   [Migrating to `v2.x.x`](./migrate-to-v2.x.md)
