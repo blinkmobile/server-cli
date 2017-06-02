@@ -9,7 +9,8 @@
 
 ### Changed
 
--   SC-63: Bumped minimum supported version Node version to `>=6`
+-   SC-64: Bumped minimum supported version Node version to `>=6`
+-   SC-64: Execution environment from Node4.3 to Node6.10
 -   SC-71: `bm server serverless` now creates one set of AWS resources (Lambda, API Gateway Endpoint and Log Group) for all routes in a project instead of one set for each route.
 
 ### Removed
