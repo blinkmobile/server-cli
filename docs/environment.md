@@ -3,7 +3,7 @@
 
 ## Execution Environment
 
--   Code executes within a Linux environment with [Node.js 4.3](https://nodejs.org/dist/latest-v4.x/docs/api/)
+-   Code executes within a Linux environment with [Node.js 6.10](https://nodejs.org/dist/latest-v6.x/docs/api/)
 
     -   If you use features not available in this version of Node.js, transpile before deployment
 
