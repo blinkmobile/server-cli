@@ -6,6 +6,7 @@
 
 -   SC-71: `route` property to `request` argument passed to handlers. Will contain the original `route` property.
 -   SC-71: analytics log message to wrapper to allow for metrics and analysis on routes
+-   SC-72: `--bm-server-version` flag to `bm server serverless` command to allow for changing `serverless` configurations based on `bm server` version
 
 ### Changed
 

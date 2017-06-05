@@ -20,6 +20,7 @@ test('should produce the expected serverless.yml for configuration example proje
   return mkdir('serverless-test')
     .then((tempDir) => {
       return serverless([], createCliFlags({
+        bmServerVersion: '2.0.0',
         cwd: CONFIGURATION_DIR,
         deploymentBucket: 'deployment-bucket',
         env: 'prod',
@@ -58,6 +59,19 @@ test('should produce the expected serverless.yml for directory example project',
         })
         .then((results) => t.deepEqual(results[0], results[1]))
     })
+})
+
+test('should reject if --bmServerVersion flag is not a semver value', (t) => {
+  return t.throws(mkdir('serverless-test')
+    .then((tempDir) => {
+      return serverless([], createCliFlags({
+        cwd: DIRECTORY_DIR,
+        bmServerVersion: 'abc',
+        out: tempDir
+      }), console, {
+        blinkMobileIdentity: new BlinkMobileIdentityMock()
+      })
+    }), 'Invalid Version: abc')
 })
 
 test('should reject if --out flag is falsey', (t) => {
