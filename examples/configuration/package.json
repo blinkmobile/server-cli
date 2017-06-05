@@ -3,7 +3,7 @@
   "description": "Testing example api endpoints using @blinkmobile/server-cli",
   "version": "0.0.1",
   "engines": {
-    "node": "~4.3",
-    "npm": ">=2"
+    "node": "~6.10",
+    "npm": ">=3"
   }
 }
