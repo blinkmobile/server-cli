@@ -25,7 +25,7 @@ module.exports = function (
     .then(() => deploy.confirm(logger, force, env))
     .then((confirmation) => {
       if (confirmation) {
-        return deploy.authenticate(cwd, blinkMobileIdentity)
+        return deploy.authenticate(cwd, blinkMobileIdentity, env)
           .then((results) => {
             const awsCredentials = results[0]
             const serviceSettings = results[1]

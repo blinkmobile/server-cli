@@ -85,7 +85,7 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
       t.pass()
       return Promise.resolve()
     }
-  })
+  }, ENV)
 })
 
 test('authenticate() should call log correct updates if blinkMobileIdentity functions throw errors', (t) => {
@@ -107,7 +107,7 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
     assumeAWSRole: () => Promise.reject(new Error('test error')),
     getServiceSettings: () => Promise.resolve(),
     getAccessToken: () => Promise.resolve()
-  })
+  }, ENV)
     .catch((err) => t.is(err.message, 'test error'))
 })
 
