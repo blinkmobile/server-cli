@@ -7,6 +7,7 @@ const test = require('ava')
 const proxyquire = require('proxyquire')
 const logSymbols = require('log-symbols')
 const yauzl = require('yauzl')
+const pkg = require('../package.json')
 
 const TEST_SUBJECT = '../lib/deploy.js'
 
@@ -315,6 +316,7 @@ test('deploy() should log correct updates', (t) => {
           t.is(url, '/deploy')
           t.deepEqual(params, {
             json: {
+              bmServerVersion: pkg.version,
               bundleBucket: SERVICE_SETTINGS.bucket,
               bundleKey: BUNDLE_KEY,
               env: ENV
