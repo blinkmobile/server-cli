@@ -9,6 +9,7 @@ function createCLIFlags (
   overrides /* : { [id:string]: string | boolean } | void */
 ) /* : CLIFlags */ {
   return Object.assign({
+    bmServerVersion: '1.0.0',
     cwd: '.',
     force: false,
     env: 'dev',

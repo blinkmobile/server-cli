@@ -7,6 +7,7 @@ const test = require('ava')
 const proxyquire = require('proxyquire')
 const logSymbols = require('log-symbols')
 const yauzl = require('yauzl')
+const pkg = require('../package.json')
 
 const TEST_SUBJECT = '../lib/deploy.js'
 
@@ -84,7 +85,7 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
       t.pass()
       return Promise.resolve()
     }
-  })
+  }, ENV)
 })
 
 test('authenticate() should call log correct updates if blinkMobileIdentity functions throw errors', (t) => {
@@ -106,7 +107,7 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
     assumeAWSRole: () => Promise.reject(new Error('test error')),
     getServiceSettings: () => Promise.resolve(),
     getAccessToken: () => Promise.resolve()
-  })
+  }, ENV)
     .catch((err) => t.is(err.message, 'test error'))
 })
 
@@ -315,6 +316,7 @@ test('deploy() should log correct updates', (t) => {
           t.is(url, '/deploy')
           t.deepEqual(params, {
             json: {
+              bmServerVersion: pkg.version,
               bundleBucket: SERVICE_SETTINGS.bucket,
               bundleKey: BUNDLE_KEY,
               env: ENV

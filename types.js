@@ -40,6 +40,7 @@ export type BmRequest = {
 }
 
 export type CLIFlags = {
+  bmServerVersion: string,
   deploymentBucket?: string,
   cwd: string,
   env: string,

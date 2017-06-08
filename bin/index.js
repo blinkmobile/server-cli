@@ -70,6 +70,7 @@ const cli = meow({
     'tail'
   ],
   default: {
+    'bmServerVersion': '1.0.0',
     'cwd': process.cwd(),
     'force': false,
     'env': 'dev',
@@ -77,8 +78,9 @@ const cli = meow({
     'tail': false
   },
   string: [
-    'deploymentBucket',
+    'bmServerVersion',
     'cwd',
+    'deploymentBucket',
     'env',
     'executionRole',
     'filter',
