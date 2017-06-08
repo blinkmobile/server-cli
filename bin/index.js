@@ -23,7 +23,7 @@ Usage: blinkm server <command>
 
 Where command is one of:
 
-  info, serve, scope, deploy, logs
+  info, serve, scope, deploy, logs, serverless
 
 Local development:
 
@@ -59,6 +59,17 @@ Viewing server logs:
     --start-time <startTime>  => a unit in time to start fetching logs from (ie: 2010-10-20 or 1469705761), defaults to all logs
     --env <environment>       => optionally set the environment to view logs for, defaults to 'dev'
     --cwd <path>              => optionally set the path to project, defaults to current working directory
+
+Create serverless project:
+
+  serverless                       => create serverless project
+    --deployment-bucket <bucket>   => set the deployment S3 bucket
+    --execution-role <role>        => set the execution IAM Role ARN
+    --vpc-security-groups <groups> => comma separated list of VPC Security Group identifiers
+    --vpc-subnets <subnets>        => comma separated list of VPC Subnet identifiers
+    --bm-server-version <version>  => server version of @blinkmobile/sever-cli that the project was created with
+    --env <environment>            => optionally set the environment, defaults to 'dev'
+    --cwd <path>                   => optionally set the path to project, defaults to current working directory
 `
 
 const cli = meow({
@@ -70,7 +81,7 @@ const cli = meow({
     'tail'
   ],
   default: {
-    'bmServerVersion': '1.0.0',
+    'bmServerVersion': pkg.version,
     'cwd': process.cwd(),
     'force': false,
     'env': 'dev',

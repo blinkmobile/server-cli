@@ -9,10 +9,13 @@ CLI to develop, test and deploy server-side HTTPS endpoints with BlinkMobile
 npm install -g @blinkmobile/cli @blinkmobile/identity-cli @blinkmobile/server-cli
 ```
 
+## Documentation
+
+See the [Documentation](./docs/README.md) directory for more details.
 
 ## Usage
 
-```
+```sh
 blinkm server --help
 
 # or, shorter
@@ -24,7 +27,7 @@ Usage: blinkm server <command>
 
 Where command is one of:
 
-  info, serve, scope, deploy, logs
+  info, serve, scope, deploy, logs, serverless
 
 Local development:
 
@@ -60,9 +63,15 @@ Viewing server logs:
     --start-time <startTime>  => a unit in time to start fetching logs from (ie: 2010-10-20 or 1469705761), defaults to all logs
     --env <environment>       => optionally set the environment to view logs for, defaults to 'dev'
     --cwd <path>              => optionally set the path to project, defaults to current working directory
+
+Create serverless project:
+
+  serverless                       => create serverless project
+    --deployment-bucket <bucket>   => set the deployment S3 bucket
+    --execution-role <role>        => set the execution IAM Role ARN
+    --vpc-security-groups <groups> => comma separated list of VPC Security Group identifiers
+    --vpc-subnets <subnets>        => comma separated list of VPC Subnet identifiers
+    --bm-server-version <version>  => server version of @blinkmobile/sever-cli that the project was created with
+    --env <environment>            => optionally set the environment, defaults to 'dev'
+    --cwd <path>                   => optionally set the path to project, defaults to current working directory
 ```
-
-
-## Documentation
-
-See the [docs](./docs) directory for more details.
