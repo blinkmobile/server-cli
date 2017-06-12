@@ -61,7 +61,7 @@ module.exports = function (
             })
           }
           return serverless.executeSLSCommand(args, options)
-            .catch(() => Promise.reject(new Error('See Severless Error above for more details.')))
+            .catch(() => Promise.reject(new Error('See Serverless Error above for more details.')))
         })
     })
 }
