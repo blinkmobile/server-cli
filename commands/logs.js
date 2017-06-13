@@ -30,7 +30,7 @@ module.exports = function (
       const tempDir = results[1]
       return serverless.applyTemplate(tempDir)
         .then(() => serverless.registerFunctions(tempDir, flags.cwd, flags.env))
-        .then(() => logs.authenticate(cfg, options.blinkMobileIdentity))
+        .then(() => logs.authenticate(cfg, options.blinkMobileIdentity, flags.env))
         .then((credentials) => {
           const args = [
             'logs',

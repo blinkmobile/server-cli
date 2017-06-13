@@ -44,7 +44,7 @@ A single timeout could be set at the project level and overridden on each indivi
 
 ### `v2.x.x`
 
-Timeouts can now only be set at the project level. **There is no longer an option to override the project level value (currently defaulting to 15 seconds is unset)**. We recommend setting the project level timeout to the maximum timeout required for each route:
+Timeouts can now only be set at the project level. **There is no longer an option to override the project level value (currently defaulting to 15 seconds if unset)**. We recommend setting the project level timeout to the maximum timeout required for each route:
 
 ```json
 {
@@ -85,5 +85,5 @@ Logs can now **only** be viewed for the entire project:
 bm server logs
 ```
 
-All existing flags still exist and there functionaltity has not changed.
+All existing flags still exist and their functionality has not changed.
 
