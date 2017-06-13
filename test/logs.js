@@ -68,6 +68,6 @@ test('should reject if "serverless logs" fails', (t) => {
       cwd: DIRECTORY_DIR,
       env: 'prod'
     }), console, CLI_OPTIONS),
-    'See Severless Error above for more details.'
+    'See Serverless Error above for more details.'
   )
 })
