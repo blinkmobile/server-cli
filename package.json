@@ -23,7 +23,7 @@
     "glob": "7.1.1",
     "good": "7.2.0",
     "good-console": "6.4.0",
-    "hapi": "16.4.3",
+    "hapi": "16.5.0",
     "inquirer": "3.2.0",
     "js-yaml": "3.9.0",
     "load-json-file": "2.0.0",
