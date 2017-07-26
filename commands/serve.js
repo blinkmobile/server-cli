@@ -29,7 +29,7 @@ module.exports = function (
       cwd,
       port: flags.port || 3000
     })
-    .then((server) => logger.log(`
+      .then((server) => logger.log(`
 HTTP service for local development is available from:
   http://localhost:${server.info.port}
 

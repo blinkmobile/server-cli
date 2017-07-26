@@ -6,6 +6,7 @@
 <PROJECT_ROOT>/node_modules/babel.*
 <PROJECT_ROOT>/node_modules/y18n/test/.*
 <PROJECT_ROOT>/node_modules/\.cache/.*
+<PROJECT_ROOT>/node_modules/config-chain/test/.*
 
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowIssue
