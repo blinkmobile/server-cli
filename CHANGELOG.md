@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+-   AUTH-49: Service CLI Service origin and S3 Bucket to environment variables with sensible defaults
+
 ## 2.0.0 - 2017-06-13
 
 ### Migration Guide

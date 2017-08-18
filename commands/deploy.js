@@ -28,11 +28,10 @@ module.exports = function (
         return deploy.authenticate(cwd, blinkMobileIdentity, env)
           .then((results) => {
             const awsCredentials = results[0]
-            const serviceSettings = results[1]
-            const accessToken = results[2]
+            const accessToken = results[1]
             return deploy.zip(cwd)
-              .then((zipFilePath) => deploy.upload(zipFilePath, awsCredentials, serviceSettings))
-              .then((bundleKey) => deploy.deploy(bundleKey, accessToken, env, serviceSettings))
+              .then((zipFilePath) => deploy.upload(zipFilePath, awsCredentials))
+              .then((bundleKey) => deploy.deploy(bundleKey, accessToken, env))
           })
       }
     })

@@ -7,6 +7,8 @@ const test = require('ava')
 const proxyquire = require('proxyquire')
 const logSymbols = require('log-symbols')
 const yauzl = require('yauzl')
+
+const values = require('../lib/values.js')
 const pkg = require('../package.json')
 
 const TEST_SUBJECT = '../lib/deploy.js'
@@ -15,11 +17,6 @@ const ACCESS_TOKEN = 'this is an access token'
 const UPLOAD_PATH = path.join(__dirname, 'fixtures', 'upload', 'project.zip')
 const ZIP_PATH = path.join(__dirname, 'fixtures', 'zip')
 const BUNDLE_KEY = 'this is a file key'
-const SERVICE_SETTINGS = {
-  region: 'this is a region',
-  bucket: 'this is a bucket',
-  serviceOrigin: 'this is a deployment url'
-}
 const ENV = 'test'
 
 test.beforeEach((t) => {
@@ -55,7 +52,7 @@ test('confirm() should prompt and log if force is false', (t) => {
 })
 
 test('authenticate() should call blinkMobileIdentity functions and stop updates', (t) => {
-  t.plan(7)
+  t.plan(6)
   const deploy = t.context.getTestSubject({
     './utils/log-updates.js': (message) => {
       // Check for correct message
@@ -74,10 +71,6 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
   return deploy.authenticate(ZIP_PATH, {
     // Ensure blinkMobileIdentity functions are called
     assumeAWSRole: () => {
-      t.pass()
-      return Promise.resolve()
-    },
-    getServiceSettings: () => {
       t.pass()
       return Promise.resolve()
     },
@@ -105,7 +98,6 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
   })
   return deploy.authenticate(ZIP_PATH, {
     assumeAWSRole: () => Promise.reject(new Error('test error')),
-    getServiceSettings: () => Promise.resolve(),
     getAccessToken: () => Promise.resolve()
   }, ENV)
     .catch((err) => t.is(err.message, 'test error'))
@@ -253,7 +245,7 @@ test('upload() should log correct updates and return bundle key after upload', (
       config: {},
       S3: function () {
         this.upload = (params) => {
-          t.is(params.Bucket, SERVICE_SETTINGS.bucket)
+          t.is(params.Bucket, values.SERVER_CLI_SERVICE_S3_BUCKET)
           t.is(params.Key, path.basename(UPLOAD_PATH))
           return {
             on: () => {},
@@ -263,7 +255,7 @@ test('upload() should log correct updates and return bundle key after upload', (
       }
     }
   })
-  return deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS)
+  return deploy.upload(UPLOAD_PATH, {})
     .then((bundleKey) => t.is(bundleKey, BUNDLE_KEY))
 })
 
@@ -291,7 +283,7 @@ test('upload() should log correct updates and reject if upload returns an error'
       }
     }
   })
-  return t.throws(deploy.upload(UPLOAD_PATH, {}, SERVICE_SETTINGS), 'test upload error')
+  return t.throws(deploy.upload(UPLOAD_PATH, {}), 'test upload error')
 })
 
 test('deploy() should log correct updates', (t) => {
@@ -317,7 +309,7 @@ test('deploy() should log correct updates', (t) => {
           t.deepEqual(params, {
             json: {
               bmServerVersion: pkg.version,
-              bundleBucket: SERVICE_SETTINGS.bucket,
+              bundleBucket: values.SERVER_CLI_SERVICE_S3_BUCKET,
               bundleKey: BUNDLE_KEY,
               env: ENV
             }
@@ -331,7 +323,7 @@ test('deploy() should log correct updates', (t) => {
       })
     }
   })
-  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS)
+  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV)
 })
 
 test('deploy() should log correct updates and reject if request() returns an error', (t) => {
@@ -354,7 +346,7 @@ test('deploy() should log correct updates and reject if request() returns an err
       })
     }
   })
-  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'test error')
+  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV), 'test error')
 })
 
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
@@ -381,5 +373,5 @@ test('deploy() should log correct updates and reject if request() returns an non
       })
     }
   })
-  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, SERVICE_SETTINGS), 'error message')
+  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV), 'error message')
 })

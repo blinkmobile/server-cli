@@ -19,11 +19,6 @@ export type BlinkMRCServer = {
   timeout?: number
 }
 
-export type BMServerSettings = {
-  bucket : string,
-  serviceOrigin : string
-}
-
 export type BmRequest = {
   body: any,
   headers: Headers,
