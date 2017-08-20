@@ -4,7 +4,7 @@
 
 ### Changed
 
--   AUTH-49: Service CLI Service origin and S3 Bucket to environment variables with sensible defaults
+-   AUTH-49: Service CLI Service origin and S3 Bucket to environment variables with sensible defaults. These values can also be configured via `.blinkmrc.json`. See [Service CLI Service documentation](./docs/server-cli-service.md).
 
 ## 2.0.0 - 2017-06-13
 

@@ -68,7 +68,7 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
       }
     }
   })
-  return deploy.authenticate(ZIP_PATH, {
+  return deploy.authenticate({}, {
     // Ensure blinkMobileIdentity functions are called
     assumeAWSRole: () => {
       t.pass()
@@ -96,7 +96,7 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
       }
     }
   })
-  return deploy.authenticate(ZIP_PATH, {
+  return deploy.authenticate({}, {
     assumeAWSRole: () => Promise.reject(new Error('test error')),
     getAccessToken: () => Promise.resolve()
   }, ENV)
@@ -255,7 +255,7 @@ test('upload() should log correct updates and return bundle key after upload', (
       }
     }
   })
-  return deploy.upload(UPLOAD_PATH, {})
+  return deploy.upload(UPLOAD_PATH, {}, {})
     .then((bundleKey) => t.is(bundleKey, BUNDLE_KEY))
 })
 
@@ -283,7 +283,7 @@ test('upload() should log correct updates and reject if upload returns an error'
       }
     }
   })
-  return t.throws(deploy.upload(UPLOAD_PATH, {}), 'test upload error')
+  return t.throws(deploy.upload(UPLOAD_PATH, {}, {}), 'test upload error')
 })
 
 test('deploy() should log correct updates', (t) => {
@@ -323,7 +323,7 @@ test('deploy() should log correct updates', (t) => {
       })
     }
   })
-  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV)
+  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {})
 })
 
 test('deploy() should log correct updates and reject if request() returns an error', (t) => {
@@ -346,7 +346,7 @@ test('deploy() should log correct updates and reject if request() returns an err
       })
     }
   })
-  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV), 'test error')
+  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {}), 'test error')
 })
 
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
@@ -373,5 +373,5 @@ test('deploy() should log correct updates and reject if request() returns an non
       })
     }
   })
-  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV), 'error message')
+  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {}), 'error message')
 })

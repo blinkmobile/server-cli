@@ -16,9 +16,11 @@
 
 -   [Limits & Known Issues](./limits-and-known-issues.md)
 
--   [Root Route](./roo-route.md)
+-   [Root Route](https://blinkmobile.github.io/server-cli/root-route.html)
 
 -   [Suggestions](./suggestions.md)
+
+-   [Service CLI Service](./service-cli-service.md)
 
 ## Breaking Changes
 
