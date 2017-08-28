@@ -20,7 +20,7 @@
 
 -   [Suggestions](./suggestions.md)
 
--   [Service CLI Service](./service-cli-service.md)
+-   [Server CLI Service](./server-cli-service.md)
 
 ## Breaking Changes
 
