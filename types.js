@@ -16,12 +16,11 @@ export type BlinkMRCServer = {
   region?: string,
   cors?: CorsConfiguration | boolean,
   routes?: Array<RouteConfiguration>,
-  timeout?: number
-}
-
-export type BMServerSettings = {
-  bucket : string,
-  serviceOrigin : string
+  timeout?: number,
+  service?: {
+    bucket: string,
+    origin: string
+  }
 }
 
 export type BmRequest = {

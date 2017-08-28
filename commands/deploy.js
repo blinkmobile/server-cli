@@ -10,6 +10,7 @@ import type {
 
 const info = require('./info.js')
 const deploy = require('../lib/deploy.js')
+const scope = require('../lib/scope.js')
 
 module.exports = function (
   input /* : Array<string> */,
@@ -25,14 +26,16 @@ module.exports = function (
     .then(() => deploy.confirm(logger, force, env))
     .then((confirmation) => {
       if (confirmation) {
-        return deploy.authenticate(cwd, blinkMobileIdentity, env)
-          .then((results) => {
-            const awsCredentials = results[0]
-            const serviceSettings = results[1]
-            const accessToken = results[2]
-            return deploy.zip(cwd)
-              .then((zipFilePath) => deploy.upload(zipFilePath, awsCredentials, serviceSettings))
-              .then((bundleKey) => deploy.deploy(bundleKey, accessToken, env, serviceSettings))
+        return scope.read(cwd)
+          .then((config) => {
+            return deploy.authenticate(config, blinkMobileIdentity, env)
+              .then((results) => {
+                const awsCredentials = results[0]
+                const accessToken = results[1]
+                return deploy.zip(cwd)
+                  .then((zipFilePath) => deploy.upload(zipFilePath, awsCredentials, config))
+                  .then((bundleKey) => deploy.deploy(bundleKey, accessToken, env, config))
+              })
           })
       }
     })
