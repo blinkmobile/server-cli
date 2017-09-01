@@ -2,9 +2,47 @@
 
 ## Unreleased
 
+## 2.1.0 - 2017-09-01
+
 ### Changed
 
 -   AUTH-49: Server CLI Service origin and S3 Bucket to environment variables with sensible defaults. These values can also be configured via `.blinkmrc.json`. See [Server CLI Service documentation](./docs/server-cli-service.md).
+
+### Dependencies
+
+-   update [archiver](https://www.npmjs.com/package/archiver) to [2.0.3](https://github.com/archiverjs/node-archiver/releases/tag/2.0.3) (from [1.3.0](https://github.com/archiverjs/node-archiver/releases/tag/1.3.0))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.107.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.107.0) (from [2.67.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.67.0))
+
+-   update [boom](https://www.npmjs.com/package/boom) to 5.2.0 (from 5.1.0)
+
+-   update [chalk](https://www.npmjs.com/package/chalk) to 2.1.0 (from 1.1.3)
+
+-   update [cpr](https://www.npmjs.com/package/cpr) to [2.2.0](https://github.com/davglass/cpr/blob/master/CHANGELOG.md) (from [2.1.0](https://github.com/davglass/cpr/blob/master/CHANGELOG.md))
+
+-   update [execa](https://www.npmjs.com/package/execa) to 0.8.0 (from 0.7.0)
+
+-   update [glob](https://www.npmjs.com/package/glob) to 7.1.2 (from 7.1.1)
+
+-   update [good](https://www.npmjs.com/package/good) to 7.3.0 (from 7.2.0)
+
+-   update [hapi](https://www.npmjs.com/package/hapi) to 16.5.2 (from 16.4.3)
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to [3.2.3](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.2.3) (from [3.1.0](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.1.0))
+
+-   update [js-yaml](https://www.npmjs.com/package/js-yaml) to [3.9.1](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md) (from [3.8.4](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md))
+
+-   update [load-json-file](https://www.npmjs.com/package/load-json-file) to 3.0.0 (from 2.0.0)
+
+-   update [log-symbols](https://www.npmjs.com/package/log-symbols) to 2.0.0 (from 1.0.2)
+
+-   update [log-update](https://www.npmjs.com/package/log-update) to 2.1.0 (from 2.0.0)
+
+-   update [semver](https://www.npmjs.com/package/semver) to 5.4.1 (from 5.3.0)
+
+-   update [serverless](https://www.npmjs.com/package/serverless) to [1.21.0](https://github.com/serverless/serverless/blob/master/CHANGELOG.md) (from [1.15.2](https://github.com/serverless/serverless/blob/master/CHANGELOG.md))
+
+-   update [write-json-file](https://www.npmjs.com/package/write-json-file) to 2.2.0 (from 2.1.0)
 
 ## 2.0.0 - 2017-06-13
 

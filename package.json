@@ -1,7 +1,7 @@
 {
   "name": "@blinkmobile/server-cli",
   "description": "CLI to develop, test and deploy server-side HTTPS endpoints with BlinkMobile",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "bin": {
     "blinkm-server": "bin/index.js"
   },
