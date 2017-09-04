@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+-   API-7: support for storing _scoped_ and _unscoped_ environment variables in configuration 
+
 ## 2.1.0 - 2017-09-01
 
 ### Changed

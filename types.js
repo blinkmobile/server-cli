@@ -20,6 +20,11 @@ export type BlinkMRCServer = {
   service?: {
     bucket: string,
     origin: string
+  },
+  variables?: {
+    [id:string]: string | {
+      [id:string]: string
+    }
   }
 }
 

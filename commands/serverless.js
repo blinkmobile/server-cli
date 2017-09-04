@@ -44,5 +44,6 @@ module.exports = function (
         .then(() => lib.registerExecutionRole(out, executionRole))
         .then(() => lib.registerRootProxy(out, env))
         .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
+        .then(() => lib.registerVariables(out, projectPath, env))
     })
 }

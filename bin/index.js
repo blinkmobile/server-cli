@@ -28,6 +28,7 @@ Where command is one of:
 Local development:
 
   info                        => displays project information
+    --env <environment>       => optionally sets the environment to display information for, defaults to 'dev'
     --cwd <path>              => optionally set the path to project, defaults to current working directory
   serve                       => start a local development server using local API files
     --port <port>             => sets the port to use for server, defaults to 3000

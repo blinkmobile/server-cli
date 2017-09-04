@@ -6,6 +6,8 @@
 
 1.  [Handler Functions](./handlers.md)
 
+1.  [Environment Variables](./environment-variables.md)
+
 1.  [CORS Configuration](./CORS.md)
 
 1.  [Viewing Server Logs](./logs.md)
