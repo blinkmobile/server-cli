@@ -2,9 +2,15 @@
 
 ## Unreleased
 
+## 2.2.0 - 2017-09-05
+
 ### Added
 
--   API-7: support for storing _scoped_ and _unscoped_ environment variables in configuration 
+-   API-7: support for storing [_Scoped_ and _Unscoped_ Environment Variables](./docs/environment-variables.md) in configuration
+
+### Dependencies
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.108.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.108.0) (from [2.107.0](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md))
 
 ## 2.1.0 - 2017-09-01
 
