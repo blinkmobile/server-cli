@@ -39,7 +39,7 @@
     "uniloc": "0.3.0",
     "update-notifier": "2.2.0",
     "valid-url": "1.0.9",
-    "write-json-file": "2.2.0"
+    "write-json-file": "2.3.0"
   },
   "devDependencies": {
     "ava": "^0.22.0",
