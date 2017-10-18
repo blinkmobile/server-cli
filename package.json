@@ -15,7 +15,7 @@
     "archiver": "2.0.3",
     "aws-sdk": "2.117.0",
     "boom": "5.2.0",
-    "chalk": "2.1.0",
+    "chalk": "2.2.0",
     "cli-table2": "0.2.0",
     "cpr": "2.2.0",
     "elegant-spinner": "1.0.1",
