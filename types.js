@@ -11,16 +11,18 @@ export type BlinkMRC = {
   server?: BlinkMRCServer
 }
 
+export type ServerCLIServiceConfig = {
+  bucket: string,
+  origin: string
+}
+
 export type BlinkMRCServer = {
   project?: string,
   region?: string,
   cors?: CorsConfiguration | boolean,
   routes?: Array<RouteConfiguration>,
   timeout?: number,
-  service?: {
-    bucket: string,
-    origin: string
-  },
+  service?: ServerCLIServiceConfig,
   variables?: {
     [id:string]: string | {
       [id:string]: string

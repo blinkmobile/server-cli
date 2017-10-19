@@ -54,6 +54,12 @@ test('confirm() should prompt and log if force is false', (t) => {
 test('authenticate() should call blinkMobileIdentity functions and stop updates', (t) => {
   t.plan(6)
   const deploy = t.context.getTestSubject({
+    './assume-aws-roles.js': {
+      assumeAWSRoleToDeploy: () => {
+        t.pass()
+        return Promise.resolve({})
+      }
+    },
     './utils/log-updates.js': (message) => {
       // Check for correct message
       t.is(message(), 'Authenticating...')
@@ -69,11 +75,6 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
     }
   })
   return deploy.authenticate({}, {
-    // Ensure blinkMobileIdentity functions are called
-    assumeAWSRole: () => {
-      t.pass()
-      return Promise.resolve()
-    },
     getAccessToken: () => {
       t.pass()
       return Promise.resolve()
@@ -84,6 +85,9 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
 test('authenticate() should call log correct updates if blinkMobileIdentity functions throw errors', (t) => {
   t.plan(4)
   const deploy = t.context.getTestSubject({
+    './assume-aws-roles.js': {
+      assumeAWSRoleToDeploy: () => Promise.reject(new Error('test error'))
+    },
     './utils/log-updates.js': (message) => {
       return (beforeStop) => {
         // Ensure stop function is called
@@ -97,7 +101,6 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
     }
   })
   return deploy.authenticate({}, {
-    assumeAWSRole: () => Promise.reject(new Error('test error')),
     getAccessToken: () => Promise.resolve()
   }, ENV)
     .catch((err) => t.is(err.message, 'test error'))
@@ -305,7 +308,7 @@ test('deploy() should log correct updates', (t) => {
     'request': {
       defaults: () => ({
         post: (url, params, cb) => {
-          t.is(url, '/deploy')
+          t.is(url, '/deployments')
           t.deepEqual(params, {
             json: {
               bmServerVersion: pkg.version,

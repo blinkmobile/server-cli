@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+-   API-101: Call to Server CLI Service for AWS credentials instead of Auth0
+
 ## 2.2.0 - 2017-09-05
 
 ### Added
