@@ -24,6 +24,9 @@ const CLI_OPTIONS = {
 test('should call "serverless logs" with correct arguments and options', (t) => {
   t.plan(5)
   const logs = proxyquire('../commands/logs.js', {
+    '../lib/logs.js': {
+      authenticate: () => CLI_OPTIONS.blinkMobileIdentity.assumeAWSRole()
+    },
     '../lib/serverless.js': {
       executeSLSCommand: (args, options) => {
         t.deepEqual(args, [
@@ -59,6 +62,9 @@ test('should call "serverless logs" with correct arguments and options', (t) => 
 
 test('should reject if "serverless logs" fails', (t) => {
   const logs = proxyquire('../commands/logs.js', {
+    '../lib/logs.js': {
+      authenticate: () => CLI_OPTIONS.blinkMobileIdentity.assumeAWSRole()
+    },
     '../lib/serverless.js': {
       executeSLSCommand: (args, options) => Promise.reject(new Error('error message'))
     }

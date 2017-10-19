@@ -16,7 +16,7 @@ class BlinkMobileIdentityMock extends BlinkMobileIdentity {
     })
   }
 
-  getAccessToken () {
+  getAccessToken () /* : Promise<string> */ {
     return Promise.resolve('access token')
   }
 
