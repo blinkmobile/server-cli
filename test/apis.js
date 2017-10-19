@@ -7,8 +7,6 @@ const proxyquire = require('proxyquire')
 
 const TEST_SUBJECT = '../lib/apis.js'
 
-const lib = require(TEST_SUBJECT)
-
 const EXAMPLE_DIR = path.join(__dirname, '..', 'examples', 'directory')
 const CONFIGURATION_DIR = path.join(__dirname, '..', 'examples', 'configuration')
 const ROUTE_CONFIG = {
@@ -114,18 +112,4 @@ test('getRouteConfig() should find correct route and return route params', (t) =
         chapterNo: '1'
       }
     }))
-})
-
-test.cb('wipeRouteFromRequireCache()', (t) => {
-  const routeConfig = {
-    module: path.join(CONFIGURATION_DIR, '/api/books.js')
-  }
-  require(routeConfig.module)
-  // Seem to need a timeout here otherwise require.cache[routeConfig.module] is empty
-  setTimeout(() => {
-    t.truthy(require.cache[routeConfig.module])
-    lib.wipeRouteFromRequireCache(routeConfig)
-    t.falsy(require.cache[routeConfig.module])
-    t.end()
-  }, 1)
 })
