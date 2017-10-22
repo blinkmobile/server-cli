@@ -2,9 +2,39 @@
 
 ## Unreleased
 
+## 2.3.0 - 2017-09-05
+
 ### Changed
 
 -   API-101: Call to Server CLI Service for AWS credentials instead of Auth0
+
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [3.1.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/3.1.0) (from [2.3.5](https://github.com/blinkmobile/bm-identity.js/releases/tag/2.3.5))
+
+-   update [archiver](https://www.npmjs.com/package/archiver) to [2.1.0](https://github.com/archiverjs/node-archiver/blob/master/CHANGELOG.md) (from [2.0.3](https://github.com/archiverjs/node-archiver/releases/tag/2.0.3))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.138.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.138.0) (from [2.108.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.108.0))
+
+-   update [chalk](https://www.npmjs.com/package/chalk) to [2.2.0](https://github.com/chalk/chalk/releases/tag/v2.2.0) (from 2.1.0)
+
+-   update [hapi](https://www.npmjs.com/package/hapi) to 16.6.2 (from 16.5.2)
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to [3.3.0](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.3.0) (from [3.2.3](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.2.3))
+
+-   update [js-yaml](https://www.npmjs.com/package/js-yaml) to [3.10.0](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md) (from [3.9.1](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md))
+
+-   update [log-symbols](https://www.npmjs.com/package/log-symbols) to 2.1.0 (from 2.0.0)
+
+-   update [log-update](https://www.npmjs.com/package/log-update) to 2.2.0 (from 2.1.0)
+
+-   update [request](https://www.npmjs.com/package/request) to [2.83.0](https://github.com/request/request/blob/master/CHANGELOG.md) (from [2.81.0](https://github.com/request/request/blob/master/CHANGELOG.md))
+
+-   update [serverless](https://www.npmjs.com/package/serverless) to [1.23.0](https://github.com/serverless/serverless/releases/tag/v1.23.0) (from [1.21.0](https://github.com/serverless/serverless/releases/tag/v1.21.0))
+
+-   update [update-notifier](https://www.npmjs.com/package/update-notifier) to 2.3.0 (from [2.2.0](https://github.com/yeoman/update-notifier/releases/tag/v2.2.0))
+
+-   update [write-json-file](https://www.npmjs.com/package/write-json-file) to 2.3.0 (from 2.2.0)
 
 ## 2.2.0 - 2017-09-05
 
