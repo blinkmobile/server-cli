@@ -42,7 +42,7 @@
     "write-json-file": "2.3.0"
   },
   "devDependencies": {
-    "ava": "^0.22.0",
+    "ava": "^0.23.0",
     "browserify": "^14.0.0",
     "eslint": "^4.0.0",
     "eslint-config-standard": "^10.0.0",
