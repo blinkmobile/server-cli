@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+-   API-105: dot files not being copied when running the serverless command
+
 ## 2.3.0 - 2017-09-05
 
 ### Changed
