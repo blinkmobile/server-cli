@@ -2,11 +2,19 @@
 
 ## Unreleased
 
+## 2.3.1 - 2017-10-26
+
 ### Fixed
 
 -   API-105: dot files not being copied when running the serverless command
 
-## 2.3.0 - 2017-09-05
+### Dependencies
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.140.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.140.0) (from [2.138.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.138.0))
+
+-   update [chalk](https://www.npmjs.com/package/chalk) to [2.3.0](https://github.com/chalk/chalk/releases/tag/v2.3.0) (from [2.2.0](https://github.com/chalk/chalk/releases/tag/v2.2.0))
+
+## 2.3.0 - 2017-10-23
 
 ### Changed
 
