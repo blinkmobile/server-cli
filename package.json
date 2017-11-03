@@ -14,7 +14,7 @@
     "@jokeyrhyme/pify-fs": "1.0.1",
     "archiver": "2.1.0",
     "aws-sdk": "2.143.0",
-    "boom": "5.2.0",
+    "boom": "7.1.0",
     "chalk": "2.3.0",
     "cli-table2": "0.2.0",
     "elegant-spinner": "1.0.1",
