@@ -25,7 +25,7 @@
     "hapi": "16.6.2",
     "inquirer": "3.3.0",
     "js-yaml": "3.10.0",
-    "load-json-file": "3.0.0",
+    "load-json-file": "4.0.0",
     "log-symbols": "2.1.0",
     "log-update": "2.2.0",
     "meow": "3.7.0",
