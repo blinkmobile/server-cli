@@ -23,7 +23,7 @@
     "good": "7.3.0",
     "good-console": "6.4.0",
     "hapi": "16.6.2",
-    "inquirer": "3.3.0",
+    "inquirer": "4.0.0",
     "js-yaml": "3.10.0",
     "load-json-file": "4.0.0",
     "log-symbols": "2.1.0",
