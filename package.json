@@ -51,7 +51,7 @@
     "eslint-plugin-promise": "^3.3.2",
     "eslint-plugin-standard": "^3.0.0",
     "fixpack": "^2.3.1",
-    "flow-bin": "^0.59.0",
+    "flow-bin": "^0.60.0",
     "npm-bin-ava-tester": "^1.1.0",
     "nyc": "^11.1.0",
     "proxyquire": "^1.7.10",
