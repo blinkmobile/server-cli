@@ -9,6 +9,7 @@ const path = require('path')
 const meow = require('meow')
 const updateNotifier = require('update-notifier')
 const chalk = require('chalk')
+const execa = require('execa')
 
 const BlinkMobileIdentity = require('@blinkmobile/bm-identity')
 
@@ -75,34 +76,56 @@ Create serverless project:
 
 const cli = meow({
   help,
-  version: true
-}, {
-  boolean: [
-    'force',
-    'tail'
-  ],
-  default: {
-    'bmServerVersion': pkg.version,
-    'cwd': process.cwd(),
-    'force': false,
-    'env': 'dev',
-    'region': 'ap-southeast-2',
-    'tail': false
-  },
-  string: [
-    'bmServerVersion',
-    'cwd',
-    'deploymentBucket',
-    'env',
-    'executionRole',
-    'filter',
-    'out',
-    'port',
-    'region',
-    'startTime',
-    'vpcSecurityGroups',
-    'vpcSubnets'
-  ]
+  flags: {
+    'force': {
+      type: 'boolean',
+      default: false
+    },
+    'tail': {
+      type: 'boolean',
+      default: false
+    },
+    'bmServerVersion': {
+      type: 'string',
+      default: pkg.version
+    },
+    'cwd': {
+      type: 'string',
+      default: process.cwd()
+    },
+    'deploymentBucket': {
+      type: 'string'
+    },
+    'env': {
+      type: 'string',
+      default: 'dev'
+    },
+    'executionRole': {
+      type: 'string'
+    },
+    'filter': {
+      type: 'string'
+    },
+    'out': {
+      type: 'string'
+    },
+    'port': {
+      type: 'string'
+    },
+    'region': {
+      type: 'string',
+      default: 'ap-southeast-2'
+    },
+    'startTime': {
+      type: 'string'
+    },
+    'vpcSecurityGroups': {
+      type: 'string'
+    },
+    'vpcSubnets': {
+      type: 'string'
+    }
+  }
 })
 
 const command = cli.input[0]
@@ -134,12 +157,19 @@ const options = {
 Promise.resolve()
   .then(() => main(input, cli.flags, console, options))
   .catch((err) => {
-    console.error(`
+    return execa('npm', ['-v'])
+      .then(({ stdout: npmVersion }) => {
+        console.error(`
 There was a problem executing '${command}':
 
 ${chalk.red(err)}
 
 Please fix the error and try again.
-`)
-    process.exitCode = 1
+
+${chalk.grey(`Your Environment Information:
+  Server CLI Version:   v${pkg.version}
+  Node Version:         ${process.version}
+  NPM Version:          v${npmVersion}`)}`)
+        process.exitCode = 1
+      })
   })
