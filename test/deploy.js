@@ -249,7 +249,7 @@ test('upload() should log correct updates and return bundle key after upload', (
       S3: function () {
         this.upload = (params) => {
           t.is(params.Bucket, values.SERVER_CLI_SERVICE_S3_BUCKET)
-          t.is(params.Key, path.basename(UPLOAD_PATH))
+          t.is(params.Key, `bundles/${path.basename(UPLOAD_PATH)}`)
           return {
             on: () => {},
             send: (fn) => fn(null, {Key: BUNDLE_KEY})
