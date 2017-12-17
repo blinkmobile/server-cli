@@ -13,7 +13,7 @@
     "@blinkmobile/bm-identity": "3.1.0",
     "@jokeyrhyme/pify-fs": "1.0.1",
     "archiver": "2.1.0",
-    "aws-sdk": "2.169.0",
+    "aws-sdk": "2.171.0",
     "boom": "5.2.0",
     "chalk": "2.3.0",
     "cli-table2": "0.2.0",
