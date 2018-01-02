@@ -20,7 +20,7 @@
     "elegant-spinner": "1.0.1",
     "execa": "0.8.0",
     "glob": "7.1.2",
-    "good": "7.3.0",
+    "good": "8.0.0-rc1",
     "good-console": "6.4.1",
     "hapi": "16.6.2",
     "inquirer": "4.0.1",
