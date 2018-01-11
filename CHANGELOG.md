@@ -2,6 +2,30 @@
 
 ## Unreleased
 
+## 2.4.0 - 2018-01-11
+
+### Added
+
+-   Documentation on how using Deployment Keys instead of user credentials to deploy
+
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [3.2.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/3.2.0) (from [3.1.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/3.1.0))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.178.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.178.0) (from [2.140.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.140.0))
+
+-   update [good-console](https://www.npmjs.com/package/good-console) to 6.4.1 (from 6.4.0)
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to [5.0.0](https://github.com/SBoudrias/Inquirer.js/releases/tag/v5.0.0) (from [3.3.0](https://github.com/SBoudrias/Inquirer.js/releases/tag/v3.3.0))
+
+-   update [load-json-file](https://www.npmjs.com/package/load-json-file) to 4.0.0 (from 3.0.0)
+
+-   update [log-update](https://www.npmjs.com/package/log-update) to 2.3.0 (from 2.2.0)
+
+-   update [meow](https://www.npmjs.com/package/meow) to [4.0.0](https://github.com/sindresorhus/meow/releases/tag/v4.0.0) (from 3.7.0)
+
+-   update [serverless](https://www.npmjs.com/package/serverless) to [1.25.0](https://github.com/serverless/serverless/releases/tag/v1.25.0) (from [1.23.0](https://github.com/serverless/serverless/releases/tag/v1.23.0))
+
 ## 2.3.1 - 2017-10-26
 
 ### Fixed
