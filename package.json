@@ -33,7 +33,7 @@
     "pify": "3.0.0",
     "recursive-copy": "^2.0.7",
     "request": "2.83.0",
-    "semver": "5.4.1",
+    "semver": "5.5.0",
     "serverless": "1.25.0",
     "temp": "0.8.3",
     "uniloc": "0.3.0",
