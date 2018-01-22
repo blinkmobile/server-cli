@@ -55,7 +55,7 @@
     "npm-bin-ava-tester": "^1.1.0",
     "nyc": "^11.1.0",
     "proxyquire": "^1.7.10",
-    "remark-cli": "^4.0.0",
+    "remark-cli": "^5.0.0",
     "remark-lint": "^6.0.0",
     "remark-preset-lint-recommended": "^3.0.0",
     "yauzl": "^2.7.0"
