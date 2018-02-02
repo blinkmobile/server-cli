@@ -1,7 +1,7 @@
 {
   "name": "@blinkmobile/server-cli",
   "description": "CLI to develop, test and deploy server-side HTTPS endpoints with BlinkMobile",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "bin": {
     "blinkm-server": "bin/index.js"
   },
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@blinkmobile/blinkmrc": "1.1.0",
-    "@blinkmobile/bm-identity": "4.0.0",
+    "@blinkmobile/bm-identity": "4.0.1",
     "@jokeyrhyme/pify-fs": "1.0.1",
     "archiver": "2.1.1",
     "aws-sdk": "2.188.0",
