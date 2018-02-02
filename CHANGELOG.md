@@ -2,6 +2,28 @@
 
 ## Unreleased
 
+## 2.4.1 - 2018-02-02
+
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [4.0.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/4.0.0) (from [3.2.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/3.2.0))
+
+-   update [archiver](https://www.npmjs.com/package/archiver) to [2.1.1](https://github.com/archiverjs/node-archiver/releases/tag/2.1.1) (from [2.1.0](https://github.com/archiverjs/node-archiver/releases/tag/2.1.0))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.188.0](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md) (from [2.178.0](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md))
+
+-   update [execa](https://www.npmjs.com/package/execa) to 0.9.0 (from 0.8.0)
+
+-   update [good-console](https://www.npmjs.com/package/good-console) to 7.0.1 (from 6.4.1)
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to 5.0.1 (from 5.0.0)
+
+-   update [log-symbols](https://www.npmjs.com/package/log-symbols) to 2.2.0 (from 2.1.0)
+
+-   update [semver](https://www.npmjs.com/package/semver) to 5.5.0 (from 5.4.1)
+
+-   update [serverless](https://www.npmjs.com/package/serverless) to [1.26.0](https://github.com/serverless/serverless/blob/master/CHANGELOG.md) (from [1.25.0](https://github.com/serverless/serverless/blob/master/CHANGELOG.md))
+
 ## 2.4.0 - 2018-01-11
 
 ### Added
