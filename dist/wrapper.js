@@ -511,7 +511,8 @@ function handler (
   const internalHeaders = {}
   internalHeaders['Content-Type'] = 'application/json'
   const finish = (statusCode, body, customHeaders) => {
-    const headers = Object.assign(internalHeaders, customHeaders)
+
+    const headers = wrapper.keysToLowerCase(Object.assign(internalHeaders, customHeaders))
     const endTime = Date.now()
     const requestTime = endTime - startTime
     console.log('BLINKM_ANALYTICS_EVENT', JSON.stringify({ // eslint-disable-line no-console
@@ -536,9 +537,10 @@ function handler (
         s: requestTime / 1000
       }
     }, null, 2))
+    
     cb(null, {
-      body: JSON.stringify(body, null, 2),
-      headers: wrapper.keysToLowerCase(headers),
+      body: headers['content-type'] === 'application/json' ? JSON.stringify(body, null, 2) : body,
+      headers: headers,
       statusCode: statusCode
     })
   }
