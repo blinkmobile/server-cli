@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+-   changed non-json responses to return non-stringified
+
 ## 2.4.1 - 2018-02-02
 
 ### Dependencies
