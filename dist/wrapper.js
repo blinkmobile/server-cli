@@ -501,7 +501,7 @@ function handler (
   event /* : LambdaEvent */,
   context /* : any */,
   cb /* : (error: null, response: {
-    body: string,
+    body: any,
     headers: Headers,
     statusCode: number
   }) => void */
@@ -511,7 +511,6 @@ function handler (
   const internalHeaders = {}
   internalHeaders['Content-Type'] = 'application/json'
   const finish = (statusCode, body, customHeaders) => {
-
     const headers = wrapper.keysToLowerCase(Object.assign(internalHeaders, customHeaders))
     const endTime = Date.now()
     const requestTime = endTime - startTime
@@ -537,7 +536,7 @@ function handler (
         s: requestTime / 1000
       }
     }, null, 2))
-    
+
     cb(null, {
       body: headers['content-type'] === 'application/json' ? JSON.stringify(body, null, 2) : body,
       headers: headers,
