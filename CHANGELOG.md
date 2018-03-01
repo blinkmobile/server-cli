@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 2.4.2 - 2018-03-01
+
 ### Fixed
 
 -   changed non-json responses to return non-stringified
