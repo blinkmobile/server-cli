@@ -1,9 +1,5 @@
 {
   "name": "example",
   "description": "Testing example api endpoints using @blinkmobile/server-cli",
-  "version": "0.0.1",
-  "engines": {
-    "node": "~6.10",
-    "npm": ">=3"
-  }
+  "version": "0.0.1"
 }
