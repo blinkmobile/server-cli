@@ -2,6 +2,48 @@
 
 ## Unreleased
 
+## 3.0.0 - 2018-07-03
+
+### Changed
+
+### Migration Guide
+
+-   [Migrating to `v3.x.x`](./docs/migrate-to-v3.x.md)
+
+### Changed
+
+-   ON-1025: Bumped minimum supported version Node version to `>=8`
+
+### Dependencies
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.267.1](https://github.com/aws/aws-sdk-js/releases/tag/v2.267.1) (from [2.188.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.188.0))
+
+-   update [boom](https://www.npmjs.com/package/boom) to 7.2.0 (from 5.2.0)
+
+-   update [chalk](https://www.npmjs.com/package/chalk) to [2.4.1](https://github.com/chalk/chalk/releases/tag/v2.4.1) (from [2.3.1](https://github.com/chalk/chalk/releases/tag/v2.3.1))
+
+-   update [execa](https://www.npmjs.com/package/execa) to 0.10.0 (from 0.9.0)
+
+-   update [good-console](https://www.npmjs.com/package/good-console) to 7.1.0 (from 7.0.1)
+
+-   update [hapi](https://www.npmjs.com/package/hapi) to 16.6.3 (from 16.6.2)
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to [6.0.0](https://github.com/SBoudrias/Inquirer.js/releases/tag/v6.0.0) (from [5.1.0](https://github.com/SBoudrias/Inquirer.js/releases/tag/v5.1.0))
+
+-   update [js-yaml](https://www.npmjs.com/package/js-yaml) to [3.12.0](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md) (from [3.10.0](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md))
+
+-   update [load-json-file](https://www.npmjs.com/package/load-json-file) to 5.0.0 (from 4.0.0)
+
+-   update [meow](https://www.npmjs.com/package/meow) to [5.0.0](https://github.com/sindresorhus/meow/releases/tag/v5.0.0) (from [4.0.0](https://github.com/sindresorhus/meow/releases/tag/v4.0.0))
+
+-   update [recursive-copy](https://www.npmjs.com/package/recursive-copy) to 2.0.9 (from 2.0.7)
+
+-   update [request](https://www.npmjs.com/package/request) to [2.87.0](https://github.com/request/request/blob/master/CHANGELOG.md) (from[2.83.0](https://github.com/request/request/blob/master/CHANGELOG.md))
+
+-   update [serverless](https://www.npmjs.com/package/serverless) to [1.27.3](https://github.com/serverless/serverless/releases/tag/v1.27.3) (from [1.26.1](https://github.com/serverless/serverless/releases/tag/v1.26.1))
+
+-   update [update-notifier](https://www.npmjs.com/package/update-notifier) to [2.5.0](https://github.com/yeoman/update-notifier/releases/tag/v2.5.0) (from 2.3.0)
+
 ## 2.4.2 - 2018-03-01
 
 ### Fixed
