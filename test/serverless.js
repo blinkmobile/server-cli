@@ -62,6 +62,7 @@ test('should produce the expected serverless.yml for directory example project',
 })
 
 test('should reject if --bmServerVersion flag is not a semver value', (t) => {
+  // $FlowFixMe
   return t.throws(mkdir('serverless-test')
     .then((tempDir) => {
       return serverless([], createCliFlags({
@@ -75,6 +76,7 @@ test('should reject if --bmServerVersion flag is not a semver value', (t) => {
 })
 
 test('should reject if --out flag is falsey', (t) => {
+  // $FlowFixMe
   return t.throws(serverless([], createCliFlags(), console, {
     blinkMobileIdentity: new BlinkMobileIdentityMock()
   }), '"--out" is mandatory')

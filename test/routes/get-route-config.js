@@ -37,6 +37,7 @@ test('should return route config', (t) => {
 
 test('should reject if a project does not contain route', (t) => {
   const lib = getTestSubject()
+  // $FlowFixMe
   return t.throws(
     lib(CWD, '/route'),
     'Project does not contain route: /route'

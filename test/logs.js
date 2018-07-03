@@ -51,6 +51,7 @@ test('should call "serverless logs" with correct arguments and options', (t) => 
       }
     }
   })
+  // $FlowFixMe
   return logs([], createCliFlags({
     cwd: DIRECTORY_DIR,
     env: 'prod',
@@ -69,6 +70,7 @@ test('should reject if "serverless logs" fails', (t) => {
       executeSLSCommand: (args, options) => Promise.reject(new Error('error message'))
     }
   })
+  // $FlowFixMe
   return t.throws(
     logs([], createCliFlags({
       cwd: DIRECTORY_DIR,
