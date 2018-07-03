@@ -29,3 +29,5 @@
 ## Breaking Changes
 
 -   [Migrating to `v2.x.x`](./migrate-to-v2.x.md)
+
+-   [Migrating to `v3.x.x`](./migrate-to-v3.x.md)
