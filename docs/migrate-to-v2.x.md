@@ -12,7 +12,7 @@ Only Node `4.3.x` was supported in the execution environment.
 
 NodeJS `6.10.x` will now be the only version of node supported in the execution environment.
 
-See [Breaking changes between v4 LTS and v6 LTS](https://github.com/nodejs/node/wiki/Breaking-changes-between-v4-LTS-and-v6-LTS) for more information on breaking changes.
+See [Breaking changes between v4 LTS and v6 LTS](https://github.com/nodejs/wiki-archive/blob/master/Breaking-changes-between-v4-LTS-and-v6-LTS.md) for more information on breaking changes.
 
 ## Route Timeouts
 
