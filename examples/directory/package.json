@@ -4,9 +4,5 @@
   "version": "0.0.1",
   "dependencies": {
     "boom": "4.2.0"
-  },
-  "engines": {
-    "node": "~6.10",
-    "npm": ">=3"
   }
 }
