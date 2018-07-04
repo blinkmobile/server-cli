@@ -34,7 +34,7 @@
     "recursive-copy": "2.0.9",
     "request": "2.87.0",
     "semver": "5.5.0",
-    "serverless": "1.27.3",
+    "serverless": "1.28.0",
     "temp": "0.8.3",
     "uniloc": "0.3.0",
     "update-notifier": "2.5.0",
