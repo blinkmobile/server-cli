@@ -10,6 +10,8 @@
 
 1.  [CORS Configuration](./CORS.md)
 
+1.  [Local Development](./local-development.md)
+
 1.  [Deployment Keys](./deployment-keys.md)
 
 1.  [Viewing Server Logs](./logs.md)
