@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+-   ON-1474 # environment variables to `serve` command
+
 ## 3.0.0 - 2018-07-03
 
 ### Changed

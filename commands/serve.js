@@ -14,34 +14,27 @@ const chalk = require('chalk')
 
 const readCors = require('../lib/cors/read.js')
 const serve = require('../lib/serve.js')
+const displayRoutes = require('../lib/routes/display.js')
 
-module.exports = function (
+module.exports = async function (
   input /* : Array<string> */,
   flags /* : CLIFlags */,
   logger /* : typeof console */,
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
   const cwd = path.resolve(flags.cwd)
-  const example = path.join('helloworld', 'index.js')
-  return readCors(cwd)
-    .then((cors) => serve.startServer(logger, {
-      cors,
-      cwd,
-      port: flags.port || 3000
-    })
-      .then((server) => logger.log(`
+  const cors = await readCors(cwd)
+  const server = await serve.startServer(logger, {
+    cors,
+    cwd,
+    env: flags.env,
+    port: flags.port || 3000
+  })
+  await displayRoutes(logger, flags.cwd)
+  logger.log(`
 HTTP service for local development is available from:
   http://localhost:${server.info.port}
 
-Your current directory "." is:
-  ${cwd}
-
-HTTP API files should be in sub-folders within the directory above E.g:
-  ${example} -> ${server.info.uri}/helloworld
-
-Create new HTTP APIs, rename, update, or delete them at any time.
-Your changes automatically take effect on the next request
-
 ${chalk.yellow('Hit CTRL-C to stop the service')}
-`)))
+`)
 }
