@@ -3,9 +3,14 @@
 
 /* ::
 import type {
+  BlinkMRCServer,
   CLIFlags,
   CLIOptions
 } from '../types.js'
+
+import type BlinkMobileIdentity, {
+  AWSCredentials
+} from '@blinkmobile/bm-identity'
 */
 
 const path = require('path')
@@ -15,6 +20,7 @@ const chalk = require('chalk')
 const readCors = require('../lib/cors/read.js')
 const serve = require('../lib/serve.js')
 const displayRoutes = require('../lib/routes/display.js')
+const scope = require('../lib/scope.js')
 
 module.exports = async function (
   input /* : Array<string> */,
@@ -22,14 +28,18 @@ module.exports = async function (
   logger /* : typeof console */,
   options /* : CLIOptions */
 ) /* : Promise<void> */ {
+  const cfg = await scope.read(flags.cwd)
   const cwd = path.resolve(flags.cwd)
   const cors = await readCors(cwd)
   const server = await serve.startServer(logger, {
     cors,
     cwd,
     env: flags.env,
-    port: flags.port || 3000
-  })
+    port: flags.port || 3000,
+    options
+  },
+  cfg,
+  options.blinkMobileIdentity, flags.env)
   await displayRoutes(logger, flags.cwd)
   logger.log(`
 HTTP service for local development is available from:

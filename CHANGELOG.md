@@ -5,6 +5,7 @@
 ### Added
 
 -   ON-1474 # environment variables to `serve` command
+-   ON-1457 # Setup temporary AWS credentials for sending emails via `serve` command
 
 ## 3.0.0 - 2018-07-03
 
