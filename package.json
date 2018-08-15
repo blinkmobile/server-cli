@@ -32,7 +32,7 @@
     "object-merge": "2.5.1",
     "pify": "3.0.0",
     "recursive-copy": "2.0.9",
-    "request": "2.87.0",
+    "request": "2.88.0",
     "semver": "5.5.0",
     "serverless": "1.29.2",
     "temp": "0.8.3",
