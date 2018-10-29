@@ -2,12 +2,28 @@
 
 ## Unreleased
 
+### Changed
+
+-   ON-2429 # Changed default Server CLI Service origin from `https://server-cli-service.blinkm.io` to `https://auth-api.blinkm.io`
+
 ## 3.1.0 - 2018-08-15
 
 ### Added
 
 -   ON-1474 # environment variables to `serve` command
 -   ON-1457 # Setup temporary AWS credentials for sending emails via `serve` command
+
+### Dependencies
+
+-   update [@blinkmobile/blinkmrc](https://www.npmjs.com/package/@blinkmobile/blinkmrc) to [2.0.0](https://github.com/blinkmobile/blinkmrc.js/releases/tag/2.0.0) (from [1.1.0](https://github.com/blinkmobile/blinkmrc.js/releases/tag/1.1.0))
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [4.0.2](https://github.com/blinkmobile/bm-identity.js/releases/tag/4.0.2) (from [4.0.1](https://github.com/blinkmobile/bm-identity.js/releases/tag/4.0.1))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.289.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.289.0) (from [2.267.1](https://github.com/aws/aws-sdk-js/releases/tag/v2.267.1))
+
+-   update [request](https://www.npmjs.com/package/request) to [2.88.0](https://github.com/request/request/blob/master/CHANGELOG.md) (from [2.87.0](https://github.com/request/request/blob/master/CHANGELOG.md))
+
+-   update [serverless](https://www.npmjs.com/package/serverless) to [1.29.2](https://github.com/serverless/serverless/releases/tag/v1.29.2) (from [1.27.3](https://github.com/serverless/serverless/releases/tag/v1.27.3))
 
 ## 3.0.0 - 2018-07-03
 
