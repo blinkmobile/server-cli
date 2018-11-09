@@ -4,7 +4,7 @@
 
 ### Added
 
--   ON-2527 # Added functionality allowing custom AWS profiles to be configured in the `.blinkmrc.json` file
+-   ON-2530 # Added option to allow developers to use their own AWS Credentials during local development
 
 ## 3.1.0 - 2018-08-15
 

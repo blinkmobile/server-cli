@@ -23,3 +23,35 @@ bm server serve
     ```bash
     bm server serve --env test --port 2000
     ```
+
+### BYO AWS Credentials
+
+When running Server CLI `serve` command, AWS Credentials are retrieved and used to allow you to communicate with AWS with limited restrictions. If you require access to more AWS services than the defaults, OneBlink are able to provide you with AWS credentials that you can use during local development to mirror your deployed AWS privileges.
+
+#### Configuration
+
+The property `awsProfile` can be added to your projects `.blinkmrc.json` file, which will be use as [`AWS_PROFILE`](https://docs.aws.amazon.com/cli/latest/userguide/cli-environment.html) variable **only during local development**.
+
+```json
+{
+  "server": {
+    "awsProfile": "name-of-profile"
+  }
+}
+```
+
+Follow these steps to setup an AWS Profile
+
+1.  Contact OneBlink for AWS credentials for development purposes. Ensure you notify us of any specific privileges you believe you may need.
+
+1.  Install the AWS CLI
+
+    -   [Windows](https://docs.aws.amazon.com/cli/latest/userguide/awscli-install-windows.html)
+    -   [Mac](https://docs.aws.amazon.com/cli/latest/userguide/cli-install-macos.html) (We recommend installing with `brew`)
+        ```
+        brew install awscli
+        ```
+
+1.  Create an [AWS Profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html)
+
+1.  Manually update your `.blinkmrc.json` file with the `awsProfile` property
