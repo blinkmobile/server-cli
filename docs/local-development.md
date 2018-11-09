@@ -26,7 +26,7 @@ bm server serve
 
 ### BYO AWS Credentials
 
-When running Server CLI `serve` command, AWS Credentials are retrieved and used to allow you to communicate with AWS with limited restrictions. If you require access to more AWS services than the defaults, you are able to us your own AWS credentials during local development to mirror your deployed AWS privileges.
+When running Server CLI `serve` command, AWS Credentials are retrieved and used to allow you to communicate with AWS with limited restrictions. If you require access to more AWS services than the defaults, OneBlink are able to provide you with AWS credentials that you can use during local development to mirror your deployed AWS privileges.
 
 #### Configuration
 
@@ -42,7 +42,7 @@ The property `awsProfile` can be added to your projects `.blinkmrc.json` file, w
 
 Follow these steps to setup an AWS Profile
 
-1.  Get AWS credentials supplied by your administrator
+1.  Contact OneBlink for AWS credentials for development purposes. Ensure you notify us of any specific privileges you believe you may need.
 
 1.  Install the AWS CLI
 
