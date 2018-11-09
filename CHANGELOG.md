@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### 3.2.0 - 2018-11-09
+
 ### Added
 
 -   ON-2527 # Added functionality allowing custom AWS profiles to be configured in the `.blinkmrc.json` file
