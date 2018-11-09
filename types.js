@@ -19,6 +19,7 @@ export type ServerCLIServiceConfig = {
 export type BlinkMRCServer = {
   project?: string,
   region?: string,
+  awsProfile?: string,
   cors?: CorsConfiguration | boolean,
   routes?: Array<RouteConfiguration>,
   timeout?: number,
