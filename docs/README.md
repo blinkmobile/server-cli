@@ -30,6 +30,14 @@
 
 -   [Server CLI Service](./server-cli-service.md)
 
+## Examples
+
+-   [Configuration Based Routes](../examples/configuration)
+
+-   [Directory Based Routes](../examples/directory)
+
+-   [Dynamic Form Element Options](../examples/dynamic-form-element-options)
+
 ## Breaking Changes
 
 -   [Migrating to `v2.x.x`](./migrate-to-v2.x.md)
