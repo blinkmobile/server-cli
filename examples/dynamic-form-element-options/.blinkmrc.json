@@ -10,7 +10,7 @@
       },
       {
         "route": "/jamaica-100m-relay",
-        "module": "./src/staff.js"
+        "module": "./src/jamaica-100m-relay.js"
       },
       {
         "route": "/yes-no-maybe",
