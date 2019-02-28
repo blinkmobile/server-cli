@@ -2,6 +2,8 @@
 
 ## Documentation
 
+1.  [Usage](./usage.md)
+
 1.  [Routes](./routes.md)
 
 1.  [Handler Functions](./handlers.md)
