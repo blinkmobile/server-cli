@@ -3,7 +3,7 @@
 
 const path = require('path')
 
-const test = require('ava')
+const test /* : Function */ = require('ava')
 const pify = require('pify')
 const temp = require('temp').track()
 
@@ -63,7 +63,7 @@ test('should produce the expected serverless.yml for directory example project',
 
 test('should reject if --bmServerVersion flag is not a semver value', (t) => {
   // $FlowFixMe
-  return t.throws(mkdir('serverless-test')
+  return t.throwsAsync(() => mkdir('serverless-test')
     .then((tempDir) => {
       return serverless([], createCliFlags({
         cwd: DIRECTORY_DIR,
@@ -77,7 +77,7 @@ test('should reject if --bmServerVersion flag is not a semver value', (t) => {
 
 test('should reject if --out flag is falsey', (t) => {
   // $FlowFixMe
-  return t.throws(serverless([], createCliFlags(), console, {
+  return t.throwsAsync(() => serverless([], createCliFlags(), console, {
     blinkMobileIdentity: new BlinkMobileIdentityMock()
   }), '"--out" is mandatory')
 })

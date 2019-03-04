@@ -89,5 +89,5 @@ test('Should reject if configuration.read() throws an error', (t) => {
     '../utils/project-meta.js': projectMetaMock((cwd) => Promise.reject(new Error('test')))
   })
 
-  return t.throws(read(CWD), 'test')
+  return t.throwsAsync(() => read(CWD), 'test')
 })

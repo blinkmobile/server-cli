@@ -1,7 +1,7 @@
 /* @flow */
 'use strict'
 
-const test = require('ava')
+const test /* : Function */ = require('ava')
 const proxyquire = require('proxyquire')
 
 const TEST_SUBJECT = '../../lib/routes/get-route-config.js'
@@ -38,8 +38,8 @@ test('should return route config', (t) => {
 test('should reject if a project does not contain route', (t) => {
   const lib = getTestSubject()
   // $FlowFixMe
-  return t.throws(
+  return t.throwsAsync(() =>
     lib(CWD, '/route'),
-    'Project does not contain route: /route'
+  'Project does not contain route: /route'
   )
 })

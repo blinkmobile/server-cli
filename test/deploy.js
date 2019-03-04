@@ -32,7 +32,7 @@ test('confirm() should not prompt or log if force is true', (t) => {
       prompt: (questions) => t.fail('Should not call prompt')
     }
   })
-  return deploy.confirm({log: () => t.fail('Should not log')}, true)
+  return deploy.confirm({ log: () => t.fail('Should not log') }, true)
     .then(() => t.pass())
 })
 
@@ -48,7 +48,7 @@ test('confirm() should prompt and log if force is false', (t) => {
       }
     }
   })
-  return deploy.confirm({log: () => t.pass()}, false)
+  return deploy.confirm({ log: () => t.pass() }, false)
 })
 
 test('authenticate() should call blinkMobileIdentity functions and stop updates', (t) => {
@@ -176,7 +176,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
     'temp': {
       track: () => ({
         createWriteStream: (options) => {
-          t.deepEqual(options, {suffix: '.zip'})
+          t.deepEqual(options, { suffix: '.zip' })
           return {
             on: (str, fn) => {
               if (str === 'error') {
@@ -188,7 +188,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
       })
     }
   })
-  return t.throws(deploy.zip(ZIP_PATH), 'test temp error')
+  return t.throwsAsync(() => deploy.zip(ZIP_PATH), 'test temp error')
 })
 
 test('zip() should log correct updates and reject if an archiver emits an error', (t) => {
@@ -225,7 +225,7 @@ test('zip() should log correct updates and reject if an archiver emits an error'
       })
     }
   })
-  return t.throws(deploy.zip(ZIP_PATH), 'test archiver error')
+  return t.throwsAsync(() => deploy.zip(ZIP_PATH), 'test archiver error')
 })
 
 test('upload() should log correct updates and return bundle key after upload', (t) => {
@@ -252,7 +252,7 @@ test('upload() should log correct updates and return bundle key after upload', (
           t.is(params.Key, `bundles/${path.basename(UPLOAD_PATH)}`)
           return {
             on: () => {},
-            send: (fn) => fn(null, {Key: BUNDLE_KEY})
+            send: (fn) => fn(null, { Key: BUNDLE_KEY })
           }
         }
       }
@@ -286,7 +286,7 @@ test('upload() should log correct updates and reject if upload returns an error'
       }
     }
   })
-  return t.throws(deploy.upload(UPLOAD_PATH, {}, {}), 'test upload error')
+  return t.throwsAsync(() => deploy.upload(UPLOAD_PATH, {}, {}), 'test upload error')
 })
 
 test('deploy() should log correct updates', (t) => {
@@ -317,11 +317,11 @@ test('deploy() should log correct updates', (t) => {
               env: ENV
             }
           })
-          cb(null, {statusCode: 202}, {id: '123'})
+          cb(null, { statusCode: 202 }, { id: '123' })
         },
         get: (url, cb) => {
           t.is(url, '/deployments/123')
-          cb(null, {statusCode: 200}, { result: { baseUrl: 'https://example.com' } })
+          cb(null, { statusCode: 200 }, { result: { baseUrl: 'https://example.com' } })
         }
       })
     }
@@ -349,7 +349,7 @@ test('deploy() should log correct updates and reject if request() returns an err
       })
     }
   })
-  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {}), 'test error')
+  return t.throwsAsync(() => deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {}), 'test error')
 })
 
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
@@ -376,5 +376,5 @@ test('deploy() should log correct updates and reject if request() returns an non
       })
     }
   })
-  return t.throws(deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {}), 'error message')
+  return t.throwsAsync(() => deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {}), 'error message')
 })

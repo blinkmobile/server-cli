@@ -73,6 +73,6 @@ test('getHandler() invalid modules', (t) => {
   ]
 
   return tests.reduce((prev, config) => {
-    return prev.then(() => t.throws(lib.getHandler.apply(null, config.args), config.expected))
+    return prev.then(() => t.throwsAsync(() => lib.getHandler.apply(null, config.args), config.expected))
   }, Promise.resolve())
 })

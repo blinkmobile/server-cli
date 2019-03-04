@@ -10,7 +10,7 @@ import type {
 
 const path = require('path')
 
-const test = require('ava')
+const test /* : Function */ = require('ava')
 const proxyquire /* : (string, { [id:string]: any }) => (Array<string>, CLIFlags, typeof console, CLIOptions) => Promise<void> */ = require('proxyquire')
 
 const BlinkMobileIdentityMock = require('./fixtures/blink-mobile-identity.js')
@@ -71,11 +71,11 @@ test('should reject if "serverless logs" fails', (t) => {
     }
   })
   // $FlowFixMe
-  return t.throws(
+  return t.throwsAsync(() =>
     logs([], createCliFlags({
       cwd: DIRECTORY_DIR,
       env: 'prod'
     }), console, CLI_OPTIONS),
-    'See Serverless Error above for more details.'
+  'See Serverless Error above for more details.'
   )
 })

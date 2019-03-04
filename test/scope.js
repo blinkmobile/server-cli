@@ -98,7 +98,7 @@ test('display() should reject with nice error message if projectMeta.read() thro
     }
   })
 
-  return t.throws(scope.display(t.context.logger, CWD), 'Scope has not been set yet, see --help for information on how to set scope.')
+  return t.throwsAsync(() => scope.display(t.context.logger, CWD), 'Scope has not been set yet, see --help for information on how to set scope.')
 })
 
 test('display() should reject with nice error message if scope has not been set', (t) => {
@@ -108,7 +108,7 @@ test('display() should reject with nice error message if scope has not been set'
     }
   })
 
-  return t.throws(scope.display(t.context.logger, CWD), 'Scope has not been set yet, see --help for information on how to set scope.')
+  return t.throwsAsync(() => scope.display(t.context.logger, CWD), 'Scope has not been set yet, see --help for information on how to set scope.')
 })
 
 test('display() should log the currently set scope', (t) => {
@@ -121,7 +121,7 @@ test('display() should log the currently set scope', (t) => {
 test('write() should reject if project is not set on the meta object', (t) => {
   const scope = t.context.getTestSubject()
 
-  return t.throws(scope.write(CWD, null), 'meta.project was not defined.')
+  return t.throwsAsync(() => scope.write(CWD, null), 'meta.project was not defined.')
 })
 
 test('write() should merge new scope with the current config', (t) => {

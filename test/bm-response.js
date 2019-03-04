@@ -43,7 +43,7 @@ test('setStatusCode() should set status code and return response', (t) => {
 
 test('setPayload() should set payload and return response', (t) => {
   const bmResponse = new BmResponse(REQUEST)
-  const payload = {key: 'value'}
+  const payload = { key: 'value' }
   t.notDeepEqual(bmResponse.payload, payload)
   const result = bmResponse.setPayload(payload)
   t.deepEqual(bmResponse.payload, payload)

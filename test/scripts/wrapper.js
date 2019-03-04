@@ -52,7 +52,7 @@ test('normaliseLambdaRequest()', (t) => {
   const request = lib.normaliseLambdaRequest(EVENT)
 
   t.deepEqual(request, {
-    body: {'test': 123},
+    body: { 'test': 123 },
     headers: {
       host: 'this is the host'
     },
@@ -72,7 +72,7 @@ test('normaliseLambdaRequest()', (t) => {
 test('handler() should return correct response', (t) => {
   t.plan(2)
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {path: '/response'})
+  const event = Object.assign({}, EVENT, { path: '/response' })
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
@@ -90,7 +90,7 @@ test('handler() should return correct response', (t) => {
 test('handler() should return correct boom response', (t) => {
   t.plan(2)
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {path: '/boom'})
+  const event = Object.assign({}, EVENT, { path: '/boom' })
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
@@ -112,7 +112,7 @@ test('handler() should return 404 status code if route is not found', (t) => {
   t.plan(2)
   const route = '/missing'
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {path: route})
+  const event = Object.assign({}, EVENT, { path: route })
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
@@ -138,7 +138,7 @@ test.serial('handler() should return 500 status code if current working director
     throw new Error('test chdir error')
   }
   const lib = t.context.getTestSubject()
-  const event = Object.assign({}, EVENT, {path: '/response'})
+  const event = Object.assign({}, EVENT, { path: '/response' })
 
   return lib.handler(event, null, (err, result) => {
     t.falsy(err)
@@ -252,7 +252,7 @@ test('handler() should return 200 for requests with CORS and invalid origin', (t
   t.plan(2)
   const lib = t.context.getTestSubject({
     [CONFIG_PATH]: {
-      cors: Object.assign({}, CORS, {origins: ['invalid']})
+      cors: Object.assign({}, CORS, { origins: ['invalid'] })
     }
   })
   const event = Object.assign({}, EVENT, {

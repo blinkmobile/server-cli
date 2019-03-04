@@ -7,7 +7,7 @@ const validate = require('../../lib/cors/validate.js')
 const HELP = ', see documentation for information on how to configure cors.'
 
 test('Should reject if cors is not truthy', (t) => {
-  return t.throws(validate(), 'Must specify cors configuration' + HELP)
+  return t.throwsAsync(validate(), 'Must specify cors configuration' + HELP)
 })
 
 test('Should reject if origins is undefined or is not an array', (t) => {
@@ -20,18 +20,18 @@ test('Should reject if origins is undefined or is not an array', (t) => {
     { origins: {} }
   ]
   return configs.reduce((prev, config) => {
-    return prev.then(() => t.throws(validate(config), 'Must specify at least a single allowable origin in cors configuration' + HELP))
+    return prev.then(() => t.throwsAsync(() => validate(config), 'Must specify at least a single allowable origin in cors configuration' + HELP))
   }, Promise.resolve())
 })
 
 test('Should reject if origins is an empty array', (t) => {
-  return t.throws(validate({
+  return t.throwsAsync(() => validate({
     origins: []
   }), 'Must specify at least a single allowable origin in cors configuration' + HELP)
 })
 
 test('Should reject if origins contains invalid urls', (t) => {
-  return t.throws(validate({
+  return t.throwsAsync(() => validate({
     origins: ['test', '123']
   }), 'The following origins in cors configuration are not valid: test, 123')
 })
@@ -45,7 +45,7 @@ test('Should reject if headers is defined but not as an array', (t) => {
     { origins: ['http://test'], headers: {} }
   ]
   return configs.reduce((prev, config) => {
-    return prev.then(() => t.throws(validate(config), 'Headers must be an array of strings in cors configuration' + HELP))
+    return prev.then(() => t.throwsAsync(() => validate(config), 'Headers must be an array of strings in cors configuration' + HELP))
   }, Promise.resolve())
 })
 
@@ -58,7 +58,7 @@ test('Should reject if exposed headers is defined but not as an array', (t) => {
     { origins: ['http://test'], exposedHeaders: {} }
   ]
   return configs.reduce((prev, config) => {
-    return prev.then(() => t.throws(validate(config), 'Exposed headers must be an array of strings in cors configuration' + HELP))
+    return prev.then(() => t.throwsAsync(() => validate(config), 'Exposed headers must be an array of strings in cors configuration' + HELP))
   }, Promise.resolve())
 })
 
@@ -71,7 +71,7 @@ test('Should reject if max age is not a number', (t) => {
     { origins: ['http://test'], maxAge: {} }
   ]
   return configs.reduce((prev, config) => {
-    return prev.then(() => t.throws(validate(config), 'Max age must be a number in cors configuration' + HELP))
+    return prev.then(() => t.throwsAsync(() => validate(config), 'Max age must be a number in cors configuration' + HELP))
   }, Promise.resolve())
 })
 
@@ -84,7 +84,7 @@ test('Should reject if credentials is not a boolean', (t) => {
     { origins: ['http://test'], maxAge: 1, credentials: {} }
   ]
   return configs.reduce((prev, config) => {
-    return prev.then(() => t.throws(validate(config), 'Credentials must be a boolean in cors configuration' + HELP))
+    return prev.then(() => t.throwsAsync(() => validate(config), 'Credentials must be a boolean in cors configuration' + HELP))
   }, Promise.resolve())
 })
 

@@ -54,7 +54,7 @@ test('Should log the routes and reject if no routes are found', (t) => {
     './read.js': () => Promise.resolve([])
   })
 
-  return display({log: () => t.fail('Should not log if there are no routes')}, CWD)
+  return display({ log: () => t.fail('Should not log if there are no routes') }, CWD)
     .catch(() => t.pass())
 })
 
@@ -74,7 +74,7 @@ test('Should log the table if no errors resolve if no errors are returned from v
   t.plan(1)
   const display = t.context.getTestSubject()
 
-  return display({log: () => t.pass()}, CWD)
+  return display({ log: () => t.pass() }, CWD)
 })
 
 test('Should log the table and reject if errors are return from validate()', (t) => {
@@ -83,6 +83,6 @@ test('Should log the table and reject if errors are return from validate()', (t)
     './validate.js': () => Promise.resolve(['error1', 'error2'])
   })
 
-  return display({log: () => t.pass()}, CWD)
+  return display({ log: () => t.pass() }, CWD)
     .catch(() => t.pass())
 })

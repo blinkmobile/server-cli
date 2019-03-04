@@ -77,7 +77,7 @@ test('Should not log the cors and reject if no routes are found', (t) => {
     './validate.js': () => Promise.reject(new Error())
   })
 
-  return display({log: () => t.fail('Should not log if there are no routes')}, CWD)
+  return display({ log: () => t.fail('Should not log if there are no routes') }, CWD)
     .catch(() => t.pass())
 })
 
@@ -85,5 +85,5 @@ test('Should log the cors', (t) => {
   t.plan(1)
   const display = t.context.getTestSubject()
 
-  return display({log: () => t.pass()}, CWD)
+  return display({ log: () => t.pass() }, CWD)
 })
