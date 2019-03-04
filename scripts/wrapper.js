@@ -13,8 +13,16 @@ import type {
   Headers,
   LambdaEvent
 } from '../types.js'
+
+type APIGatewayResult = {
+  statusCode: number,
+  headers: Headers,
+  body?: string
+}
 */
 
+const https = require('https')
+const { URL } = require('url')
 const path = require('path')
 
 const handlers = require('../lib/handlers.js')
@@ -48,146 +56,182 @@ function normaliseLambdaRequest (
   }
 }
 
-function handler (
+async function handler (
   event /* : LambdaEvent */,
-  context /* : any */,
-  cb /* : (error: null, response: {
-    body: any,
-    headers: Headers,
-    statusCode: number
-  }) => void */
-) /* : Promise<void> */ {
+  context /* : any */
+) /* : Promise<APIGatewayResult> */ {
   const startTime = Date.now()
+  context.callbackWaitsForEmptyEventLoop = false
+
   const request = normaliseLambdaRequest(event)
-  const internalHeaders = {}
-  internalHeaders['Content-Type'] = 'application/json'
-  const finish = (statusCode, body, customHeaders) => {
+  const internalHeaders /* : Headers */ = {
+    'Content-Type': 'application/json'
+  }
+
+  // $FlowFixMe requiring file without string literal to accommodate for __dirname
+  const config = require(path.join(__dirname, 'bm-server.json'))
+
+  const finish = (
+    statusCode /* : number */,
+    body /* : mixed | void */,
+    customHeaders /* : Headers | void */
+  ) /* : APIGatewayResult */ => {
     const headers = wrapper.keysToLowerCase(Object.assign(internalHeaders, customHeaders))
     const endTime = Date.now()
     const requestTime = endTime - startTime
-    console.log('BLINKM_ANALYTICS_EVENT', JSON.stringify({ // eslint-disable-line no-console
-      request: {
-        method: request.method.toUpperCase(),
-        query: request.url.query,
-        port: 443,
-        path: request.route,
-        hostName: request.url.hostname,
-        params: request.url.params,
-        protocol: request.url.protocol
-      },
-      response: {
-        statusCode: statusCode
-      },
-      requestTime: {
-        startDateTime: new Date(startTime),
-        startTimeStamp: startTime,
-        endDateTime: new Date(endTime),
-        endTimeStamp: endTime,
-        ms: requestTime,
-        s: requestTime / 1000
-      }
-    }, null, 2))
 
-    cb(null, {
-      body: headers['content-type'] === 'application/json' ? JSON.stringify(body, null, 2) : body,
+    if (
+      process.env.ONEBLINK_ANALYTICS_ORIGIN &&
+      process.env.ONEBLINK_ANALYTICS_COLLECTOR_TOKEN
+    ) {
+      try {
+        const token = process.env.ONEBLINK_ANALYTICS_COLLECTOR_TOKEN
+        const hostname = new URL(process.env.ONEBLINK_ANALYTICS_ORIGIN).hostname
+        const httpsRequest = https.request({
+          hostname,
+          path: '/events',
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        httpsRequest.write(JSON.stringify({
+          'events': [
+            {
+              name: 'Server CLI Request',
+              date: new Date().toISOString(),
+              tags: {
+                env: config.env,
+                scope: config.scope,
+                request: {
+                  method: request.method.toUpperCase(),
+                  query: request.url.query,
+                  port: 443,
+                  path: request.route,
+                  hostName: request.url.hostname,
+                  params: request.url.params,
+                  protocol: request.url.protocol
+                },
+                response: {
+                  statusCode: statusCode
+                },
+                requestTime: {
+                  startDateTime: new Date(startTime).toISOString(),
+                  startTimeStamp: startTime,
+                  endDateTime: new Date(endTime).toISOString(),
+                  endTimeStamp: endTime,
+                  ms: requestTime,
+                  s: requestTime / 1000
+                }
+              }
+            }
+          ]
+        }))
+        httpsRequest.end()
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.warn('An error occurred attempting to POST analytics event', e)
+      }
+    }
+
+    const result /* : APIGatewayResult */ = {
       headers: headers,
       statusCode: statusCode
-    })
+    }
+    if (body !== undefined) {
+      result.body = typeof body === 'string' ? body : JSON.stringify(body)
+    }
+    return result
   }
 
-  return Promise.resolve()
-    // $FlowFixMe requiring file without string literal to accomodate for __dirname
-    .then(() => require(path.join(__dirname, 'bm-server.json')))
-    .then((config) => {
-      // Get handler module based on route
-      let routeConfig
-      try {
-        routeConfig = handlers.findRouteConfig(event.path, config.routes)
-        request.url.params = routeConfig.params || {}
-        request.route = routeConfig.route
-      } catch (error) {
-        return finish(404, {
-          error: 'Not Found',
-          message: error.message,
-          statusCode: 404
+  try {
+    // Get handler module based on route
+    let routeConfig
+    try {
+      routeConfig = handlers.findRouteConfig(event.path, config.routes)
+      request.url.params = routeConfig.params || {}
+      request.route = routeConfig.route
+    } catch (error) {
+      return finish(404, {
+        error: 'Not Found',
+        message: error.message,
+        statusCode: 404
+      })
+    }
+
+    // Check for browser requests and apply CORS if required
+    if (request.headers.origin) {
+      if (!config.cors) {
+        // No cors, we will return 405 result and let browser handler error
+        return finish(405, {
+          error: 'Method Not Allowed',
+          message: 'OPTIONS method has not been implemented',
+          statusCode: 405
         })
       }
-
-      // Check for browser requests and apply CORS if required
-      if (request.headers.origin) {
-        if (!config.cors) {
-          // No cors, we will return 405 result and let browser handler error
-          return finish(405, {
-            error: 'Method Not Allowed',
-            message: 'OPTIONS method has not been implemented',
-            statusCode: 405
-          })
-        }
-        if (!config.cors.origins.some((origin) => origin === '*' || origin === request.headers.origin)) {
-          // Invalid origin, we will return 200 result and let browser handler error
-          return finish(200)
-        }
-        // Headers for all cross origin requests
-        internalHeaders['Access-Control-Allow-Origin'] = request.headers.origin
-        internalHeaders['Access-Control-Expose-Headers'] = config.cors.exposedHeaders.join(',')
-        // Headers for OPTIONS cross origin requests
-        if (request.method === 'options' && request.headers['access-control-request-method']) {
-          internalHeaders['Access-Control-Allow-Headers'] = config.cors.headers.join(',')
-          internalHeaders['Access-Control-Allow-Methods'] = request.headers['access-control-request-method']
-          internalHeaders['Access-Control-Max-Age'] = config.cors.maxAge
-        }
-        // Only set credentials header if truthy
-        if (config.cors.credentials) {
-          internalHeaders['Access-Control-Allow-Credentials'] = true
-        }
-      }
-      if (request.method === 'options') {
-        // For OPTIONS requests, we can just finish
-        // as we have created our own implementation of CORS
+      if (!config.cors.origins.some((origin) => origin === '*' || origin === request.headers.origin)) {
+        // Invalid origin, we will return 200 result and let browser handler error
         return finish(200)
       }
-
-      // Change current working directory to the project
-      // to accomadate for packages using process.cwd()
-      const projectPath = path.join(__dirname, 'project')
-      if (process.cwd() !== projectPath) {
-        try {
-          process.chdir(projectPath)
-        } catch (err) {
-          return Promise.reject(new Error(`Could not change current working directory to '${projectPath}': ${err}`))
-        }
+      // Headers for all cross origin requests
+      internalHeaders['Access-Control-Allow-Origin'] = request.headers.origin
+      internalHeaders['Access-Control-Expose-Headers'] = config.cors.exposedHeaders.join(',')
+      // Headers for OPTIONS cross origin requests
+      if (request.method === 'options' && request.headers['access-control-request-method']) {
+        internalHeaders['Access-Control-Allow-Headers'] = config.cors.headers.join(',')
+        internalHeaders['Access-Control-Allow-Methods'] = request.headers['access-control-request-method']
+        internalHeaders['Access-Control-Max-Age'] = config.cors.maxAge
       }
-
-      return handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
-        .then((handler) => {
-          if (typeof handler !== 'function') {
-            return finish(405, {
-              error: 'Method Not Allowed',
-              message: `${request.method.toUpperCase()} method has not been implemented`,
-              statusCode: 405
-            })
-          }
-
-          return handlers.executeHandler(handler, request)
-            .then((response) => finish(response.statusCode, response.payload, response.headers))
-        })
-    })
-    .catch((error) => {
-      if (error && error.stack) {
-        console.error(error.stack) // eslint-disable-line no-console
+      // Only set credentials header if truthy
+      if (config.cors.credentials) {
+        internalHeaders['Access-Control-Allow-Credentials'] = true
       }
-      if (error && error.isBoom && error.output && error.output.payload && error.output.statusCode) {
-        if (error.data) {
-          console.error('Boom Data: ', JSON.stringify(error.data, null, 2)) // eslint-disable-line no-console
-        }
-        return finish(error.output.statusCode, error.output.payload, error.output.headers)
+    }
+    if (request.method === 'options') {
+      // For OPTIONS requests, we can just finish
+      // as we have created our own implementation of CORS
+      return finish(200)
+    }
+
+    // Change current working directory to the project
+    // to accommodate for packages using process.cwd()
+    const projectPath = path.join(__dirname, 'project')
+    if (process.cwd() !== projectPath) {
+      try {
+        process.chdir(projectPath)
+      } catch (err) {
+        throw new Error(`Could not change current working directory to '${projectPath}': ${err}`)
       }
-      finish(500, {
-        error: 'Internal Server Error',
-        message: 'An internal server error occurred',
-        statusCode: 500
+    }
+
+    const handler = await handlers.getHandler(path.join(__dirname, routeConfig.module), request.method)
+    if (typeof handler !== 'function') {
+      return finish(405, {
+        error: 'Method Not Allowed',
+        message: `${request.method.toUpperCase()} method has not been implemented`,
+        statusCode: 405
       })
+    }
+
+    const response = await handlers.executeHandler(handler, request)
+    return finish(response.statusCode, response.payload, response.headers)
+  } catch (error) {
+    if (error && error.stack) {
+      console.error(error.stack) // eslint-disable-line no-console
+    }
+    if (error && error.isBoom && error.output && error.output.payload && error.output.statusCode) {
+      if (error.data) {
+        console.error('Boom Data: ', JSON.stringify(error.data, null, 2)) // eslint-disable-line no-console
+      }
+      return finish(error.output.statusCode, error.output.payload, error.output.headers)
+    }
+    return finish(500, {
+      error: 'Internal Server Error',
+      message: 'An internal server error occurred',
+      statusCode: 500
     })
+  }
 }
 
 module.exports = {

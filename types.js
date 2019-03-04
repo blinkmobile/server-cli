@@ -60,7 +60,14 @@ export type CLIFlags = {
   startTime?: string,
   tail: boolean,
   vpcSecurityGroups?: string,
-  vpcSubnets?: string
+  vpcSubnets?: string,
+  analyticsCollectorToken?: string,
+  analyticsOrigin?: string
+}
+
+export type AnalyticsConfig = {
+  collectorToken: string | void,
+  origin: string | void
 }
 
 export type CLIOptions = {
@@ -85,7 +92,7 @@ export type HandlerConfiguration = {
 }
 
 export type Headers = {
-  [id:string]: string
+  [id:string]: string | boolean
 }
 
 export type LambdaEvent = {

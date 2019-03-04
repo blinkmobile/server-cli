@@ -1,4 +1,5 @@
 {
+  "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   "cSpell.words": [
       "blinkmobile",
       "boomify",
