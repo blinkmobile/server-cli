@@ -28,6 +28,10 @@ module.exports = function (
   const vpcSubnets = flags.vpcSubnets || ''
   const deploymentBucket = flags.deploymentBucket
   const executionRole = flags.executionRole
+  const analyticsConfig = {
+    collectorToken: flags.analyticsCollectorToken,
+    origin: flags.analyticsOrigin
+  }
 
   if (!out) {
     return Promise.reject(new Error('"--out" is mandatory'))
@@ -44,6 +48,6 @@ module.exports = function (
         .then(() => lib.registerExecutionRole(out, executionRole))
         .then(() => lib.registerRootProxy(out, env))
         .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
-        .then(() => lib.registerVariables(out, projectPath, env))
+        .then(() => lib.registerVariables(out, projectPath, env, analyticsConfig))
     })
 }

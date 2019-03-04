@@ -69,70 +69,60 @@ test('normaliseLambdaRequest()', (t) => {
   })
 })
 
-test('handler() should return correct response', (t) => {
-  t.plan(2)
+test('handler() should return correct response', async (t) => {
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, { path: '/response' })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: JSON.stringify({ handler: 123 }, null, 2),
-      headers: {
-        'content-type': 'application/json',
-        'custom': '123'
-      },
-      statusCode: 202
-    })
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    body: JSON.stringify({ handler: 123 }),
+    headers: {
+      'content-type': 'application/json',
+      'custom': '123'
+    },
+    statusCode: 202
   })
 })
 
-test('handler() should return correct boom response', (t) => {
-  t.plan(2)
+test('handler() should return correct boom response', async (t) => {
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, { path: '/boom' })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: JSON.stringify({
-        statusCode: 400,
-        error: 'Bad Request',
-        message: 'Testing boom errors'
-      }, null, 2),
-      headers: {
-        'content-type': 'application/json'
-      },
-      statusCode: 400
-    })
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    body: JSON.stringify({
+      statusCode: 400,
+      error: 'Bad Request',
+      message: 'Testing boom errors'
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    statusCode: 400
   })
 })
 
-test('handler() should return 404 status code if route is not found', (t) => {
-  t.plan(2)
+test('handler() should return 404 status code if route is not found', async (t) => {
   const route = '/missing'
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, { path: route })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: JSON.stringify({
-        error: 'Not Found',
-        message: `Route has not been implemented: ${route}`,
-        statusCode: 404
-      }, null, 2),
-      headers: {
-        'content-type': 'application/json'
-      },
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    body: JSON.stringify({
+      error: 'Not Found',
+      message: `Route has not been implemented: ${route}`,
       statusCode: 404
-    })
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    statusCode: 404
   })
 })
 
 // Must run with 'serial' as it changes process.chdir()
-test.serial('handler() should return 500 status code if current working directory cannot be changed', (t) => {
-  t.plan(2)
+test.serial('handler() should return 500 status code if current working directory cannot be changed', async (t) => {
   const chdir = process.chdir
   process.chdir = () => {
     throw new Error('test chdir error')
@@ -140,49 +130,43 @@ test.serial('handler() should return 500 status code if current working director
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, { path: '/response' })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: JSON.stringify({
-        error: 'Internal Server Error',
-        message: 'An internal server error occurred',
-        statusCode: 500
-      }, null, 2),
-      headers: {
-        'content-type': 'application/json'
-      },
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    body: JSON.stringify({
+      error: 'Internal Server Error',
+      message: 'An internal server error occurred',
       statusCode: 500
-    })
-    process.chdir = chdir
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    statusCode: 500
   })
+  process.chdir = chdir
 })
 
-test('handler() should return 405 status code if method is not found', (t) => {
-  t.plan(2)
+test('handler() should return 405 status code if method is not found', async (t) => {
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, {
     httpMethod: 'POST',
     path: '/response'
   })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: JSON.stringify({
-        error: 'Method Not Allowed',
-        message: 'POST method has not been implemented',
-        statusCode: 405
-      }, null, 2),
-      headers: {
-        'content-type': 'application/json'
-      },
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    body: JSON.stringify({
+      error: 'Method Not Allowed',
+      message: 'POST method has not been implemented',
       statusCode: 405
-    })
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    statusCode: 405
   })
 })
 
-test('handler() should return 405 for options requests with no CORS', (t) => {
-  t.plan(2)
+test('handler() should return 405 for options requests with no CORS', async (t) => {
   const lib = t.context.getTestSubject()
   const event = Object.assign({}, EVENT, {
     httpMethod: 'OPTIONS',
@@ -193,24 +177,21 @@ test('handler() should return 405 for options requests with no CORS', (t) => {
     }
   })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: JSON.stringify({
-        error: 'Method Not Allowed',
-        message: 'OPTIONS method has not been implemented',
-        statusCode: 405
-      }, null, 2),
-      headers: {
-        'content-type': 'application/json'
-      },
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    body: JSON.stringify({
+      error: 'Method Not Allowed',
+      message: 'OPTIONS method has not been implemented',
       statusCode: 405
-    })
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    statusCode: 405
   })
 })
 
-test('handler() should return 200 for options requests with CORS and valid origin', (t) => {
-  t.plan(2)
+test('handler() should return 200 for options requests with CORS and valid origin', async (t) => {
   const lib = t.context.getTestSubject({
     [CONFIG_PATH]: {
       cors: CORS,
@@ -230,26 +211,22 @@ test('handler() should return 200 for options requests with CORS and valid origi
     path: '/response'
   })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: undefined,
-      headers: {
-        'access-control-allow-credentials': true,
-        'access-control-allow-headers': CORS.headers.join(','),
-        'access-control-allow-methods': 'GET',
-        'access-control-allow-origin': 'valid',
-        'access-control-expose-headers': 'Server-Authorization,WWW-Authenticate',
-        'access-control-max-age': CORS.maxAge,
-        'content-type': 'application/json'
-      },
-      statusCode: 200
-    })
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    headers: {
+      'access-control-allow-credentials': true,
+      'access-control-allow-headers': CORS.headers.join(','),
+      'access-control-allow-methods': 'GET',
+      'access-control-allow-origin': 'valid',
+      'access-control-expose-headers': 'Server-Authorization,WWW-Authenticate',
+      'access-control-max-age': CORS.maxAge,
+      'content-type': 'application/json'
+    },
+    statusCode: 200
   })
 })
 
-test('handler() should return 200 for requests with CORS and invalid origin', (t) => {
-  t.plan(2)
+test('handler() should return 200 for requests with CORS and invalid origin', async (t) => {
   const lib = t.context.getTestSubject({
     [CONFIG_PATH]: {
       cors: Object.assign({}, CORS, { origins: ['invalid'] })
@@ -264,14 +241,11 @@ test('handler() should return 200 for requests with CORS and invalid origin', (t
     path: '/response'
   })
 
-  return lib.handler(event, null, (err, result) => {
-    t.falsy(err)
-    t.deepEqual(result, {
-      body: undefined,
-      headers: {
-        'content-type': 'application/json'
-      },
-      statusCode: 200
-    })
+  const result = await lib.handler(event, {})
+  t.deepEqual(result, {
+    headers: {
+      'content-type': 'application/json'
+    },
+    statusCode: 200
   })
 })

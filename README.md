@@ -66,12 +66,14 @@ Viewing server logs:
 
 Create serverless project:
 
-  serverless                       => create serverless project
-    --deployment-bucket <bucket>   => set the deployment S3 bucket
-    --execution-role <role>        => set the execution IAM Role ARN
-    --vpc-security-groups <groups> => comma separated list of VPC Security Group identifiers
-    --vpc-subnets <subnets>        => comma separated list of VPC Subnet identifiers
-    --bm-server-version <version>  => server version of @blinkmobile/sever-cli that the project was created with
-    --env <environment>            => optionally set the environment, defaults to 'dev'
-    --cwd <path>                   => optionally set the path to project, defaults to current working directory
+  serverless                            => create serverless project
+    --deployment-bucket <bucket>        => set the deployment S3 bucket
+    --execution-role <role>             => set the execution IAM Role ARN
+    --vpc-security-groups <groups>      => comma separated list of VPC Security Group identifiers
+    --vpc-subnets <subnets>             => comma separated list of VPC Subnet identifiers
+    --bm-server-version <version>       => server version of @blinkmobile/sever-cli that the project was created with
+    --env <environment>                 => optionally set the environment, defaults to 'dev'
+    --cwd <path>                        => optionally set the path to project, defaults to current working directory
+    --analytics-collector-token <token> => optionally add an analytics collector token
+    --analytics-origin <origin>         => optionally add an analytics origin
 ```
