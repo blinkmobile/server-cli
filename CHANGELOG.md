@@ -6,6 +6,10 @@
 
 -   ON-2530 # Added option to allow developers to use their own AWS Credentials during local development
 
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [5.0.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/5.0.0) (from [4.0.2](https://github.com/blinkmobile/bm-identity.js/releases/tag/4.0.2))
+
 ## 3.1.0 - 2018-08-15
 
 ### Added
