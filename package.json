@@ -27,7 +27,7 @@
     "js-yaml": "3.12.2",
     "load-json-file": "5.2.0",
     "log-symbols": "2.2.0",
-    "log-update": "3.0.0",
+    "log-update": "3.1.0",
     "meow": "5.0.0",
     "object-merge": "2.5.1",
     "pify": "4.0.1",
