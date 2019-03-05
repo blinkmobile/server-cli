@@ -4,10 +4,6 @@
 const BlinkMobileIdentity = require('@blinkmobile/bm-identity')
 
 class BlinkMobileIdentityMock extends BlinkMobileIdentity {
-  constructor () {
-    super('')
-  }
-
   assumeAWSRole () /* : Promise<Object> */ {
     return Promise.resolve({
       accessKeyId: 'access key id',

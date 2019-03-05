@@ -7,10 +7,6 @@ import type {
   CLIFlags,
   CLIOptions
 } from '../types.js'
-
-import type BlinkMobileIdentity, {
-  AWSCredentials
-} from '@blinkmobile/bm-identity'
 */
 
 const path = require('path')
@@ -42,9 +38,7 @@ module.exports = async function (
   options.blinkMobileIdentity, flags.env)
   await displayRoutes(logger, flags.cwd)
   if (cfg.awsProfile) {
-    logger.log(`You are using the following AWS profile:
-    
-    ${cfg.awsProfile}`)
+    logger.log(`You are using the following AWS profile: ${cfg.awsProfile}`)
   } else {
     logger.log(`No AWS profile has been configured in the .blinkmrc file. A generic role has been assumed.`)
   }
