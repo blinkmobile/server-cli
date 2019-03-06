@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### 3.2.0 - 2018-11-09
+
 ### Added
 
 -   ON-2530 # Added option to allow developers to use their own AWS Credentials during local development
