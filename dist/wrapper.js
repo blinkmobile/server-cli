@@ -447,6 +447,8 @@ module.exports = {
 })(this);
 
 },{}],6:[function(require,module,exports){
+/* eslint-disable no-console */
+
 /**
 This module exports a "handler" function,
 that wraps a customer function.
@@ -473,6 +475,7 @@ type APIGatewayResult = {
 const https = require('https')
 const { URL } = require('url')
 const path = require('path')
+const querystring = require('querystring')
 
 const handlers = require('../lib/handlers.js')
 const wrapper = require('../lib/wrapper.js')
@@ -579,10 +582,24 @@ async function handler (
         }))
         httpsRequest.end()
       } catch (e) {
-        // eslint-disable-next-line no-console
         console.warn('An error occurred attempting to POST analytics event', e)
       }
     }
+
+    let path = request.url.pathname
+    const search = querystring.stringify(request.url.query)
+    if (search) {
+      path += `?${search}`
+    }
+    let referrer = request.headers.referrer
+    if (typeof referrer !== 'string' || !referrer) {
+      referrer = '-'
+    }
+    let userAgent = request.headers['user-agent']
+    if (typeof userAgent !== 'string' || !userAgent) {
+      userAgent = '-'
+    }
+    console.log(`${request.method.toUpperCase()} ${path}${querystring.stringify(request.url.query)} ${statusCode} "${requestTime} ms" "${referrer}" "${userAgent}"`)
 
     const result /* : APIGatewayResult */ = {
       headers: headers,
@@ -666,15 +683,16 @@ async function handler (
     const response = await handlers.executeHandler(handler, request)
     return finish(response.statusCode, response.payload, response.headers)
   } catch (error) {
-    if (error && error.stack) {
-      console.error(error.stack) // eslint-disable-line no-console
-    }
     if (error && error.isBoom && error.output && error.output.payload && error.output.statusCode) {
       if (error.data) {
-        console.error('Boom Data: ', JSON.stringify(error.data, null, 2)) // eslint-disable-line no-console
+        console.error(error, JSON.stringify(error.data))
+      } else {
+        console.error(error)
       }
       return finish(error.output.statusCode, error.output.payload, error.output.headers)
     }
+
+    console.error(error)
     return finish(500, {
       error: 'Internal Server Error',
       message: 'An internal server error occurred',
@@ -687,6 +705,7 @@ module.exports = {
   handler,
   normaliseLambdaRequest
 }
+/* eslint-enable no-console */
 
-},{"../lib/handlers.js":2,"../lib/wrapper.js":4,"https":undefined,"path":undefined,"url":undefined}]},{},[6])(6)
+},{"../lib/handlers.js":2,"../lib/wrapper.js":4,"https":undefined,"path":undefined,"querystring":undefined,"url":undefined}]},{},[6])(6)
 });
