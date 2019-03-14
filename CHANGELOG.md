@@ -2,6 +2,44 @@
 
 ## Unreleased
 
+### 3.2.1 (2019-03-14)
+
+### Dependencies
+
+-   update [@blinkmobile/bm-identity](https://www.npmjs.com/package/@blinkmobile/bm-identity) to [5.0.0](https://github.com/blinkmobile/bm-identity.js/releases/tag/5.0.0) (from [4.0.2](https://github.com/blinkmobile/bm-identity.js/releases/tag/4.0.2))
+
+-   update [archiver](https://www.npmjs.com/package/archiver) to [3.0.0](https://github.com/archiverjs/node-archiver/releases/tag/3.0.0) (from [2.1.1](https://github.com/archiverjs/node-archiver/releases/tag/2.1.1))
+
+-   update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.415.0](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md) (from [2.289.0](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md))
+
+-   update [boom](https://www.npmjs.com/package/boom) to [7.3.0](https://github.com/hapijs/boom/blob/master/CHANGELOG.md) (from [7.2.0](https://github.com/hapijs/boom/blob/master/CHANGELOG.md))
+
+-   update [chalk](https://www.npmjs.com/package/chalk) to 2.4.2 (from 2.4.1)
+
+-   update [execa](https://www.npmjs.com/package/execa) to 1.0.0 (from 0.10.0)
+
+-   update [glob](https://www.npmjs.com/package/glob) to 7.1.3 (from 7.1.2)
+
+-   update [inquirer](https://www.npmjs.com/package/inquirer) to 6.2.2 (from 6.0.0)
+
+-   update [js-yaml](https://www.npmjs.com/package/js-yaml) to [3.12.2](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md) (from [3.12.0](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md))
+
+-   update [load-json-file](https://www.npmjs.com/package/load-json-file) to 5.2.0 (from 5.0.0)
+
+-   update [log-update](https://www.npmjs.com/package/log-update) to 3.1.0 (from 2.3.0)
+
+-   update [pify](https://www.npmjs.com/package/pify) to 4.0.1 (from 3.0.0)
+
+-   update [recursive-copy](https://www.npmjs.com/package/recursive-copy) to 2.0.10 (from 2.0.9)
+
+-   update [semver](https://www.npmjs.com/package/semver) to [5.6.0](https://github.com/npm/node-semver/blob/master/CHANGELOG.md) (from [5.5.0](https://github.com/npm/node-semver/blob/master/CHANGELOG.md))
+
+-   update [serverless](https://www.npmjs.com/package/serverless) to [1.38.0](https://github.com/serverless/serverless/blob/master/CHANGELOG.md) (from [1.29.2](https://github.com/serverless/serverless/blob/master/CHANGELOG.md))
+
+-   update [temp](https://www.npmjs.com/package/temp) to 0.9.0 (from 0.8.3)
+
+-   update [write-json-file](https://www.npmjs.com/package/write-json-file) to 3.1.0 (from 2.3.0)
+
 ### 3.2.0 - 2018-11-09
 
 ### Added
