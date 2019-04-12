@@ -7,3 +7,5 @@
 -   [`GET /jamaica-100m-relay`](./src/jamaica-100m-relay.js)
 
 -   [`GET /yes-no-maybe`](./src/yes-no-maybe.js)
+
+-   [`GET /airports`](./src/airports.js)

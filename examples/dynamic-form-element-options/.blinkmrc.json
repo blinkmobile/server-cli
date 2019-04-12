@@ -15,6 +15,10 @@
       {
         "route": "/yes-no-maybe",
         "module": "./src/yes-no-maybe.js"
+      },
+      {
+        "route": "/airports",
+        "module": "./src/airports.js"
       }
     ]
   }
