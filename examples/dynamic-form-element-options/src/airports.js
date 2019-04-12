@@ -1,18 +1,21 @@
 'use strict'
 
 module.exports.get = function () {
+  const stateLabel = 'State'
+  const countryLabel = 'Country'
+
   return [
     {
       value: 'SYD',
       label: 'Sydney',
       attributes: [
         {
-          'label': 'State',
-          'value': 'New South Wales'
+          'label': stateLabel,
+          'value': 'NSW'
         },
         {
-          'label': 'Country',
-          'value': 'Australia'
+          'label': countryLabel,
+          'value': 'AUS'
         }
       ]
     },
@@ -21,12 +24,12 @@ module.exports.get = function () {
       label: 'Atlanta',
       attributes: [
         {
-          'label': 'State',
-          'value': 'Georgia'
+          'label': stateLabel,
+          'value': 'GA'
         },
         {
-          'label': 'Country',
-          'value': 'United States of Ameria'
+          'label': countryLabel,
+          'value': 'USA'
         }
       ]
     },
@@ -35,12 +38,12 @@ module.exports.get = function () {
       label: 'Beijing',
       attributes: [
         {
-          'label': 'State',
+          'label': stateLabel,
           'value': 'Chaoyang-Shunyi'
         },
         {
-          'label': 'Country',
-          'value': 'China'
+          'label': countryLabel,
+          'value': 'CHN'
         }
       ]
     },
@@ -49,8 +52,8 @@ module.exports.get = function () {
       label: 'Garhoud',
       attributes: [
         {
-          'label': 'Country',
-          'value': 'United Arab Emirates'
+          'label': countryLabel,
+          'value': 'UAE'
         }
       ]
     },
@@ -59,12 +62,12 @@ module.exports.get = function () {
       label: 'Los Angeles',
       attributes: [
         {
-          'label': 'State',
-          'value': 'California'
+          'label': stateLabel,
+          'value': 'CA'
         },
         {
-          'label': 'Country',
-          'value': 'United States of Ameria'
+          'label': countryLabel,
+          'value': 'USA'
         }
       ]
     },
@@ -73,12 +76,12 @@ module.exports.get = function () {
       label: 'Melbourne',
       attributes: [
         {
-          'label': 'State',
-          'value': 'Victoria'
+          'label': stateLabel,
+          'value': 'VIC'
         },
         {
-          'label': 'Country',
-          'value': 'Australia'
+          'label': countryLabel,
+          'value': 'AUS'
         }
       ]
     },
@@ -87,12 +90,12 @@ module.exports.get = function () {
       label: 'Brisbane',
       attributes: [
         {
-          'label': 'State',
-          'value': 'Queensland'
+          'label': stateLabel,
+          'value': 'QLD'
         },
         {
-          'label': 'Country',
-          'value': 'Australia'
+          'label': countryLabel,
+          'value': 'AUS'
         }
       ]
     }
