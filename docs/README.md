@@ -38,6 +38,8 @@
 
 -   [Dynamic Form Element Options](../examples/dynamic-form-element-options)
 
+-   [Lookup data on remote API](../examples/lookup)
+
 ## Breaking Changes
 
 -   [Migrating to `v2.x.x`](./migrate-to-v2.x.md)
