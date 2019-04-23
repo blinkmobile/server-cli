@@ -26,5 +26,8 @@ module.exports.post = function (req, res) {
     }
   } else {
     res.setStatusCode(400)
+      .setPayload({
+        'message': 'This is my custom friendly error message that will be shown to the user on a failed lookup'
+      })
   }
 }
