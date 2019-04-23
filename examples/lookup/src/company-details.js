@@ -25,6 +25,10 @@ module.exports.post = function (req, res) {
       res.setStatusCode(404)
     }
   } else {
+    // A user friendly error message can be shown to the user in One Blink Forms
+    // by returning a 400 Status code and a JSON payload with a `message` property.
+    // There is no character limit, however it is suggested to keep the message
+    // short and clear.
     res.setStatusCode(400)
       .setPayload({
         'message': 'This is my custom friendly error message that will be shown to the user on a failed lookup'
