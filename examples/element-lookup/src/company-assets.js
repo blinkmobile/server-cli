@@ -42,16 +42,16 @@ module.exports.post = async function (req, res) {
       })
   }
 
-  // access the submission data from the request body
+  // Access the submission data from the request body.
   const warehouseNumber = req.body.submission.warehouseNumber
   const assets = warehouses.find(warehouse => warehouse.warehouseNumber === warehouseNumber)
 
   if (assets) {
-    // Loop through all assets and create an element for each using the SDK
+    // Loop through all assets and create an element for each using the SDK.
     const elements = []
 
     for (const asset in assets) {
-      // configure the element data as a basic yes/no set of radio buttons using the asset name in the label
+      // Configure the element data as a basic yes/no set of radio buttons using the asset name in the label.
       const elementData = {
         name: asset,
         label: `Is the ${asset} present in the warehouse?`,
@@ -69,16 +69,16 @@ module.exports.post = async function (req, res) {
         ]
       }
       try {
-        // send the above basic data to the SDK to generate a form element
+        // Send the above basic data to the SDK to generate a form element.
         const element = await OneBlink.Forms.generateFormElement(elementData)
         elements.push(element)
       } catch (error) {
-        // silently fail on any validation errors so other elements in the loop aren't affected
+        // Silently fail on any validation errors so other elements in the loop aren't affected.
         console.error('error generating element for the following: ', elementData)
       }
     }
 
-    // set the response code and set body as the array of form elements
+    // Set the response code and set body as the array of form elements.
     return res
       .setStatusCode(200)
       .setPayload(elements)
