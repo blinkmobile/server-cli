@@ -1,4 +1,4 @@
-# Lookup Examples
+# Data Lookup Examples
 
 ## Endpoints
 

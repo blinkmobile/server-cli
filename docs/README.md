@@ -38,7 +38,9 @@
 
 -   [Dynamic Form Element Options](../examples/dynamic-form-element-options)
 
--   [Lookup data on remote API](../examples/lookup)
+-   [Lookup data on remote API](../examples/data-lookup)
+
+-   [Lookup elements on remote API](../examples/element-lookup)
 
 ## Breaking Changes
 
