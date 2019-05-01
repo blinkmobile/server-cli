@@ -1,6 +1,6 @@
 'use strict'
 
-// require the OneBlink SDK
+// require the OneBlink SDK:
 const OneBlink = require('@oneblink/sdk')
 
 const warehouses = [
@@ -23,7 +23,7 @@ const warehouses = [
   }
 ]
 
-module.exports.post = async function (req, res) {
+module.exports.post = function (req, res) {
   // If the request does not contain the essential data to process,
   // finish early with a custom error message for the user to see.
   if (
@@ -50,13 +50,13 @@ module.exports.post = async function (req, res) {
     // Loop through all assets and create an element for each using the SDK.
     const elements = []
 
-    for (const asset in assets) {
+    for (const asset of assets) {
       // Configure the element data as a basic yes/no set of radio buttons using the asset name in the label.
       const elementData = {
         name: asset,
         label: `Is the ${asset} present in the warehouse?`,
         type: 'radio',
-        buttons: 'true',
+        buttons: true,
         options: [
           {
             value: 'yes',
@@ -70,11 +70,10 @@ module.exports.post = async function (req, res) {
       }
       try {
         // Send the above basic data to the SDK to generate a form element.
-        const element = await OneBlink.Forms.generateFormElement(elementData)
+        const element = OneBlink.Forms.generateFormElement(elementData)
         elements.push(element)
       } catch (error) {
         // Silently fail on any validation errors so other elements in the loop aren't affected.
-        console.error('error generating element for the following: ', elementData)
       }
     }
 
