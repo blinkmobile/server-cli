@@ -2,23 +2,23 @@
 
 ## Documentation
 
-1.  [Usage](./usage.md)
+1.  [Overview](./overview.md)
 
-1.  [Routes](./routes.md)
+2.  [Routes](./routes.md)
 
-1.  [Handler Functions](./handlers.md)
+3.  [Handler Functions](./handlers.md)
 
-1.  [Environment Variables](./environment-variables.md)
+4.  [Environment Variables](./environment-variables.md)
 
-1.  [CORS Configuration](./CORS.md)
+5.  [CORS Configuration](./CORS.md)
 
-1.  [Sending Emails](./SES.md)
+6.  [Sending Emails](./SES.md)
 
-1.  [Local Development](./local-development.md)
+7.  [Local Development](./local-development.md)
 
-1.  [Deployment Keys](./deployment-keys.md)
+8.  [Deployment Keys](./deployment-keys.md)
 
-1.  [Viewing Server Logs](./logs.md)
+9.  [Viewing Server Logs](./logs.md)
 
 ## More Information...
 
