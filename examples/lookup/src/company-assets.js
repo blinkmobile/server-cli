@@ -45,12 +45,13 @@ module.exports.post = function (req, res) {
 
   // Access the submission data from the request body.
   const warehouseNumber = req.body.submission.warehouseNumber
-  const assets = warehouses.find(warehouse => warehouse.warehouseNumber === warehouseNumber)
+  const warehouse = warehouses.find(warehouse => warehouse.warehouseNumber === warehouseNumber)
 
-  if (assets) {
+  if (warehouse && warehouse.assets) {
     // Loop through all assets and create an element for each using the SDK.
     const elements = []
-
+    const assets = warehouse.assets
+    
     for (const asset of assets) {
       // Configure the element data as a basic yes/no set of radio buttons using the asset name in the label.
       const elementData = {
