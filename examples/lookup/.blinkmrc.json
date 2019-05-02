@@ -7,6 +7,10 @@
       {
         "route": "/company-details",
         "module": "./src/company-details.js"
+      },
+      {
+        "route": "/company-assets",
+        "module": "./src/company-assets.js"
       }
     ]
   }

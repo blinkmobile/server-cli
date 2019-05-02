@@ -5,6 +5,7 @@
 ### Added
 
 -   ON-3931 # Added attributes example for dynamic form element options
+-   ON-4038 # Added element lookup example
 
 ### 3.2.1 (2019-03-14)
 

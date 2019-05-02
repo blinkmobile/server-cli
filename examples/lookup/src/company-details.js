@@ -10,7 +10,7 @@ const companies = [
     companyName: 'Roberts burgers'
   }
 ]
-  
+
 module.exports.post = function (req, res) {
   // If the request does not contain the essential data to process,
   // finish early with a custom error message for the user to see.
@@ -29,7 +29,7 @@ module.exports.post = function (req, res) {
         'message': 'This is my custom friendly error message that will be shown to the user on a failed lookup'
       })
   }
-  
+
   // access the submission data from the request body
   const abn = req.body.submission.abn
   const details = companies.find(company => company.ABN === abn)
@@ -41,7 +41,7 @@ module.exports.post = function (req, res) {
         'Company_name': details.companyName
       })
   }
-  
+
   return res
     .setStatusCode(400)
     .setPayload({
