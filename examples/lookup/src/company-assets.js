@@ -1,6 +1,7 @@
 'use strict'
 
-// require the OneBlink SDK:
+// require the OneBlink SDK
+/* eslint-disable */
 const OneBlink = require('@oneblink/sdk')
 
 const warehouses = [
