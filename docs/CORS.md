@@ -18,7 +18,7 @@ CORS can be configured in a `.blinkmrc.json` file that is in the root of your pr
 
 ### .blinkmrc.json
 
-By setting cors to `false`, Cross-Origin resource sharing will not be allowed. **This is the default behaviour**
+By setting `cors` to `false`, Cross-Origin resource sharing will not be allowed. **This is the default behaviour**
 
 ```json
 {
@@ -28,17 +28,15 @@ By setting cors to `false`, Cross-Origin resource sharing will not be allowed. *
 }
 ```
 
-By setting cors to `true`, defaults below will be used.
+Cross-Origin resource sharing can also be configured as below:
+- origins: https://www.w3.org/TR/cors/#access-control-allow-origin-response-header
+- headers: https://www.w3.org/TR/cors/#access-control-allow-headers-response-header
+- exposedHeaders: https://www.w3.org/TR/cors/#access-control-expose-headers-response-header
+- credentails: https://www.w3.org/TR/cors/#access-control-allow-credentials-response-header
+- maxAge: https://www.w3.org/TR/cors/#access-control-max-age-response-header
 
-```json
-{
-  "server": {
-    "cors": true
-  }
-}
-```
-
-**Note:** If any properties are omitted, they will default to the example below.
+### Example 
+**Note:** If any properties are omitted, they will default to:
 
 ```json
 {
@@ -63,6 +61,16 @@ By setting cors to `true`, defaults below will be used.
       "credentials": false,
       "maxAge": 86400 // in seconds = 1 day
     }
+  }
+}
+```
+
+Alternatively `cors` can be set to `true` to use the defaults above.
+
+```json
+{
+  "server": {
+    "cors": true
   }
 }
 ```
