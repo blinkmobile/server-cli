@@ -5,7 +5,6 @@ const path = require('path')
 
 const test = require('ava')
 const proxyquire = require('proxyquire')
-const logSymbols = require('log-symbols')
 const yauzl = require('yauzl')
 
 const values = require('../lib/values.js')
@@ -59,19 +58,6 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
         t.pass()
         return Promise.resolve({})
       }
-    },
-    './utils/log-updates.js': (message) => {
-      // Check for correct message
-      t.is(message(), 'Authenticating...')
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.success)
-          t.is(str, 'Authentication complete!')
-        })
-      }
     }
   })
   return deploy.authenticate({}, {
@@ -87,17 +73,6 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
   const deploy = t.context.getTestSubject({
     './assume-aws-roles.js': {
       assumeAWSRoleToDeploy: () => Promise.reject(new Error('test error'))
-    },
-    './utils/log-updates.js': (message) => {
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.error)
-          t.is(str, 'Authentication failed...')
-        })
-      }
     }
   })
   return deploy.authenticate({}, {
@@ -108,21 +83,7 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
 
 test.cb('zip() should log correct updates and return an absolute path to a zip file', (t) => {
   t.plan(10)
-  const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      // Check for correct message
-      t.is(message(), 'Compressing project...')
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.success)
-          t.is(str, 'Compression complete!')
-        })
-      }
-    }
-  })
+  const deploy = t.context.getTestSubject({})
   deploy.zip(ZIP_PATH)
     .then(zipFilePath => {
       t.truthy(path.isAbsolute(zipFilePath))
@@ -154,17 +115,6 @@ test.cb('zip() should log correct updates and return an absolute path to a zip f
 test('zip() should log correct updates and reject if an temp emits an error', (t) => {
   t.plan(5)
   const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.error)
-          t.is(str, 'Compression failed...')
-        })
-      }
-    },
     'archiver': {
       create: () => ({
         on: () => {},
@@ -194,17 +144,6 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
 test('zip() should log correct updates and reject if an archiver emits an error', (t) => {
   t.plan(4)
   const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.error)
-          t.is(str, 'Compression failed...')
-        })
-      }
-    },
     'archiver': {
       create: () => ({
         on: (str, fn) => {
@@ -231,19 +170,6 @@ test('zip() should log correct updates and reject if an archiver emits an error'
 test('upload() should log correct updates and return bundle key after upload', (t) => {
   t.plan(7)
   const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      // Check for correct message
-      t.is(message(), 'Transferring project: 0%')
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.success)
-          t.is(str, 'Transfer complete!')
-        })
-      }
-    },
     'aws-sdk': {
       config: {},
       S3: function () {
@@ -265,17 +191,6 @@ test('upload() should log correct updates and return bundle key after upload', (
 test('upload() should log correct updates and reject if upload returns an error', (t) => {
   t.plan(4)
   const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.error)
-          t.is(str, 'Transfer failed: 0%')
-        })
-      }
-    },
     'aws-sdk': {
       config: {},
       S3: function () {
@@ -292,19 +207,6 @@ test('upload() should log correct updates and reject if upload returns an error'
 test('deploy() should log correct updates', (t) => {
   t.plan(7)
   const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      // Check for correct message
-      t.is(message(), 'Deploying project - this may take several minutes...')
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.success)
-          t.is(str, 'Deployment complete - Origin: https://example.com')
-        })
-      }
-    },
     'request': {
       defaults: () => ({
         post: (url, params, cb) => {
@@ -332,17 +234,6 @@ test('deploy() should log correct updates', (t) => {
 test('deploy() should log correct updates and reject if request() returns an error', (t) => {
   t.plan(4)
   const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.error)
-          t.is(str, 'Deployment failed...')
-        })
-      }
-    },
     'request': {
       defaults: () => ({
         post: (url, params, cb) => cb(new Error('test error'))
@@ -355,17 +246,6 @@ test('deploy() should log correct updates and reject if request() returns an err
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
   t.plan(4)
   const deploy = t.context.getTestSubject({
-    './utils/log-updates.js': (message) => {
-      return (beforeStop) => {
-        // Ensure stop function is called
-        t.pass()
-        beforeStop((symbol, str) => {
-          // Ensure before stop is called with correct arguments
-          t.is(symbol, logSymbols.error)
-          t.is(str, 'Deployment failed - 500 ERROR')
-        })
-      }
-    },
     'request': {
       defaults: () => ({
         post: (url, params, cb) => cb(null, {}, {
