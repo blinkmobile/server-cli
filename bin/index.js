@@ -53,6 +53,7 @@ Deploying server side code:
     --force                   => deploy without confirmation
     --env <environment>       => optionally sets the environment to deploy to, defaults to 'dev'
     --cwd <path>              => optionally set the path to project, defaults to current working directory
+    --provision               => force full deployment, only use this if told to by support
 
 Viewing server logs:
 
@@ -85,6 +86,10 @@ const cli = meow({
       default: false
     },
     'tail': {
+      type: 'boolean',
+      default: false
+    },
+    'provision': {
       type: 'boolean',
       default: false
     },

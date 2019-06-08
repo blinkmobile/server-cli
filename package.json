@@ -24,6 +24,7 @@
     "hapi": "^16.6.3",
     "inquirer": "6.2.2",
     "js-yaml": "3.12.2",
+    "jsonwebtoken": "8.5.1",
     "load-json-file": "5.2.0",
     "meow": "5.0.0",
     "object-merge": "2.5.1",

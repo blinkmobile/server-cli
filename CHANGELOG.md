@@ -4,8 +4,10 @@
 
 ### Added
 
--   ON-3931 # Added attributes example for dynamic form element options
--   ON-4038 # Added element lookup example
+-   attributes example for dynamic form element options
+-   element lookup example
+-   `--provision` flag to do a full deployment
+-   `analytics` configuration to `.blinkmrc.json` file: [Analytics](./docs/analytics.md)
 
 ### 3.2.1 (2019-03-14)
 

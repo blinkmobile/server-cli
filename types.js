@@ -24,6 +24,11 @@ export type BlinkMRCServer = {
   routes?: Array<RouteConfiguration>,
   timeout?: number,
   service?: ServerCLIServiceConfig,
+  analytics?: {
+    key: string,
+    secret: string,
+    origin?: string
+  },
   variables?: {
     [id:string]: string | {
       [id:string]: string
@@ -47,6 +52,7 @@ export type BmRequest = {
 }
 
 export type CLIFlags = {
+  provision: boolean,
   bmServerVersion: string,
   deploymentBucket?: string,
   cwd: string,
@@ -119,5 +125,47 @@ export type RouteConfiguration = {
   module: string,
   timeout: number,
   params?: {[id:string]: string}
+}
+
+export type APIEnvironmentRoute = {
+  module: string,
+  route: string
+}
+
+export type APIEnvironment = {
+  apiId: string,
+  environment: string,
+  lastDeployment: string,
+  routes: APIEnvironmentRoute[],
+  cors: Object | boolean,
+  vpcSecurityGroupIds?: string,
+  vpcSubnetIds?: string,
+  status?: 'Warning' | 'Error' | 'Okay' | 'Unknown'
+}
+
+export type API = {
+  id: string,
+  createdAt: string,
+  vpcSecurityGroupIds?: string,
+  vpcSubnetIds?: string,
+  links: {
+    awsAccounts: string,
+    organisations: string
+  },
+  environments?: APIEnvironment[],
+  whiteListedEmails?: string[]
+}
+
+export type AWSAccount = {
+  id: string,
+  name: string,
+  accountNumber: string,
+  tenancy: string,
+  createdAt: string,
+  apiHosting: {
+    vpcSecurityGroupIds: string,
+    vpcSubnetIds: string
+  },
+  isDefault: boolean
 }
 */
