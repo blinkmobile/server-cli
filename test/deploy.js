@@ -51,7 +51,7 @@ test('confirm() should prompt and log if force is false', (t) => {
 })
 
 test('authenticate() should call blinkMobileIdentity functions and stop updates', (t) => {
-  t.plan(6)
+  t.plan(2)
   const deploy = t.context.getTestSubject({
     './assume-aws-roles.js': {
       assumeAWSRoleToDeploy: () => {
@@ -69,7 +69,7 @@ test('authenticate() should call blinkMobileIdentity functions and stop updates'
 })
 
 test('authenticate() should call log correct updates if blinkMobileIdentity functions throw errors', (t) => {
-  t.plan(4)
+  t.plan(1)
   const deploy = t.context.getTestSubject({
     './assume-aws-roles.js': {
       assumeAWSRoleToDeploy: () => Promise.reject(new Error('test error'))
@@ -82,7 +82,7 @@ test('authenticate() should call log correct updates if blinkMobileIdentity func
 })
 
 test.cb('zip() should log correct updates and return an absolute path to a zip file', (t) => {
-  t.plan(10)
+  t.plan(6)
   const deploy = t.context.getTestSubject({})
   deploy.zip(ZIP_PATH)
     .then(zipFilePath => {
@@ -113,7 +113,7 @@ test.cb('zip() should log correct updates and return an absolute path to a zip f
 })
 
 test('zip() should log correct updates and reject if an temp emits an error', (t) => {
-  t.plan(5)
+  t.plan(2)
   const deploy = t.context.getTestSubject({
     'archiver': {
       create: () => ({
@@ -142,7 +142,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
 })
 
 test('zip() should log correct updates and reject if an archiver emits an error', (t) => {
-  t.plan(4)
+  t.plan(1)
   const deploy = t.context.getTestSubject({
     'archiver': {
       create: () => ({
@@ -168,7 +168,7 @@ test('zip() should log correct updates and reject if an archiver emits an error'
 })
 
 test('upload() should log correct updates and return bundle key after upload', (t) => {
-  t.plan(7)
+  t.plan(3)
   const deploy = t.context.getTestSubject({
     'aws-sdk': {
       config: {},
@@ -189,7 +189,7 @@ test('upload() should log correct updates and return bundle key after upload', (
 })
 
 test('upload() should log correct updates and reject if upload returns an error', (t) => {
-  t.plan(4)
+  t.plan(1)
   const deploy = t.context.getTestSubject({
     'aws-sdk': {
       config: {},
@@ -205,7 +205,7 @@ test('upload() should log correct updates and reject if upload returns an error'
 })
 
 test('deploy() should log correct updates', (t) => {
-  t.plan(7)
+  t.plan(3)
   const deploy = t.context.getTestSubject({
     'request': {
       defaults: () => ({
@@ -232,7 +232,7 @@ test('deploy() should log correct updates', (t) => {
 })
 
 test('deploy() should log correct updates and reject if request() returns an error', (t) => {
-  t.plan(4)
+  t.plan(1)
   const deploy = t.context.getTestSubject({
     'request': {
       defaults: () => ({
@@ -244,7 +244,7 @@ test('deploy() should log correct updates and reject if request() returns an err
 })
 
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
-  t.plan(4)
+  t.plan(1)
   const deploy = t.context.getTestSubject({
     'request': {
       defaults: () => ({
