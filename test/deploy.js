@@ -213,6 +213,11 @@ test('deploy() should log correct updates', (t) => {
           t.is(url, '/deployments')
           t.deepEqual(params, {
             json: {
+              analytics: {
+                key: 'key',
+                secret: 'secret',
+                origin: 'origin'
+              },
               bmServerVersion: pkg.version,
               bundleBucket: values.SERVER_CLI_SERVICE_S3_BUCKET,
               bundleKey: BUNDLE_KEY,
@@ -228,7 +233,13 @@ test('deploy() should log correct updates', (t) => {
       })
     }
   })
-  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {})
+  return deploy.deploy(BUNDLE_KEY, ACCESS_TOKEN, ENV, {
+    analytics: {
+      key: 'key',
+      secret: 'secret',
+      origin: 'origin'
+    }
+  })
 })
 
 test('deploy() should log correct updates and reject if request() returns an error', (t) => {

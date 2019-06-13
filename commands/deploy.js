@@ -61,7 +61,7 @@ module.exports = async function (
     const awsAccount = await getAWSAccount(apiInstance, config, accessToken)
 
     // if the analytics key is available, pass it through to be used by the instance
-    let analyticsFlags = {}
+    const analyticsFlags = {}
     if (config.analytics) {
       const analytics = config.analytics
       if (analytics.key && analytics.secret) {
