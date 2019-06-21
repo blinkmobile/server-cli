@@ -18,6 +18,8 @@
 
 8.  [Deployment Keys](./deployment-keys.md)
 
+5.  [Analytics](./analytics.md)
+
 9.  [Viewing Server Logs](./logs.md)
 
 ## More Information...
