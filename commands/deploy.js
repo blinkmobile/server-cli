@@ -24,7 +24,7 @@ const serverless = require('../lib/serverless.js')
 const fqdnHelper = require('../lib/utils/fully-qualified-domain-name.js')
 const values = require('../lib/values.js')
 
-module.exports = async function (
+module.exports = async function(
   input /* : Array<string> */,
   flags /* : CLIFlags */,
   logger /* : typeof console */,
@@ -40,11 +40,19 @@ module.exports = async function (
     return
   }
   const config = await scope.read(cwd)
-  const [awsCredentials, accessToken] = await deploy.authenticate(config, blinkMobileIdentity, env)
+  const [awsCredentials, accessToken] = await deploy.authenticate(
+    config,
+    blinkMobileIdentity,
+    env
+  )
 
   // If environment does not exist or --provision flag is set, full deploy
   const apiInstance = await getAPIInstance(config, accessToken)
-  const environmentExists = Array.isArray(apiInstance.environments) && apiInstance.environments.some((apiEnvironment) => apiEnvironment.environment === env)
+  const environmentExists =
+    Array.isArray(apiInstance.environments) &&
+    apiInstance.environments.some(
+      apiEnvironment => apiEnvironment.environment === env
+    )
   if (flags.provision || !environmentExists) {
     const zipFilePath = await deploy.zip(cwd)
     const bundleKey = await deploy.upload(zipFilePath, awsCredentials, config)
@@ -66,37 +74,51 @@ module.exports = async function (
       const analytics = config.analytics
       if (analytics.key && analytics.secret) {
         // generate JWT
-        analyticsFlags.analyticsCollectorToken = jwt.sign({
-          iss: analytics.key
-        }, analytics.secret, {
-          expiresIn: '3650d'
+        analyticsFlags.analyticsCollectorToken = jwt.sign(
+          {
+            iss: analytics.key
+          },
+          analytics.secret,
+          {
+            expiresIn: '3650d'
+          }
+        )
+      }
+      analyticsFlags.analyticsOrigin =
+        analytics.origin || values.ANALYTICS_ORIGIN
+    }
+    await serverlessCommand(
+      [],
+      Object.assign({}, flags, analyticsFlags, {
+        out: tempDirectory,
+        deploymentBucket: service.bucket,
+        executionRole: `arn:aws:iam::${
+          awsAccount.accountNumber
+        }:role/ServerCLI-${config.project || ''}-execution`,
+        vpcSecurityGroups: apiInstance.vpcSecurityGroupIds || '',
+        vpcSubnets: apiInstance.vpcSubnetIds || ''
+      }),
+      logger,
+      options
+    )
+    const functionName = serverless.getFunctionName(config, env)
+    await serverless.executeSLSCommand(
+      ['deploy', 'function', '--function', functionName, '--force'],
+      {
+        cwd: tempDirectory,
+        env: Object.assign({}, process.env, {
+          AWS_ACCESS_KEY_ID: awsCredentials.accessKeyId,
+          AWS_SECRET_ACCESS_KEY: awsCredentials.secretAccessKey,
+          AWS_SESSION_TOKEN: awsCredentials.sessionToken
         })
       }
-      analyticsFlags.analyticsOrigin = analytics.origin || values.ANALYTICS_ORIGIN
-    }
-    await serverlessCommand([], Object.assign({}, flags, analyticsFlags, {
-      out: tempDirectory,
-      deploymentBucket: service.bucket,
-      executionRole: `arn:aws:iam::${awsAccount.accountNumber}:role/ServerCLI-${config.project || ''}-execution`,
-      vpcSecurityGroups: apiInstance.vpcSecurityGroupIds || '',
-      vpcSubnets: apiInstance.vpcSubnetIds || ''
-    }), logger, options)
-    const functionName = serverless.getFunctionName(config, env)
-    await serverless.executeSLSCommand([
-      'deploy',
-      'function',
-      '--function',
-      functionName,
-      '--force'
-    ], {
-      cwd: tempDirectory,
-      env: Object.assign({}, process.env, {
-        AWS_ACCESS_KEY_ID: awsCredentials.AccessKeyId,
-        AWS_SECRET_ACCESS_KEY: awsCredentials.SecretAccessKey,
-        AWS_SESSION_TOKEN: awsCredentials.SessionToken
-      })
-    })
-    spinner.succeed(`Deployment complete - Origin: https://${fqdnHelper.getFQDN(apiInstance.id, env)}`)
+    )
+    spinner.succeed(
+      `Deployment complete - Origin: https://${fqdnHelper.getFQDN(
+        apiInstance.id,
+        env
+      )}`
+    )
   } catch (error) {
     spinner.fail('Deployment failed...')
     throw error
