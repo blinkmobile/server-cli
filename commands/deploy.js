@@ -17,6 +17,7 @@ const temp = require('temp').track()
 const info = require('./info.js')
 const deploy = require('../lib/deploy.js')
 const scope = require('../lib/scope.js')
+const upsertAPIEnvironment = require('../lib/upsert-api-environment.js')
 const getAPIInstance = require('../lib/get-api-instance.js')
 const getAWSAccount = require('../lib/get-aws-account.js')
 const serverlessCommand = require('./serverless.js')
@@ -113,6 +114,7 @@ module.exports = async function(
         })
       }
     )
+    await upsertAPIEnvironment(config, apiInstance, env, cwd, accessToken)
     spinner.succeed(
       `Deployment complete - Origin: https://${fqdnHelper.getFQDN(
         apiInstance.id,
