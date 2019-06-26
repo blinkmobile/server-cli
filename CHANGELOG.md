@@ -2,12 +2,26 @@
 
 ## Unreleased
 
+### 3.3.0 (2019-06-27)
+
 ### Added
 
 -   attributes example for dynamic form element options
 -   element lookup example
 -   `--provision` flag to do a full deployment
 -   `analytics` configuration to `.blinkmrc.json` file: [Analytics](./docs/analytics.md)
+
+### Dependencies
+
+-   no longer depend upon [elegant-spinner](https://www.npmjs.com/package/elegant-spinner)
+
+-   no longer depend upon [log-symbols](https://www.npmjs.com/package/log-symbols)
+
+-   no longer depend upon [log-update](https://www.npmjs.com/package/log-update)
+
+-   depend upon [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) [8.5.1](https://github.com/auth0/node-jsonwebtoken/blob/master/CHANGELOG.md)
+
+-   depend upon [ora](https://www.npmjs.com/package/ora) [3.4.0](https://github.com/sindresorhus/ora/releases/tag/v3.4.0)
 
 ### 3.2.1 (2019-03-14)
 
