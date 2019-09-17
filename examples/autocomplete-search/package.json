@@ -1,0 +1,9 @@
+{
+  "name": "example",
+  "description": "Example api endpoints using @blinkmobile/server-cli",
+  "version": "0.0.1",
+  "dependencies": {
+    "@oneblink/sdk": "^0.2.6",
+    "axios": "0.19.0"
+  }
+}

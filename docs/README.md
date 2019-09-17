@@ -44,6 +44,8 @@
 
 -   [Lookup data or elements on remote API](../examples/lookup)
 
+-   [Use the Autocomplete element to query a remote API for options](../examples/autocomplete-search)
+
 ## Breaking Changes
 
 -   [Migrating to `v2.x.x`](./migrate-to-v2.x.md)

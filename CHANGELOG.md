@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+-   added example on how to query a remote API for autocomplete options
+
 ### 3.3.0 (2019-06-27)
 
 ### Added
