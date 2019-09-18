@@ -1,7 +1,6 @@
 'use strict'
 
 // 'axios' is a popular promise based http library (https://github.com/axios/axios)
-
 const axios = require('axios')
 
 const instance = axios.create({
