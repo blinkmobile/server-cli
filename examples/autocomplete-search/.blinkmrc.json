@@ -1,0 +1,13 @@
+{
+  "server": {
+    "project": "query-for-options.api.oneblink.io",
+    "region": "ap-southeast-2",
+    "cors": true,
+    "routes": [
+      {
+        "route": "/search-options",
+        "module": "./src/search-options.js"
+      }
+    ]
+  }
+}
