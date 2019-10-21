@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Fixed
+
+-   forced posix path for route configuration
+
 ### 3.3.0 (2019-06-27)
 
 ### Added
