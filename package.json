@@ -1,7 +1,7 @@
 {
   "name": "@blinkmobile/server-cli",
   "description": "CLI to develop, test and deploy server-side HTTPS endpoints with BlinkMobile",
-  "version": "3.3.1-beta.2",
+  "version": "3.3.1",
   "ava": {
     "files": [
       "test/**/*",
