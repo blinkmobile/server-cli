@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### 3.3.2 (2019-10-22)
+
 ### Fixed
 
 -   local testing should not force posix path
