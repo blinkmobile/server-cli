@@ -8,10 +8,13 @@ import type {
 } from '../types.js'
 */
 
+const os = require('os')
+
 const displayCors = require('../lib/cors/display.js')
 const displayRoutes = require('../lib/routes/display.js')
 const scope = require('../lib/scope.js')
 const variables = require('../lib/variables.js')
+const network = require('../lib/network.js')
 
 module.exports = function(
   input /* : Array<string> */,
@@ -23,7 +26,8 @@ module.exports = function(
     () => scope.display(logger, flags.cwd, flags.env),
     () => displayCors(logger, flags.cwd),
     () => displayRoutes(logger, flags.cwd),
-    () => variables.display(logger, flags.cwd, flags.env)
+    () => variables.display(logger, flags.cwd, flags.env),
+    () => network.displayNetwork(logger, flags.cwd, flags.env)
   ]
   // Catch all errors and let all tasks run before
   // transforming into a single error
@@ -35,7 +39,7 @@ module.exports = function(
     .then(() => {
       if (errors && errors.length) {
         return Promise.reject(
-          new Error(errors.map(error => error.message).join('\n'))
+          new Error(errors.map(error => error.message).join(os.EOL))
         )
       }
     })

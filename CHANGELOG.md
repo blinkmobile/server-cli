@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Added
+
+- [Network Configuration](./docs/network.md)
+
 ### 3.3.2 (2019-10-22)
 
 ### Fixed
