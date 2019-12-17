@@ -18,34 +18,34 @@
 
 8.  [Deployment Keys](./deployment-keys.md)
 
-5.  [Analytics](./analytics.md)
+9.  [Analytics](./analytics.md)
 
-9.  [Viewing Server Logs](./logs.md)
+10. [Viewing Server Logs](./logs.md)
 
 ## More Information...
 
--   [Execution Environment](./environment.md)
+- [Execution Environment](./environment.md)
 
--   [Limits & Known Issues](./limits-and-known-issues.md)
+- [Limits & Known Issues](./limits-and-known-issues.md)
 
--   [Root Route](https://blinkmobile.github.io/server-cli/root-route.html)
+- [Root Route](https://blinkmobile.github.io/server-cli/root-route.html)
 
--   [Suggestions](./suggestions.md)
+- [Suggestions](./suggestions.md)
 
--   [Server CLI Service](./server-cli-service.md)
+- [Server CLI Service](./server-cli-service.md)
 
 ## Examples
 
--   [Configuration Based Routes](../examples/configuration)
+- [Configuration Based Routes](../examples/configuration)
 
--   [Directory Based Routes](../examples/directory)
+- [Directory Based Routes](../examples/directory)
 
--   [Dynamic Form Element Options](../examples/dynamic-form-element-options)
+- [Dynamic Form Element Options](../examples/dynamic-form-element-options)
 
--   [Lookup data or elements on remote API](../examples/lookup)
+- [Lookup data or elements on remote API](../examples/lookup)
 
 ## Breaking Changes
 
--   [Migrating to `v2.x.x`](./migrate-to-v2.x.md)
+- [Migrating to `v2.x.x`](./migrate-to-v2.x.md)
 
--   [Migrating to `v3.x.x`](./migrate-to-v3.x.md)
+- [Migrating to `v3.x.x`](./migrate-to-v3.x.md)

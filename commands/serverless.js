@@ -14,7 +14,7 @@ bm serve serverless --input . --output /tmp/foobar
 
 const lib = require('../lib/serverless.js')
 
-module.exports = function (
+module.exports = function(
   input /* : Array<string> */,
   flags /* : CLIFlags */,
   logger /* : typeof console */,
@@ -37,17 +37,17 @@ module.exports = function (
     return Promise.reject(new Error('"--out" is mandatory'))
   }
 
-  return lib.copyProject(cwd, out)
-    .then((projectPath) => {
-      return lib.applyTemplate(out)
-        .then(() => lib.copyWrapper(out))
-        .then(() => lib.copyConfiguration(out, projectPath, env))
-        .then(() => lib.registerFunctions(out, projectPath, env))
-        .then(() => lib.registerNodeVersion(out, bmServerVersion))
-        .then(() => lib.registerDeploymentBucket(out, deploymentBucket))
-        .then(() => lib.registerExecutionRole(out, executionRole))
-        .then(() => lib.registerRootProxy(out, env))
-        .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
-        .then(() => lib.registerVariables(out, projectPath, env, analyticsConfig))
-    })
+  return lib.copyProject(cwd, out).then(projectPath => {
+    return lib
+      .applyTemplate(out)
+      .then(() => lib.copyWrapper(out))
+      .then(() => lib.copyConfiguration(out, projectPath, env))
+      .then(() => lib.registerFunctions(out, projectPath, env))
+      .then(() => lib.registerNodeVersion(out, bmServerVersion))
+      .then(() => lib.registerDeploymentBucket(out, deploymentBucket))
+      .then(() => lib.registerExecutionRole(out, executionRole))
+      .then(() => lib.registerRootProxy(out, env))
+      .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
+      .then(() => lib.registerVariables(out, projectPath, env, analyticsConfig))
+  })
 }

@@ -61,9 +61,6 @@
     "npm-bin-ava-tester": "^1.1.0",
     "nyc": "^14.1.1",
     "proxyquire": "^2.1.0",
-    "remark-cli": "^6.0.1",
-    "remark-lint": "^6.0.4",
-    "remark-preset-lint-recommended": "^3.0.2",
     "yauzl": "^2.10.0"
   },
   "directories": {
@@ -108,10 +105,9 @@
     "eslint": "eslint --fix --cache .",
     "fixpack": "fixpack",
     "flow_check": "flow check",
-    "lint-md": "remark . --use remark-preset-lint-recommended",
     "nyc": "nyc check-coverage",
     "prepublish": "npm run build",
-    "pretest": "npm run build && npm run eslint && npm run flow_check && npm run fixpack && npm run lint-md",
+    "pretest": "npm run build && npm run eslint && npm run flow_check && npm run fixpack",
     "test": "npm run ava"
   }
 }
