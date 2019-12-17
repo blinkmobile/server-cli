@@ -7,6 +7,11 @@ import type BlinkMobileIdentity from '@blinkmobile/bm-identity'
 */
 
 /* ::
+export type EnvironmentNetworkConfiguration = {
+  vpcSubnets: string[],
+  vpcSecurityGroups: string[]
+}
+
 export type BlinkMRC = {
   server?: BlinkMRCServer
 }
@@ -33,6 +38,9 @@ export type BlinkMRCServer = {
     [id:string]: string | {
       [id:string]: string
     }
+  },
+  network?: {
+    [environment: string]: EnvironmentNetworkConfiguration
   }
 }
 

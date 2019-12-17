@@ -22,6 +22,8 @@
 
 10. [Viewing Server Logs](./logs.md)
 
+11. [Network Configuration](./network.md)
+
 ## More Information...
 
 - [Execution Environment](./environment.md)

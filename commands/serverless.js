@@ -47,7 +47,16 @@ module.exports = function(
       .then(() => lib.registerDeploymentBucket(out, deploymentBucket))
       .then(() => lib.registerExecutionRole(out, executionRole))
       .then(() => lib.registerRootProxy(out, env))
-      .then(() => lib.registerVpc(out, vpcSecurityGroups, vpcSubnets, ','))
+      .then(() =>
+        lib.registerVpc(
+          out,
+          projectPath,
+          env,
+          vpcSecurityGroups,
+          vpcSubnets,
+          ','
+        )
+      )
       .then(() => lib.registerVariables(out, projectPath, env, analyticsConfig))
   })
 }
