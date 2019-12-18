@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### 3.4.0 (2019-12-18)
+
 ### Added
 
 - [Network Configuration](./docs/network.md)
