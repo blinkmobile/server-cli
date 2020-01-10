@@ -3,6 +3,7 @@
 
 /* ::
 import type {
+  APIEnvironment,
   CLIFlags,
   CLIOptions
 } from '../types.js'
@@ -13,7 +14,9 @@ const util = require('util')
 const jwt = require('jsonwebtoken')
 const ora = require('ora')
 const temp = require('temp').track()
+const semver = require('semver')
 
+const pkg = require('../package.json')
 const info = require('./info.js')
 const deploy = require('../lib/deploy.js')
 const scope = require('../lib/scope.js')
@@ -47,13 +50,19 @@ module.exports = async function(
     env
   )
 
-  // If environment does not exist or --provision flag is set, full deploy
+  // If environment does not exist or --provision flag is set, full deploy.
+  // A full deploy is also required if the environment is
+  // being deployed using a different major version of the
+  // Server CLI as this will change the NodeJS version.
   const apiInstance = await getAPIInstance(config, accessToken)
+  const existingEnvironment /* : APIEnvironment | void */ = (
+    apiInstance.environments || []
+  ).find(apiEnvironment => apiEnvironment.environment === env)
   const environmentExists =
-    Array.isArray(apiInstance.environments) &&
-    apiInstance.environments.some(
-      apiEnvironment => apiEnvironment.environment === env
-    )
+    !!existingEnvironment &&
+    existingEnvironment.bmServerVersion &&
+    semver.major(existingEnvironment.bmServerVersion) ===
+      semver.major(pkg.version)
   if (flags.provision || !environmentExists) {
     const zipFilePath = await deploy.zip(cwd)
     const bundleKey = await deploy.upload(zipFilePath, awsCredentials, config)

@@ -148,6 +148,7 @@ export type APIEnvironment = {
   cors: Object | boolean,
   vpcSecurityGroupIds?: string,
   vpcSubnetIds?: string,
+  bmServerVersion?: string,
   status?: 'Warning' | 'Error' | 'Okay' | 'Unknown'
 }
 
