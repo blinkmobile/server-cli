@@ -2,7 +2,7 @@
 
 ## Execution Environment
 
-- Code executes within a Linux environment with [Node.js 8.10](https://nodejs.org/dist/latest-v8.x/docs/api/)
+- Code executes within a Linux environment with [Node.js 12](https://nodejs.org/dist/latest-v12.x/docs/api/)
 
   - If you use features not available in this version of Node.js, transpile before deployment
 

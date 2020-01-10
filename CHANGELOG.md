@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+### Migration Guide
+
+- [Migrating to `v4.x.x`](./docs/migrate-to-v4.x.md)
+
+### Changed
+
+- bumped minimum supported version Node version to `>=12`
+
 ### 3.4.0 (2019-12-18)
 
 ### Added

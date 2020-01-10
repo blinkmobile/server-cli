@@ -8,6 +8,7 @@
 <PROJECT_ROOT>/node_modules/\.cache/.*
 <PROJECT_ROOT>/node_modules/config-chain/test/.*
 <PROJECT_ROOT>/node_modules/module-deps/test/invalid_pkg/package.json
+<PROJECT_ROOT>/node_modules/.*/test/.*
 
 [options]
 suppress_comment= \\(.\\|\n\\)*\\$FlowIssue
