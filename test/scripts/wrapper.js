@@ -52,7 +52,7 @@ test('normaliseLambdaRequest()', (t) => {
   const request = lib.normaliseLambdaRequest(EVENT)
 
   t.deepEqual(request, {
-    body: { 'test': 123 },
+    body: { test: 123 },
     headers: {
       host: 'this is the host'
     },
@@ -78,7 +78,7 @@ test('handler() should return correct response', async (t) => {
     body: JSON.stringify({ handler: 123 }),
     headers: {
       'content-type': 'application/json',
-      'custom': '123'
+      custom: '123'
     },
     statusCode: 202
   })

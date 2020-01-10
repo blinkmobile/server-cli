@@ -81,62 +81,62 @@ Create serverless project:
 const cli = meow({
   help,
   flags: {
-    'force': {
+    force: {
       type: 'boolean',
       default: false
     },
-    'tail': {
+    tail: {
       type: 'boolean',
       default: false
     },
-    'provision': {
+    provision: {
       type: 'boolean',
       default: false
     },
-    'bmServerVersion': {
+    bmServerVersion: {
       type: 'string',
       default: pkg.version
     },
-    'cwd': {
+    cwd: {
       type: 'string',
       default: process.cwd()
     },
-    'deploymentBucket': {
+    deploymentBucket: {
       type: 'string'
     },
-    'env': {
+    env: {
       type: 'string',
       default: 'dev'
     },
-    'executionRole': {
+    executionRole: {
       type: 'string'
     },
-    'filter': {
+    filter: {
       type: 'string'
     },
-    'out': {
+    out: {
       type: 'string'
     },
-    'port': {
+    port: {
       type: 'string'
     },
-    'region': {
+    region: {
       type: 'string',
       default: 'ap-southeast-2'
     },
-    'startTime': {
+    startTime: {
       type: 'string'
     },
-    'vpcSecurityGroups': {
+    vpcSecurityGroups: {
       type: 'string'
     },
-    'vpcSubnets': {
+    vpcSubnets: {
       type: 'string'
     },
-    'analyticsCollectorToken': {
+    analyticsCollectorToken: {
       type: 'string'
     },
-    'analyticsOrigin': {
+    analyticsOrigin: {
       type: 'string'
     }
   }

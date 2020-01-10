@@ -13,7 +13,7 @@ test.beforeEach((t) => {
   t.context.getTestSubject = (overrides) => {
     overrides = overrides || {}
     return proxyquire(TEST_SUBJECT, Object.assign({
-      'path': {
+      path: {
         resolve: () => PATH_RESOLVE
       },
 
@@ -39,8 +39,8 @@ test('Should contain error if route does not start with "/"', (t) => {
 test('Should contain error if timeout is invalid', (t) => {
   const validate = t.context.getTestSubject()
   const tests = [
-    { args: { route: '/test', module: 'test', timeout: 0 }, expected: [ 'Timeout must be between 1 and 300 (inclusive)' ] },
-    { args: { route: '/test', module: 'test', timeout: 301 }, expected: [ 'Timeout must be between 1 and 300 (inclusive)' ] },
+    { args: { route: '/test', module: 'test', timeout: 0 }, expected: ['Timeout must be between 1 and 300 (inclusive)'] },
+    { args: { route: '/test', module: 'test', timeout: 301 }, expected: ['Timeout must be between 1 and 300 (inclusive)'] },
     { args: { route: '/test', module: 'test', timeout: 1 }, expected: [] },
     { args: { route: '/test', module: 'test', timeout: 300 }, expected: [] }
   ]
@@ -89,7 +89,7 @@ test('Should contain different error message if module can not be found with ENO
 test('Input for for fs.stat() should be the result of path.resolve()', (t) => {
   t.plan(3)
   const validate = t.context.getTestSubject({
-    'path': {
+    path: {
       resolve: (cwd, moduleString) => {
         t.is(cwd, CWD)
         t.is(moduleString, MODULE)

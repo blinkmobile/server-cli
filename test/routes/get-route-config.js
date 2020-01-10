@@ -9,16 +9,16 @@ const TEST_SUBJECT = '../../lib/routes/get-route-config.js'
 const CWD = 'current working directory'
 const ROUTES = [
   {
-    'route': '/',
-    'module': './api/root.js'
+    route: '/',
+    module: './api/root.js'
   },
   {
-    'route': '/api/books/:id',
-    'module': './api/book.js'
+    route: '/api/books/:id',
+    module: './api/book.js'
   },
   {
-    'route': '/api/books',
-    'module': 'api/books.js'
+    route: '/api/books',
+    module: 'api/books.js'
   }
 ]
 

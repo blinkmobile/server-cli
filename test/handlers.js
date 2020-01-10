@@ -25,8 +25,8 @@ test('executeHandler() should return a BmResponse with correct values', (t) => {
     key: 'value'
   }
   const headers = {
-    'one': '1',
-    'two': '2'
+    one: '1',
+    two: '2'
   }
   return lib.executeHandler((request, response) => {
     response.setStatusCode(statusCode)
@@ -53,12 +53,12 @@ test('executeHandler() should return a BmResponse with payload set from handler 
 
 test('getHandler() valid modules', (t) => {
   const tests = [
-    { args: [ path.join(EXAMPLE_DIR, 'helloworld'), 'get' ], expected: 'function' },
-    { args: [ path.join(EXAMPLE_DIR, 'methods'), 'get' ], expected: 'function' },
-    { args: [ path.join(EXAMPLE_DIR, 'methods'), 'patch' ], expected: 'object' },
-    { args: [ path.join(CONFIGURATION_DIR, 'api/request'), 'get' ], expected: 'function' },
-    { args: [ path.join(CONFIGURATION_DIR, 'api/books'), 'get' ], expected: 'function' },
-    { args: [ path.join(CONFIGURATION_DIR, 'api/books'), 'patch' ], expected: 'object' }
+    { args: [path.join(EXAMPLE_DIR, 'helloworld'), 'get'], expected: 'function' },
+    { args: [path.join(EXAMPLE_DIR, 'methods'), 'get'], expected: 'function' },
+    { args: [path.join(EXAMPLE_DIR, 'methods'), 'patch'], expected: 'object' },
+    { args: [path.join(CONFIGURATION_DIR, 'api/request'), 'get'], expected: 'function' },
+    { args: [path.join(CONFIGURATION_DIR, 'api/books'), 'get'], expected: 'function' },
+    { args: [path.join(CONFIGURATION_DIR, 'api/books'), 'patch'], expected: 'object' }
   ]
   return tests.reduce((prev, config) => {
     return prev.then(() => lib.getHandler.apply(null, config.args))
@@ -68,8 +68,8 @@ test('getHandler() valid modules', (t) => {
 
 test('getHandler() invalid modules', (t) => {
   const tests = [
-    { args: [ path.join(EXAMPLE_DIR, 'missing'), 'get' ], expected: `Cannot find module '${path.join(EXAMPLE_DIR, 'missing')}'` },
-    { args: [ path.join(CONFIGURATION_DIR, 'api/missing'), 'get' ], expected: `Cannot find module '${path.join(CONFIGURATION_DIR, 'api/missing')}'` }
+    { args: [path.join(EXAMPLE_DIR, 'missing'), 'get'], expected: `Cannot find module '${path.join(EXAMPLE_DIR, 'missing')}'` },
+    { args: [path.join(CONFIGURATION_DIR, 'api/missing'), 'get'], expected: `Cannot find module '${path.join(CONFIGURATION_DIR, 'api/missing')}'` }
   ]
 
   return tests.reduce((prev, config) => {

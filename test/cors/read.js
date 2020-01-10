@@ -55,7 +55,7 @@ test('Should return the defaults if cors is true', (t) => {
 test('Should return false for uninitialised config file', (t) => {
   const read = t.context.getTestSubject({
     '../utils/project-meta.js': projectMetaMock((cwd) => Promise.resolve({
-      'test': 123
+      test: 123
     }))
   })
   return read()
@@ -66,7 +66,7 @@ test('Should return the currently set cors merged with defaults', (t) => {
   const read = t.context.getTestSubject({
     '../utils/project-meta.js': projectMetaMock((cwd) => Promise.resolve({
       server: {
-        'cors': {
+        cors: {
           headers: undefined,
           origins: ['test']
         }

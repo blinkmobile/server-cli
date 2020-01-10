@@ -26,7 +26,7 @@ module.exports.post = function (req, res) {
     return res
       .setStatusCode(400)
       .setPayload({
-        'message': 'This is my custom friendly error message that will be shown to the user on a failed lookup'
+        message: 'This is my custom friendly error message that will be shown to the user on a failed lookup'
       })
   }
 
@@ -38,13 +38,13 @@ module.exports.post = function (req, res) {
     return res
       .setStatusCode(200)
       .setPayload({
-        'Company_name': details.companyName
+        Company_name: details.companyName
       })
   }
 
   return res
     .setStatusCode(400)
     .setPayload({
-      'message': 'Could not find the company you were looking for.'
+      message: 'Could not find the company you were looking for.'
     })
 }

@@ -8,11 +8,11 @@ const CWD = 'current working directory'
 const blinkmrc = {
   server: {
     variables: {
-      'MY_VARIABLE_SCOPED': {
-        'test': 'test scoped value',
-        'prod': 'prod scoped value'
+      MY_VARIABLE_SCOPED: {
+        test: 'test scoped value',
+        prod: 'prod scoped value'
       },
-      'MY_VARIABLE': 'unscoped value'
+      MY_VARIABLE: 'unscoped value'
     }
   }
 }
@@ -47,17 +47,17 @@ test('read() should return the correct values for the scoped variables', (t) => 
 
   return variables.read(CWD, 'dev')
     .then((envVars) => t.deepEqual(envVars, {
-      'MY_VARIABLE': 'unscoped value'
+      MY_VARIABLE: 'unscoped value'
     }))
     .then(() => variables.read(CWD, 'test'))
     .then((envVars) => t.deepEqual(envVars, {
-      'MY_VARIABLE_SCOPED': 'test scoped value',
-      'MY_VARIABLE': 'unscoped value'
+      MY_VARIABLE_SCOPED: 'test scoped value',
+      MY_VARIABLE: 'unscoped value'
     }))
     .then(() => variables.read(CWD, 'prod'))
     .then((envVars) => t.deepEqual(envVars, {
-      'MY_VARIABLE_SCOPED': 'prod scoped value',
-      'MY_VARIABLE': 'unscoped value'
+      MY_VARIABLE_SCOPED: 'prod scoped value',
+      MY_VARIABLE: 'unscoped value'
     }))
 })
 
@@ -67,7 +67,7 @@ test('read() should reject if there is a variable with an unsupported type value
       read: (cwd) => Promise.resolve({
         server: {
           variables: {
-            'UNSUPPORTED_TYPE': 123
+            UNSUPPORTED_TYPE: 123
           }
         }
       })
@@ -83,8 +83,8 @@ test('read() should reject if there is a scoped variable with an unsupported typ
       read: (cwd) => Promise.resolve({
         server: {
           variables: {
-            'UNSUPPORTED_TYPE': {
-              'dev': true
+            UNSUPPORTED_TYPE: {
+              dev: true
             }
           }
         }

@@ -10,12 +10,12 @@ module.exports.get = function () {
       label: 'Sydney',
       attributes: [
         {
-          'label': stateLabel,
-          'value': 'NSW'
+          label: stateLabel,
+          value: 'NSW'
         },
         {
-          'label': countryLabel,
-          'value': 'AUS'
+          label: countryLabel,
+          value: 'AUS'
         }
       ]
     },
@@ -24,12 +24,12 @@ module.exports.get = function () {
       label: 'Atlanta',
       attributes: [
         {
-          'label': stateLabel,
-          'value': 'GA'
+          label: stateLabel,
+          value: 'GA'
         },
         {
-          'label': countryLabel,
-          'value': 'USA'
+          label: countryLabel,
+          value: 'USA'
         }
       ]
     },
@@ -38,12 +38,12 @@ module.exports.get = function () {
       label: 'Beijing',
       attributes: [
         {
-          'label': stateLabel,
-          'value': 'Chaoyang-Shunyi'
+          label: stateLabel,
+          value: 'Chaoyang-Shunyi'
         },
         {
-          'label': countryLabel,
-          'value': 'CHN'
+          label: countryLabel,
+          value: 'CHN'
         }
       ]
     },
@@ -52,8 +52,8 @@ module.exports.get = function () {
       label: 'Garhoud',
       attributes: [
         {
-          'label': countryLabel,
-          'value': 'UAE'
+          label: countryLabel,
+          value: 'UAE'
         }
       ]
     },
@@ -62,12 +62,12 @@ module.exports.get = function () {
       label: 'Los Angeles',
       attributes: [
         {
-          'label': stateLabel,
-          'value': 'CA'
+          label: stateLabel,
+          value: 'CA'
         },
         {
-          'label': countryLabel,
-          'value': 'USA'
+          label: countryLabel,
+          value: 'USA'
         }
       ]
     },
@@ -76,12 +76,12 @@ module.exports.get = function () {
       label: 'Melbourne',
       attributes: [
         {
-          'label': stateLabel,
-          'value': 'VIC'
+          label: stateLabel,
+          value: 'VIC'
         },
         {
-          'label': countryLabel,
-          'value': 'AUS'
+          label: countryLabel,
+          value: 'AUS'
         }
       ]
     },
@@ -90,12 +90,12 @@ module.exports.get = function () {
       label: 'Brisbane',
       attributes: [
         {
-          'label': stateLabel,
-          'value': 'QLD'
+          label: stateLabel,
+          value: 'QLD'
         },
         {
-          'label': countryLabel,
-          'value': 'AUS'
+          label: countryLabel,
+          value: 'AUS'
         }
       ]
     }

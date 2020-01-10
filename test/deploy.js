@@ -27,7 +27,7 @@ test.beforeEach((t) => {
 
 test('confirm() should not prompt or log if force is true', (t) => {
   const deploy = t.context.getTestSubject({
-    'inquirer': {
+    inquirer: {
       prompt: (questions) => t.fail('Should not call prompt')
     }
   })
@@ -38,7 +38,7 @@ test('confirm() should not prompt or log if force is true', (t) => {
 test('confirm() should prompt and log if force is false', (t) => {
   t.plan(2)
   const deploy = t.context.getTestSubject({
-    'inquirer': {
+    inquirer: {
       prompt: (questions) => {
         t.pass()
         return Promise.resolve({
@@ -115,7 +115,7 @@ test.cb('zip() should log correct updates and return an absolute path to a zip f
 test('zip() should log correct updates and reject if an temp emits an error', (t) => {
   t.plan(2)
   const deploy = t.context.getTestSubject({
-    'archiver': {
+    archiver: {
       create: () => ({
         on: () => {},
         pipe: () => {},
@@ -123,7 +123,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
         finalize: () => {}
       })
     },
-    'temp': {
+    temp: {
       track: () => ({
         createWriteStream: (options) => {
           t.deepEqual(options, { suffix: '.zip' })
@@ -144,7 +144,7 @@ test('zip() should log correct updates and reject if an temp emits an error', (t
 test('zip() should log correct updates and reject if an archiver emits an error', (t) => {
   t.plan(1)
   const deploy = t.context.getTestSubject({
-    'archiver': {
+    archiver: {
       create: () => ({
         on: (str, fn) => {
           if (str === 'error') {
@@ -156,7 +156,7 @@ test('zip() should log correct updates and reject if an archiver emits an error'
         finalize: () => {}
       })
     },
-    'temp': {
+    temp: {
       track: () => ({
         createWriteStream: () => ({
           on: () => {}
@@ -207,7 +207,7 @@ test('upload() should log correct updates and reject if upload returns an error'
 test('deploy() should log correct updates', (t) => {
   t.plan(3)
   const deploy = t.context.getTestSubject({
-    'request': {
+    request: {
       defaults: () => ({
         post: (url, params, cb) => {
           t.is(url, '/deployments')
@@ -245,7 +245,7 @@ test('deploy() should log correct updates', (t) => {
 test('deploy() should log correct updates and reject if request() returns an error', (t) => {
   t.plan(1)
   const deploy = t.context.getTestSubject({
-    'request': {
+    request: {
       defaults: () => ({
         post: (url, params, cb) => cb(new Error('test error'))
       })
@@ -257,7 +257,7 @@ test('deploy() should log correct updates and reject if request() returns an err
 test('deploy() should log correct updates and reject if request() returns an non 200 status code', (t) => {
   t.plan(1)
   const deploy = t.context.getTestSubject({
-    'request': {
+    request: {
       defaults: () => ({
         post: (url, params, cb) => cb(null, {}, {
           message: 'error message',

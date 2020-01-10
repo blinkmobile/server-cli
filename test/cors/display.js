@@ -7,7 +7,7 @@ const TEST_SUBJECT = '../../lib/cors/display.js'
 
 const CWD = 'current working directory'
 const CORS = {
-  'origins': [
+  origins: [
     'http://test'
   ],
   headers: [

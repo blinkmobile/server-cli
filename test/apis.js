@@ -12,18 +12,18 @@ const CONFIGURATION_DIR = path.join(__dirname, '..', 'examples', 'configuration'
 const ROUTE_CONFIG = {
   module: path.join(CONFIGURATION_DIR, '/api/books'),
   params: {
-    'test': 123
+    test: 123
   }
 }
 const METHOD = 'get'
 const ROUTES = [
   {
-    'route': '/helloworld',
-    'module': './helloworld/index.js'
+    route: '/helloworld',
+    module: './helloworld/index.js'
   },
   {
-    'route': '/api/books/{id}',
-    'module': './api/book.js'
+    route: '/api/books/{id}',
+    module: './api/book.js'
   }
 ]
 
