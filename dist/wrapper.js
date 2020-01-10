@@ -198,13 +198,13 @@ function protocolFromHeaders (
   headers /* : Headers */
 ) /* : Protocol */ {
   if (headers['x-forwarded-proto'] === 'https') {
-    return `https:`
+    return 'https:'
   }
   if (typeof headers.forwarded === 'string' && ~headers.forwarded.indexOf('proto=https')) {
-    return `https:`
+    return 'https:'
   }
   if (headers['front-end-https'] === 'on') {
-    return `https:`
+    return 'https:'
   }
   return 'http:'
 }
@@ -545,11 +545,11 @@ async function handler (
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           }
         })
         httpsRequest.write(JSON.stringify({
-          'events': [
+          events: [
             {
               name: 'Server CLI Request',
               date: new Date().toISOString(),

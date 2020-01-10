@@ -87,27 +87,24 @@ test('getHandler() valid modules', t => {
   }, Promise.resolve())
 })
 
-test('getHandler() invalid modules', t => {
+test('getHandler() invalid modules', async t => {
   const tests = [
     {
       args: [path.join(EXAMPLE_DIR, 'missing'), 'get'],
-      expected: `Cannot find module '${path.join(EXAMPLE_DIR, 'missing')}'`
+      expected: path.join(EXAMPLE_DIR, 'missing')
     },
     {
       args: [path.join(CONFIGURATION_DIR, 'api/missing'), 'get'],
-      expected: `Cannot find module '${path.join(
-        CONFIGURATION_DIR,
-        'api/missing'
-      )}'`
+      expected: path.join(CONFIGURATION_DIR, 'api/missing')
     }
   ]
-
-  return tests.reduce((prev, config) => {
-    return prev.then(() =>
-      t.throwsAsync(
-        () => lib.getHandler.apply(null, config.args),
-        config.expected
-      )
-    )
-  }, Promise.resolve())
+  for (const { expected, args } of tests) {
+    try {
+      await lib.getHandler.apply(null, args)
+      t.fail()
+    } catch (error) {
+      t.true(error.message.includes('Cannot find module'))
+      t.true(error.message.includes(expected))
+    }
+  }
 })
