@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### 4.0.0 (2020-01-30)
+
 ### Migration Guide
 
 - [Migrating to `v4.x.x`](./docs/migrate-to-v4.x.md)
@@ -9,6 +11,38 @@
 ### Changed
 
 - bumped minimum supported version Node version to `>=12`
+
+### Dependencies
+
+- update [archiver](https://www.npmjs.com/package/archiver) to [3.1.1](https://github.com/archiverjs/node-archiver/releases/tag/3.1.1) (from [3.0.0](https://github.com/archiverjs/node-archiver/releases/tag/3.0.0))
+
+- update [aws-sdk](https://www.npmjs.com/package/aws-sdk) to [2.600.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.600.0) (from [2.415.0](https://github.com/aws/aws-sdk-js/releases/tag/v2.415.0))
+
+- update [chalk](https://www.npmjs.com/package/chalk) to [3.0.0](https://github.com/chalk/chalk/releases/tag/v3.0.0) (from [2.4.2](https://github.com/chalk/chalk/releases/tag/v2.4.2))
+
+- update [execa](https://www.npmjs.com/package/execa) to [4.0.0](https://github.com/sindresorhus/execa/releases/tag/v4.0.0) (from [1.0.0](https://github.com/sindresorhus/execa/releases/tag/v1.0.0))
+
+- update [glob](https://www.npmjs.com/package/glob) to 7.1.6 (from 7.1.3)
+
+- update [inquirer](https://www.npmjs.com/package/inquirer) to 7.0.3 (from 6.2.2)
+
+- update [js-yaml](https://www.npmjs.com/package/js-yaml) to [3.13.1](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md) (from [3.12.2](https://github.com/nodeca/js-yaml/blob/master/CHANGELOG.md))
+
+- update [load-json-file](https://www.npmjs.com/package/load-json-file) to [6.2.0](https://github.com/sindresorhus/load-json-file/releases/tag/v6.2.0) (from [5.2.0](https://github.com/sindresorhus/load-json-file/releases/tag/v5.2.0))
+
+- update [meow](https://www.npmjs.com/package/meow) to [6.0.0](https://github.com/sindresorhus/meow/releases/tag/v6.0.0) (from [5.0.0](https://github.com/sindresorhus/meow/releases/tag/v5.0.0))
+
+- update [ora](https://www.npmjs.com/package/ora) to [4.0.3](https://github.com/sindresorhus/ora/releases/tag/v4.0.3) (from [3.4.0](https://github.com/sindresorhus/ora/releases/tag/v3.4.0))
+
+- update [semver](https://www.npmjs.com/package/semver) to [7.1.1](https://github.com/npm/node-semver/blob/master/CHANGELOG.md) (from [5.6.0](https://github.com/npm/node-semver/blob/master/CHANGELOG.md))
+
+- update [serverless](https://www.npmjs.com/package/serverless) to [1.60.5](https://github.com/serverless/serverless/releases/tag/v1.60.5) (from [1.38.0](https://github.com/serverless/serverless/releases/tag/v1.38.0))
+
+- update [temp](https://www.npmjs.com/package/temp) to [0.9.1](https://github.com/bruce/node-temp/releases/tag/v0.9.1) (from [0.9.0](https://github.com/bruce/node-temp/releases/tag/v0.9.0))
+
+- update [update-notifier](https://www.npmjs.com/package/update-notifier) to [4.0.0](https://github.com/yeoman/update-notifier/releases/tag/v4.0.0) (from [2.5.0](https://github.com/yeoman/update-notifier/releases/tag/v2.5.0))
+
+- update [write-json-file](https://www.npmjs.com/package/write-json-file) to [4.2.1](https://github.com/sindresorhus/write-json-file/releases/tag/v4.2.1) (from [3.1.0](https://github.com/sindresorhus/write-json-file/releases/tag/v3.1.0))
 
 ### 3.4.0 (2019-12-18)
 
