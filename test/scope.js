@@ -3,8 +3,6 @@
 const test = require('ava')
 const proxyquire = require('proxyquire')
 
-const values = require('../lib/values.js')
-
 const TEST_SUBJECT = '../lib/scope.js'
 const CWD = 'current working directory'
 const CFG = {
@@ -163,11 +161,55 @@ test('write() should merge new scope with the current config', t => {
   return scope.write(CWD, newConfig).then(config =>
     t.deepEqual(config, {
       project: 'new project',
-      region: 'new region',
-      service: {
-        bucket: values.SERVER_CLI_SERVICE_S3_BUCKET,
-        origin: values.SERVER_CLI_SERVICE_ORIGIN
-      }
+      region: 'new region'
     })
   )
+})
+
+test('serverCLIServiceConfig() should return config passed in', t => {
+  const config = {
+    project: 'project',
+    service: {
+      origin: 'https://test.com',
+      bucket: 'bucket.io'
+    }
+  }
+
+  const scope = t.context.getTestSubject()
+  const serviceConfig = scope.serverCLIServiceConfig(config)
+  t.deepEqual(serviceConfig, config.service)
+})
+
+test('serverCLIServiceConfig() should return correct prod origin for old origin', t => {
+  const config = {
+    project: 'project',
+    service: {
+      origin: 'https://server-cli-service.blinkm.io',
+      bucket: 'bucket.io'
+    }
+  }
+
+  const scope = t.context.getTestSubject()
+  const serviceConfig = scope.serverCLIServiceConfig(config)
+  t.deepEqual(serviceConfig, {
+    origin: 'https://auth-api.blinkm.io',
+    bucket: 'bucket.io'
+  })
+})
+
+test('serverCLIServiceConfig() should return correct test origin for old origin', t => {
+  const config = {
+    project: 'project',
+    service: {
+      origin: 'https://server-cli-service-test.blinkm.io',
+      bucket: 'bucket.io'
+    }
+  }
+
+  const scope = t.context.getTestSubject()
+  const serviceConfig = scope.serverCLIServiceConfig(config)
+  t.deepEqual(serviceConfig, {
+    origin: 'https://auth-api-test.blinkm.io',
+    bucket: 'bucket.io'
+  })
 })
