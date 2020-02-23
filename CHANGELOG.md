@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+### 4.0.1 (2020-02-24)
+
 ### Fixed
 
 - default Server CLI Service origin
