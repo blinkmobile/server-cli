@@ -5,18 +5,21 @@
 import type {CLIFlags} from '../../types.js'
 */
 
-function createCLIFlags (
+function createCLIFlags(
   overrides /* : { [id:string]: string | boolean } | void */
 ) /* : CLIFlags */ {
-  return Object.assign({
-    provision: false,
-    bmServerVersion: '1.0.0',
-    cwd: '.',
-    force: false,
-    env: 'dev',
-    region: 'ap-southeast-2',
-    tail: false
-  }, overrides || {})
+  return Object.assign(
+    {
+      provision: false,
+      bmServerVersion: '1.0.0',
+      cwd: '.',
+      force: false,
+      env: 'dev',
+      tenant: 'oneblink',
+      tail: false
+    },
+    overrides || {}
+  )
 }
 
 module.exports = createCLIFlags

@@ -134,7 +134,7 @@ test('write() should reject if project is not set on the meta object', t => {
   )
 })
 
-test('write() should merge new scope with the current config', t => {
+test.only('write() should merge new scope with the current config', t => {
   t.plan(2)
   const originalConfig = {
     bmp: {
@@ -147,7 +147,7 @@ test('write() should merge new scope with the current config', t => {
   }
   const newConfig = {
     project: 'new project',
-    region: 'new region'
+    tenant: 'oneblink'
   }
   const scope = t.context.getTestSubject({
     './utils/project-meta.js': {
@@ -161,7 +161,7 @@ test('write() should merge new scope with the current config', t => {
   return scope.write(CWD, newConfig).then(config =>
     t.deepEqual(config, {
       project: 'new project',
-      region: 'new region'
+      tenant: 'oneblink'
     })
   )
 })
