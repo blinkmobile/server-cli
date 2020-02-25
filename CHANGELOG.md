@@ -2,13 +2,17 @@
 
 ## Unreleased
 
-### 4.0.1 (2020-02-24)
+### Added
+
+- Added tenant specification support for blinkmrc file
+
+## 4.0.1 (2020-02-24)
 
 ### Fixed
 
 - default Server CLI Service origin
 
-### 4.0.0 (2020-01-30)
+## 4.0.0 (2020-01-30)
 
 ### Migration Guide
 
@@ -50,25 +54,25 @@
 
 - update [write-json-file](https://www.npmjs.com/package/write-json-file) to [4.2.1](https://github.com/sindresorhus/write-json-file/releases/tag/v4.2.1) (from [3.1.0](https://github.com/sindresorhus/write-json-file/releases/tag/v3.1.0))
 
-### 3.4.0 (2019-12-18)
+## 3.4.0 (2019-12-18)
 
 ### Added
 
 - [Network Configuration](./docs/network.md)
 
-### 3.3.2 (2019-10-22)
+## 3.3.2 (2019-10-22)
 
 ### Fixed
 
 - local testing should not force posix path
 
-### 3.3.1 (2019-10-22)
+## 3.3.1 (2019-10-22)
 
 ### Fixed
 
 - forced posix path for route configuration
 
-### 3.3.0 (2019-06-27)
+## 3.3.0 (2019-06-27)
 
 ### Added
 
@@ -89,7 +93,7 @@
 
 - depend upon [ora](https://www.npmjs.com/package/ora) [3.4.0](https://github.com/sindresorhus/ora/releases/tag/v3.4.0)
 
-### 3.2.1 (2019-03-14)
+## 3.2.1 (2019-03-14)
 
 ### Dependencies
 
@@ -127,7 +131,7 @@
 
 - update [write-json-file](https://www.npmjs.com/package/write-json-file) to 3.1.0 (from 2.3.0)
 
-### 3.2.0 - 2018-11-09
+## 3.2.0 - 2018-11-09
 
 ### Added
 
