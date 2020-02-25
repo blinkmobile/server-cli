@@ -147,7 +147,7 @@ test('write() should merge new scope with the current config', t => {
   }
   const newConfig = {
     project: 'new project',
-    region: 'new region'
+    tenant: 'oneblink'
   }
   const scope = t.context.getTestSubject({
     './utils/project-meta.js': {
@@ -161,7 +161,7 @@ test('write() should merge new scope with the current config', t => {
   return scope.write(CWD, newConfig).then(config =>
     t.deepEqual(config, {
       project: 'new project',
-      region: 'new region'
+      tenant: 'oneblink'
     })
   )
 })

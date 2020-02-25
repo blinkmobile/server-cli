@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
-/* eslint-disable no-console */ // this is a CLI entrypoint
-
-'use strict'
+/* eslint-disable no-console */ 'use strict' // this is a CLI entrypoint
 
 const path = require('path')
 
@@ -120,9 +118,9 @@ const cli = meow({
     port: {
       type: 'string'
     },
-    region: {
+    tenant: {
       type: 'string',
-      default: 'ap-southeast-2'
+      default: 'oneblink'
     },
     startTime: {
       type: 'string'
@@ -152,14 +150,18 @@ let main
 try {
   main = require(path.join(__dirname, '..', 'commands', `${command}.js`))
 } catch (err) {
-  console.error(chalk.red(`
-Unknown command: ${command}`))
+  console.error(
+    chalk.red(`
+Unknown command: ${command}`)
+  )
   cli.showHelp(1)
 }
 
 if (typeof main !== 'function') {
-  console.error(chalk.red(`
-Command not implemented: ${command}`))
+  console.error(
+    chalk.red(`
+Command not implemented: ${command}`)
+  )
   cli.showHelp(1)
 }
 
@@ -170,10 +172,9 @@ const options = {
 
 Promise.resolve()
   .then(() => main(input, cli.flags, console, options))
-  .catch((err) => {
-    return execa('npm', ['-v'])
-      .then(({ stdout: npmVersion }) => {
-        console.error(`
+  .catch(err => {
+    return execa('npm', ['-v']).then(({ stdout: npmVersion }) => {
+      console.error(`
 There was a problem executing '${command}':
 
 ${chalk.red(err)}
@@ -184,6 +185,6 @@ ${chalk.grey(`Your Environment Information:
   Server CLI Version:   v${pkg.version}
   Node Version:         ${process.version}
   NPM Version:          v${npmVersion}`)}`)
-        process.exitCode = 1
-      })
+      process.exitCode = 1
+    })
   })

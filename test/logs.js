@@ -21,7 +21,7 @@ const CLI_OPTIONS = {
   blinkMobileIdentity: new BlinkMobileIdentityMock()
 }
 
-test('should call "serverless logs" with correct arguments and options', (t) => {
+test('should call "serverless logs" with correct arguments and options', t => {
   t.plan(5)
   const logs = proxyquire('../commands/logs.js', {
     '../lib/logs.js': {
@@ -33,8 +33,8 @@ test('should call "serverless logs" with correct arguments and options', (t) => 
           'logs',
           '--function',
           'bm-example-api-blinkm-io-prod',
-          '--region',
-          'ap-southeast-2',
+          '--tenant',
+          'oneblink',
           '--stage',
           'prod',
           '--tail',
@@ -52,30 +52,42 @@ test('should call "serverless logs" with correct arguments and options', (t) => 
     }
   })
   // $FlowFixMe
-  return logs([], createCliFlags({
-    cwd: DIRECTORY_DIR,
-    env: 'prod',
-    tail: true,
-    filter: 'my custom filter',
-    startTime: '2016'
-  }), console, CLI_OPTIONS)
+  return logs(
+    [],
+    createCliFlags({
+      cwd: DIRECTORY_DIR,
+      env: 'prod',
+      tail: true,
+      filter: 'my custom filter',
+      startTime: '2016'
+    }),
+    console,
+    CLI_OPTIONS
+  )
 })
 
-test('should reject if "serverless logs" fails', (t) => {
+test('should reject if "serverless logs" fails', t => {
   const logs = proxyquire('../commands/logs.js', {
     '../lib/logs.js': {
       authenticate: () => CLI_OPTIONS.blinkMobileIdentity.assumeAWSRole()
     },
     '../lib/serverless.js': {
-      executeSLSCommand: (args, options) => Promise.reject(new Error('error message'))
+      executeSLSCommand: (args, options) =>
+        Promise.reject(new Error('error message'))
     }
   })
   // $FlowFixMe
-  return t.throwsAsync(() =>
-    logs([], createCliFlags({
-      cwd: DIRECTORY_DIR,
-      env: 'prod'
-    }), console, CLI_OPTIONS),
-  'See Serverless Error above for more details.'
+  return t.throwsAsync(
+    () =>
+      logs(
+        [],
+        createCliFlags({
+          cwd: DIRECTORY_DIR,
+          env: 'prod'
+        }),
+        console,
+        CLI_OPTIONS
+      ),
+    'See Serverless Error above for more details.'
   )
 })

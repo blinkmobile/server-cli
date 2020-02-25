@@ -10,7 +10,7 @@ import type {
 
 const scope = require('../lib/scope')
 
-module.exports = function (
+module.exports = function(
   input /* : Array<string> */,
   flags /* : CLIFlags */,
   logger /* : typeof console */,
@@ -18,13 +18,13 @@ module.exports = function (
 ) /* : Promise<void> */ {
   const cwd = flags.cwd
   const project = input[0]
-  const region = flags.region
+  const tenant = flags.tenant
   return Promise.resolve()
     .then(() => {
       if (project) {
         return scope.write(cwd, {
           project,
-          region
+          tenant
         })
       }
     })
