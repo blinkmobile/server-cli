@@ -134,7 +134,7 @@ test('write() should reject if project is not set on the meta object', t => {
   )
 })
 
-test.only('write() should merge new scope with the current config', t => {
+test('write() should merge new scope with the current config', t => {
   t.plan(2)
   const originalConfig = {
     bmp: {
