@@ -24,6 +24,8 @@
 
 11. [Network Configuration](./network.md)
 
+12. [Tenant Configuration](./tenants.md)
+
 ## More Information...
 
 - [Execution Environment](./environment.md)
