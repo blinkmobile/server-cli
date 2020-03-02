@@ -102,9 +102,7 @@ module.exports = async function(
       Object.assign({}, flags, analyticsFlags, {
         out: tempDirectory,
         deploymentBucket: service.bucket,
-        executionRole: `arn:aws:iam::${
-          awsAccount.accountNumber
-        }:role/ServerCLI-${config.project || ''}-execution`,
+        executionRole: `arn:aws:iam::${awsAccount.accountNumber}:role/${apiInstance.executionIamRole}`,
         vpcSecurityGroups: apiInstance.vpcSecurityGroupIds || '',
         vpcSubnets: apiInstance.vpcSubnetIds || ''
       }),

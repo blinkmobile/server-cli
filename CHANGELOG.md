@@ -6,6 +6,10 @@
 
 - Added tenant specification support for blinkmrc file
 
+### Fixed
+
+- execution role being set during function deployment
+
 ## 4.0.1 (2020-02-24)
 
 ### Fixed
