@@ -155,6 +155,7 @@ export type APIEnvironment = {
 export type API = {
   id: string,
   createdAt: string,
+  executionIamRole: string,
   vpcSecurityGroupIds?: string,
   vpcSubnetIds?: string,
   links: {
