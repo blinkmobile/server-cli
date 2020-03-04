@@ -14,8 +14,8 @@ The HTTP origin and AWS S3 Bucket that are used to access the Server CLI Service
 {
   "server": {
     "service": {
-      "bucket": "server-cli-service-bundles-multitenant",
-      "origin": "https://server-cli-service.blinkm.io"
+      "bucket": "oneblink-api-hosting-deployments-prod",
+      "origin": "https://auth-api.blinkm.io"
     }
   }
 }

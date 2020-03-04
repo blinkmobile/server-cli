@@ -1,3 +1,4 @@
+// @flow
 'use strict'
 
 const fs = require('fs')
@@ -188,7 +189,7 @@ test('upload() should log correct updates and return bundle key after upload', t
       config: {},
       S3: function() {
         this.upload = params => {
-          t.is(params.Bucket, values.SERVER_CLI_SERVICE_S3_BUCKET)
+          t.is(params.Bucket, values.TENANTS.ONEBLINK.bucket)
           t.is(params.Key, `bundles/${path.basename(UPLOAD_PATH)}`)
           return {
             on: () => {},
@@ -237,7 +238,7 @@ test('deploy() should log correct updates', t => {
                 origin: 'origin'
               },
               bmServerVersion: pkg.version,
-              bundleBucket: values.SERVER_CLI_SERVICE_S3_BUCKET,
+              bundleBucket: values.TENANTS.ONEBLINK.bucket,
               bundleKey: BUNDLE_KEY,
               env: ENV
             }

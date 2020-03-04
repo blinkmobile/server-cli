@@ -196,20 +196,3 @@ test('serverCLIServiceConfig() should return correct prod origin for old origin'
     bucket: 'bucket.io'
   })
 })
-
-test('serverCLIServiceConfig() should return correct test origin for old origin', t => {
-  const config = {
-    project: 'project',
-    service: {
-      origin: 'https://server-cli-service-test.blinkm.io',
-      bucket: 'bucket.io'
-    }
-  }
-
-  const scope = t.context.getTestSubject()
-  const serviceConfig = scope.serverCLIServiceConfig(config)
-  t.deepEqual(serviceConfig, {
-    origin: 'https://auth-api-test.blinkm.io',
-    bucket: 'bucket.io'
-  })
-})
